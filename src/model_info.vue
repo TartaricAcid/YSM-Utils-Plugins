@@ -36,13 +36,21 @@
 
         <!-- 缩放 -->
         <div style="margin-top: 5px">
-            <p>高度缩放：{{ this.height_scale }}</p>
-            <input max="10" min="0.05" step="0.02" type="range" v-model.number="height_scale" style="width: 98%;">
+            <p>高度缩放</p>
+            <div style="display: flex; align-items: center">
+                <input max="10" min="0.05" step="0.05" type="range" v-model.number="height_scale" style="width: 82%;">
+                <input max="10" min="0.05" step="0.01" type="number" v-model.number="height_scale"
+                    style="margin-left:10px; padding: 5px; width: 14%; height:30px; font-size: 15px; background-color: #1c2026;">
+            </div>
         </div>
 
         <div style="margin-top: 5px">
-            <p>宽度缩放：{{ this.width_scale }}</p>
-            <input max="10" min="0.05" step="0.02" type="range" v-model.number="width_scale" style="width: 98%;">
+            <p>宽度缩放</p>
+            <div style="display: flex; align-items: center">
+                <input max="10" min="0.05" step="0.05" type="range" v-model.number="width_scale" style="width: 82%;">
+                <input max="10" min="0.05" step="0.01" type="number" v-model.number="width_scale"
+                    style="margin-left:10px; padding: 5px; width: 14%; height:30px; font-size: 15px; background-color: #1c2026;">
+            </div>
         </div>
 
         <!-- 额外动画 -->
@@ -97,7 +105,13 @@ export default {
             license: Project['ysm_extra_info']['license'],
             height_scale: Project['ysm_height_scale'],
             width_scale: Project['ysm_width_scale'],
-            names: Project['ysm_extra_info']['extra_animation_names']
+            names: Project['ysm_extra_info']['extra_animation_names'],
+            selected: 'A',
+            options: [
+                { text: 'One', value: 'A' },
+                { text: 'Two', value: 'B' },
+                { text: 'Three', value: 'C' }
+            ]
         };
     },
     methods: {

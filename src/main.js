@@ -10,7 +10,7 @@ import { registerYsmEvent, removeYsmEvent } from "./event"
         icon: "card_membership",
         version: YSM.version,
         variant: "desktop",
-        min_version: "4.7.0",
+        min_version: "4.0.0",
         onload() {
             Language.addTranslations("zh", {
                 "menu.ysm_utils": "是！史蒂夫",
