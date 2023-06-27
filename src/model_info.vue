@@ -105,13 +105,7 @@ export default {
             license: Project['ysm_extra_info']['license'],
             height_scale: Project['ysm_height_scale'],
             width_scale: Project['ysm_width_scale'],
-            names: Project['ysm_extra_info']['extra_animation_names'],
-            selected: 'A',
-            options: [
-                { text: 'One', value: 'A' },
-                { text: 'Two', value: 'B' },
-                { text: 'Three', value: 'C' }
-            ]
+            names: Project['ysm_extra_info']['extra_animation_names'] ? Project['ysm_extra_info']['extra_animation_names'] : []
         };
     },
     methods: {
@@ -119,19 +113,24 @@ export default {
             Project['ysm_height_scale'] = this.height_scale;
             Project['ysm_width_scale'] = this.width_scale;
             let extraInfo = {}
+            let hasData = false;
             if (this.modelName) {
                 extraInfo["name"] = this.modelName;
+                hasData = true;
             }
             if (this.modelDesc) {
                 extraInfo["tips"] = this.modelDesc;
+                hasData = true;
             }
             if (this.authors) {
-                extraInfo["authors"] = this.authors.split('\n');
+                extraInfo["authors"] = this.authors;
+                hasData = true;
             }
             if (this.license) {
                 extraInfo["license"] = this.license;
+                hasData = true;
             }
-            if (this.names) {
+            if (this.names && Array.isArray(this.names) && this.names.length > 0) {
                 extraInfo["extra_animation_names"] = []
                 for (let i = 0; i < 8; i++) {
                     if (this.names[i]) {
@@ -140,8 +139,11 @@ export default {
                         extraInfo["extra_animation_names"][i] = i + ""
                     }
                 }
+                hasData = true;
             }
-            Project['ysm_extra_info'] = extraInfo;
+            if (hasData) {
+                Project['ysm_extra_info'] = extraInfo;
+            }
             this.parent.hide();
         }
     }

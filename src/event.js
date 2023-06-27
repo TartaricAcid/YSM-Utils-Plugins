@@ -31,7 +31,7 @@ function parseYsmFile(data) {
                 extraInfo["tips"] = "";
             }
             if (!extraInfo["authors"]) {
-                extraInfo["authors"] = [];
+                extraInfo["authors"] = "";
             } else {
                 extraInfo["authors"] = extraInfo["authors"].join("\n");
             }
@@ -56,14 +56,39 @@ function parseYsmFile(data) {
 function compileYsmFile(data) {
     let description = data['model']['minecraft:geometry'][0]['description'];
     if (description) {
-        if (Project['ysm_height_scale']) {
+        if (Project['ysm_height_scale'] && Project['ysm_height_scale'] !== 0.8) {
             description['ysm_height_scale'] = Project['ysm_height_scale']
         }
-        if (Project['ysm_width_scale']) {
+        if (Project['ysm_width_scale'] && Project['ysm_width_scale'] !== 0.8) {
             description['ysm_width_scale'] = Project['ysm_width_scale']
         }
         if (Project['ysm_extra_info']) {
-            description['ysm_extra_info'] = Project['ysm_extra_info']
+            let extraInfo = Project['ysm_extra_info']
+            let extraInfoOut = {}
+            let hasData = false;
+            if (extraInfo["name"]) {
+                extraInfoOut["name"] = extraInfo["name"];
+                hasData = true;
+            }
+            if (extraInfo["tips"]) {
+                extraInfoOut["tips"] = extraInfo["tips"];
+                hasData = true;
+            }
+            if (extraInfo["authors"]) {
+                extraInfoOut["authors"] = extraInfo["authors"].split('\n');
+                hasData = true;
+            }
+            if (extraInfo["license"]) {
+                extraInfoOut["license"] = extraInfo["license"];
+                hasData = true;
+            }
+            if (extraInfo["extra_animation_names"] && Array.isArray(extraInfo["extra_animation_names"]) && extraInfo["extra_animation_names"].length > 0) {
+                extraInfoOut["extra_animation_names"] = extraInfo["extra_animation_names"];
+                hasData = true;
+            }
+            if (hasData) {
+                description['ysm_extra_info'] = extraInfoOut
+            }
         }
     }
 }
