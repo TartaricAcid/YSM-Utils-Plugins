@@ -29,9 +29,12 @@
         <!-- 权限 -->
         <div style="margin-top: 5px;">
             <p> 授权 </p>
-            <input placeholder="是否允许二次分发、二次创作等说明"
-                style="margin-top:2px; padding: 3px; width: 98%; height:30px; font-size: 15px; background-color: #1c2026;"
-                type="text" v-model.trim="license">
+            <select v-model="license" placeholder="请选择共享授权"
+                style="margin-top:2px; padding: 3px; width: 98%; height:30px; font-size: 15px; background-color: #1c2026;">
+                <option v-for="option in ysmLicense" v-bind:value="option.value">
+                    <p style="margin-right: 40px;">{{ option.value }}</p>丨{{ option.text }}
+                </option>
+            </select>
         </div>
 
         <!-- 缩放 -->
@@ -99,10 +102,18 @@ export default {
     },
     data() {
         return {
+            ysmLicense: [
+                { text: '放弃所有版权，不受限制的二次分发、修改、商业使用', value: 'CC 0' },
+                { text: '只保留版权，无其他限制', value: 'MIT' },
+                { text: '允许二次分发、修改、商业使用；但需要署名', value: 'CC BY-SA 4.0' },
+                { text: '允许二次分发，修改；不允许商业使用；且需要署名', value: 'CC BY-NC-SA 4.0' },
+                { text: '允许二次分发；不允许修改、商业使用；且需要署名', value: 'CC BY-NC-ND 4.0' },
+                { text: '保留所有权利，其不得被自由复制', value: 'All Rights Reserved' },
+            ],
             modelName: Project['ysm_extra_info']['name'],
             modelDesc: Project['ysm_extra_info']['tips'],
             authors: Project['ysm_extra_info']['authors'],
-            license: Project['ysm_extra_info']['license'],
+            license: Project['ysm_extra_info']['license'] ? Project['ysm_extra_info']['license'] : "CC BY-NC-SA 4.0",
             height_scale: Project['ysm_height_scale'],
             width_scale: Project['ysm_width_scale'],
             names: Project['ysm_extra_info']['extra_animation_names'] ? Project['ysm_extra_info']['extra_animation_names'] : []
