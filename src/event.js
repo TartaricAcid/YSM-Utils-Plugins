@@ -14,12 +14,12 @@ function parseYsmFile(data) {
         if (description['ysm_height_scale']) {
             Project['ysm_height_scale'] = description['ysm_height_scale']
         } else {
-            Project['ysm_height_scale'] = 0.8;
+            Project['ysm_height_scale'] = 0.7;
         }
         if (description['ysm_width_scale']) {
             Project['ysm_width_scale'] = description['ysm_width_scale']
         } else {
-            Project['ysm_width_scale'] = 0.8;
+            Project['ysm_width_scale'] = 0.7;
         }
         if (description['ysm_extra_info']) {
             Project['ysm_extra_info'] = description['ysm_extra_info']
@@ -56,10 +56,10 @@ function parseYsmFile(data) {
 function compileYsmFile(data) {
     let description = data['model']['minecraft:geometry'][0]['description'];
     if (description) {
-        if (Project['ysm_height_scale'] && Project['ysm_height_scale'] !== 0.8) {
+        if (Project['ysm_height_scale'] && Project['ysm_height_scale'] !== 0.7) {
             description['ysm_height_scale'] = Project['ysm_height_scale']
         }
-        if (Project['ysm_width_scale'] && Project['ysm_width_scale'] !== 0.8) {
+        if (Project['ysm_width_scale'] && Project['ysm_width_scale'] !== 0.7) {
             description['ysm_width_scale'] = Project['ysm_width_scale']
         }
         if (Project['ysm_extra_info']) {
