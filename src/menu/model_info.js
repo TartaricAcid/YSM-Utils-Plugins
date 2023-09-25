@@ -4,6 +4,14 @@ export var openModelInfo = new Action("ysm_utils.add_model_info", {
     name: "添加信息",
     icon: "info",
     click: function () {
+        if (!Project) {
+            electron.dialog.showMessageBoxSync(currentwindow, {
+                title: "还未打开任何模型文件",
+                message: "请打开模型文件后，再点击添加信息选项！",
+                type: "warning"
+            });
+            return;
+        }
         if (Project.selected && Format.id === "bedrock" && !Project.save_path.endsWith(".bbmodel") && Project['ysm_extra_info']) {
             let openModelInfoDialog = new Dialog({
                 title: "dialog.menu.ysm_utils.add_model_info.title",
@@ -17,7 +25,7 @@ export var openModelInfo = new Action("ysm_utils.add_model_info", {
                             parent: openModelInfoDialog
                         };
                     },
-                    components: { modelInfoVue },
+                    components: {modelInfoVue},
                     template: "<modelInfoVue :parent='parent'/>"
                 }
             });
