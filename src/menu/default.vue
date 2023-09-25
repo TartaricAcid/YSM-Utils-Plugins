@@ -14,42 +14,37 @@
           <h2 style="margin: 10px">男性默认模型</h2>
         </button>
       </li>
-      <li :style="{'background-color': '#17191d', 'cursor': 'pointer', 'text-align': 'center'}">
-        <button @click="createEmptyWorkspace" style="width: 100%; height: 100%">
-          <img :src="imgEmpty" alt="" width="100px" style="margin-top: 15px">
-          <h2 style="margin: 10px">空白工作区</h2>
-        </button>
-      </li>
     </ul>
   </div>
 </template>
 
 <script>
-import FEMALE_IMG from "../assets/img/female.png";
-import MALE_IMG from "../assets/img/male.png";
-import EMPTY_IMG from "../assets/img/empty.png";
-import {createDefaultModel} from "./default";
+import FEMALE_IMG from "../../assets/img/female.png";
+import MALE_IMG from "../../assets/img/male.png";
+import {setModelIdDialog} from "./create_dialog"
 
 export default {
-  name: "maid_model_choose",
+  name: "default_model_choose",
+  props: {
+    parent: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       imgFemale: FEMALE_IMG,
-      imgMale: MALE_IMG,
-      imgEmpty: EMPTY_IMG
+      imgMale: MALE_IMG
     };
   },
   methods: {
-    tl: tl,
     createFemaleWorkspace: function () {
-      createDefaultModel.hide();
-      newProject(Formats["bedrock"]);
+      this.parent.hide();
+      setModelIdDialog("female").show();
     },
     createMaleWorkspace: function () {
-      createDefaultModel.hide();
-    },
-    createEmptyWorkspace: function () {
-      createDefaultModel.hide();
+      this.parent.hide();
+      setModelIdDialog("male").show();
     }
   }
 };
