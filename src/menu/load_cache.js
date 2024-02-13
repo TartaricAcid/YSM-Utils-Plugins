@@ -3,14 +3,14 @@ import {loadYsmFolderModel} from "./load";
 var CACHE_YSM_FOLDERS = [];
 
 export var CACHE_YSM_MODEL_ACTION = {
-    name: "打开历史模型",
+    name: "menu.ysm_utils.load_cache_pack",
     id: "ysm_utils.load_cache_pack",
     icon: "fa-history",
     children: function () {
         let arr = [...CACHE_YSM_FOLDERS].reverse();
         if (arr.length) {
             arr.push("_", {
-                name: "清除所有",
+                name: tl("menu.ysm_utils.load_cache_pack.clear_all"),
                 icon: "clear",
                 click: function () {
                     localStorage.removeItem("cacheYsmFolders");

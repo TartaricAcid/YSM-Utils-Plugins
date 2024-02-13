@@ -1,11 +1,11 @@
 import {addToYsmCache} from "./load_cache";
 
 export var loadYsmModel = new Action("ysm_utils.load_model", {
-    name: "加载模型",
+    name: "menu.ysm_utils.load_model",
     icon: "fa-folder-open",
     click: function () {
         let filePaths = electron.dialog.showOpenDialogSync(currentwindow, {
-            title: "请选择模型文件夹",
+            title: tl("menu.ysm_utils.load_model.choose_folder"),
             properties: ["openDirectory"]
         });
         if (!filePaths) {
@@ -22,8 +22,8 @@ export var loadYsmFolderModel = function loadFolder(path) {
         let armModelPath = `${path}/arm.json`;
         if (!fs.existsSync(mainModelPath) || !fs.existsSync(armModelPath)) {
             electron.dialog.showMessageBoxSync(currentwindow, {
-                title: "文件夹错误",
-                message: "此文件夹内没有主模型文件，第一人称手臂模型文件！\n请检查是否打开了正确的模型文件夹！",
+                title: tl("menu.ysm_utils.load_model.folder_error.title"),
+                message: tl("menu.ysm_utils.load_model.folder_error.desc"),
                 type: "warning"
             });
             return;
@@ -33,13 +33,42 @@ export var loadYsmFolderModel = function loadFolder(path) {
     }
 }
 
+function loadArrowTexture(path) {
+    Blockbench.readFile([`${path}/arrow.png`], {readtype: "image"}, files => {
+        files.forEach((f) => new Texture().fromFile(f).add().fillParticle());
+        if (fs.existsSync(`${path}/arrow.animation.json`)) {
+            Blockbench.readFile([`${path}/arrow.animation.json`], {readtype: "text"}, files => {
+                files.forEach(file => Animator.loadFile(file))
+                loadArmAndMain(path)
+            });
+        } else {
+            loadArmAndMain(path)
+        }
+    });
+}
+
 function loadAll(path) {
+    if (fs.existsSync(`${path}/arrow.json`)) {
+        Blockbench.readFile([`${path}/arrow.json`], {readtype: "text"}, files => {
+            loadModelFile(files[0]);
+            if (fs.existsSync(`${path}/arrow.json`)) {
+                loadArrowTexture(path);
+            } else {
+                loadArmAndMain(path)
+            }
+        });
+    } else {
+        loadArmAndMain(path)
+    }
+}
+
+function loadArmAndMain(path) {
     Blockbench.readFile([`${path}/arm.json`], {readtype: "text"}, files => {
         loadModelFile(files[0]);
         let pathFiles = fs.readdirSync(path);
         let images = [];
         pathFiles.forEach(f => {
-            if (f.endsWith(".png")) {
+            if (f.endsWith(".png") && f !== "arrow.png") {
                 images.push(`${path}/${f}`);
             }
         })
@@ -56,7 +85,7 @@ function loadMainModel(path) {
         let pathFiles = fs.readdirSync(path);
         let images = [];
         pathFiles.forEach(f => {
-            if (f.endsWith(".png")) {
+            if (f.endsWith(".png") && f !== "arrow.png") {
                 images.push(`${path}/${f}`);
             }
         })
@@ -64,7 +93,34 @@ function loadMainModel(path) {
             files.forEach((f) => new Texture().fromFile(f).add().fillParticle());
             loadMainAnimation(path);
         });
+        if (fs.existsSync(`${path}/info.json`)) {
+            checkInfoData(JSON.parse(fs.readFileSync(`${path}/info.json`)));
+        }
     });
+}
+
+function checkInfoData(extraInfo) {
+    if (extraInfo) {
+        let extraInfoOut = Project['ysm_extra_info']
+        if (extraInfo["name"]) {
+            extraInfoOut["name"] = extraInfo["name"];
+        }
+        if (extraInfo["tips"]) {
+            extraInfoOut["tips"] = extraInfo["tips"];
+        }
+        if (extraInfo["authors"] && Array.isArray(extraInfo["authors"]) && extraInfo["authors"].length > 0) {
+            extraInfoOut["authors"] = extraInfo["authors"];
+        }
+        if (extraInfo["free"]) {
+            extraInfoOut["free"] = extraInfo["free"];
+        }
+        if (extraInfo["license"]) {
+            extraInfoOut["license"] = extraInfo["license"];
+        }
+        if (extraInfo["extra_animation_names"] && Array.isArray(extraInfo["extra_animation_names"]) && extraInfo["extra_animation_names"].length > 0) {
+            extraInfoOut["extra_animation_names"] = extraInfo["extra_animation_names"];
+        }
+    }
 }
 
 function loadMainAnimation(path) {
@@ -80,6 +136,9 @@ function loadMainAnimation(path) {
     }
     if (fs.existsSync(`${path}/tac.animation.json`)) {
         animations.push(`${path}/tac.animation.json`);
+    }
+    if (fs.existsSync(`${path}/carryon.animation.json`)) {
+        animations.push(`${path}/carryon.animation.json`);
     }
     Blockbench.readFile(animations, {readtype: "text"}, files => {
         files.forEach(file => Animator.loadFile(file))

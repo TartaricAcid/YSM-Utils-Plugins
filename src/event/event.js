@@ -35,6 +35,9 @@ function parseYsmFile(data) {
             } else {
                 extraInfo["authors"] = extraInfo["authors"].join("\n");
             }
+            if (!extraInfo["free"]) {
+                extraInfo["free"] = false;
+            }
             if (!extraInfo["license"]) {
                 extraInfo["license"] = "";
             }
@@ -46,6 +49,7 @@ function parseYsmFile(data) {
                 "name": "",
                 "tips": "",
                 "authors": "",
+                "free": false,
                 "license": "",
                 "extra_animation_names": []
             }
@@ -61,34 +65,6 @@ function compileYsmFile(data) {
         }
         if (Project['ysm_width_scale'] && Project['ysm_width_scale'] !== 0.7) {
             description['ysm_width_scale'] = Project['ysm_width_scale']
-        }
-        if (Project['ysm_extra_info']) {
-            let extraInfo = Project['ysm_extra_info']
-            let extraInfoOut = {}
-            let hasData = false;
-            if (extraInfo["name"]) {
-                extraInfoOut["name"] = extraInfo["name"];
-                hasData = true;
-            }
-            if (extraInfo["tips"]) {
-                extraInfoOut["tips"] = extraInfo["tips"];
-                hasData = true;
-            }
-            if (extraInfo["authors"]) {
-                extraInfoOut["authors"] = extraInfo["authors"].split('\n');
-                hasData = true;
-            }
-            if (extraInfo["license"]) {
-                extraInfoOut["license"] = extraInfo["license"];
-                hasData = true;
-            }
-            if (extraInfo["extra_animation_names"] && Array.isArray(extraInfo["extra_animation_names"]) && extraInfo["extra_animation_names"].length > 0) {
-                extraInfoOut["extra_animation_names"] = extraInfo["extra_animation_names"];
-                hasData = true;
-            }
-            if (hasData) {
-                description['ysm_extra_info'] = extraInfoOut
-            }
         }
     }
 }

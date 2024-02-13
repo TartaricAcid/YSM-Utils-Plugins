@@ -2,7 +2,7 @@ import defaultVue from "./default.vue";
 
 
 export var createDefaultModel = new Action("ysm_utils.create_default_model", {
-    name: "创建默认模型",
+    name: tl("menu.ysm_utils.create_default_model"),
     icon: "fa-file-alt",
     click: function () {
         let createDefaultDialog = new Dialog("create_default_model", {
