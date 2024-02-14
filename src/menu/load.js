@@ -109,7 +109,7 @@ function checkInfoData(extraInfo) {
             extraInfoOut["tips"] = extraInfo["tips"];
         }
         if (extraInfo["authors"] && Array.isArray(extraInfo["authors"]) && extraInfo["authors"].length > 0) {
-            extraInfoOut["authors"] = extraInfo["authors"];
+            extraInfoOut["authors"] = extraInfo["authors"].join("\n");
         }
         if (extraInfo["free"]) {
             extraInfoOut["free"] = extraInfo["free"];

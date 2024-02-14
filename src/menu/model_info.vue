@@ -151,7 +151,7 @@ export default {
                 hasData = true;
             }
             if (this.authors) {
-                extraInfo["authors"] = this.authors;
+                extraInfo["authors"] = this.authors.split('\n');
                 hasData = true;
             }
             if (this.free) {
@@ -174,10 +174,9 @@ export default {
                 hasData = true;
             }
             if (hasData) {
-                Project['ysm_extra_info'] = extraInfo;
                 if (Project.export_path.endsWith("main.json")) {
                     let folder = Project.export_path.substring(0, Project.export_path.length - 10) + "/info.json";
-                    let storeInfo = autoStringify(Project['ysm_extra_info']);
+                    let storeInfo = autoStringify(extraInfo);
                     fs.writeFileSync(folder, storeInfo)
                 }
             }
