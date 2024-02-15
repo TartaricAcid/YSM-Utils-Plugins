@@ -93,34 +93,7 @@ function loadMainModel(path) {
             files.forEach((f) => new Texture().fromFile(f).add().fillParticle());
             loadMainAnimation(path);
         });
-        if (fs.existsSync(`${path}/info.json`)) {
-            checkInfoData(JSON.parse(fs.readFileSync(`${path}/info.json`)));
-        }
     });
-}
-
-function checkInfoData(extraInfo) {
-    if (extraInfo) {
-        let extraInfoOut = Project['ysm_extra_info']
-        if (extraInfo["name"]) {
-            extraInfoOut["name"] = extraInfo["name"];
-        }
-        if (extraInfo["tips"]) {
-            extraInfoOut["tips"] = extraInfo["tips"];
-        }
-        if (extraInfo["authors"] && Array.isArray(extraInfo["authors"]) && extraInfo["authors"].length > 0) {
-            extraInfoOut["authors"] = extraInfo["authors"].join("\n");
-        }
-        if (extraInfo["free"]) {
-            extraInfoOut["free"] = extraInfo["free"];
-        }
-        if (extraInfo["license"]) {
-            extraInfoOut["license"] = extraInfo["license"];
-        }
-        if (extraInfo["extra_animation_names"] && Array.isArray(extraInfo["extra_animation_names"]) && extraInfo["extra_animation_names"].length > 0) {
-            extraInfoOut["extra_animation_names"] = extraInfo["extra_animation_names"];
-        }
-    }
 }
 
 function loadMainAnimation(path) {

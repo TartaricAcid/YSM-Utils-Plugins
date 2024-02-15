@@ -13,6 +13,12 @@ export var openModelInfo = new Action("ysm_utils.add_model_info", {
             return;
         }
         if (Project.selected && Format.id === "bedrock" && !Project.save_path.endsWith(".bbmodel") && Project['ysm_extra_info']) {
+            if (Project.export_path.endsWith("main.json")) {
+                let path = Project.export_path.substring(0, Project.export_path.length - 10) + "/info.json";
+                if (fs.existsSync(path)) {
+                    checkInfoData(JSON.parse(fs.readFileSync(path)));
+                }
+            }
             let openModelInfoDialog = new Dialog({
                 title: "menu.ysm_utils.add_model_info",
                 width: 600,
@@ -49,3 +55,27 @@ export var openModelInfo = new Action("ysm_utils.add_model_info", {
         }
     }
 });
+
+function checkInfoData(extraInfo) {
+    if (extraInfo) {
+        let extraInfoOut = Project['ysm_extra_info']
+        if (extraInfo["name"]) {
+            extraInfoOut["name"] = extraInfo["name"];
+        }
+        if (extraInfo["tips"]) {
+            extraInfoOut["tips"] = extraInfo["tips"];
+        }
+        if (extraInfo["authors"] && Array.isArray(extraInfo["authors"]) && extraInfo["authors"].length > 0) {
+            extraInfoOut["authors"] = extraInfo["authors"].join("\n");
+        }
+        if (extraInfo["free"]) {
+            extraInfoOut["free"] = extraInfo["free"];
+        }
+        if (extraInfo["license"]) {
+            extraInfoOut["license"] = extraInfo["license"];
+        }
+        if (extraInfo["extra_animation_names"] && Array.isArray(extraInfo["extra_animation_names"]) && extraInfo["extra_animation_names"].length > 0) {
+            extraInfoOut["extra_animation_names"] = extraInfo["extra_animation_names"];
+        }
+    }
+}
