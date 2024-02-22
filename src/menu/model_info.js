@@ -23,6 +23,7 @@ export var openModelInfo = new Action("ysm_utils.add_model_info", {
                 title: "menu.ysm_utils.add_model_info",
                 width: 600,
                 singleButton: true,
+                cancel_on_click_outside: false,
                 onCancel: function () {
                 },
                 component: {

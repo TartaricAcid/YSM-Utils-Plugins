@@ -2,9 +2,11 @@
 import {mkdirs} from "../utils/filesystem";
 import femaleMainModel from "../../assets/model/female/main.json"
 import femaleArmModel from "../../assets/model/female/arm.json"
+import femaleArrowModel from "../../assets/model/female/arrow.json"
 import femaleMainAnimation from "../../assets/model/female/main.animation.json"
 import femaleArmAnimation from "../../assets/model/female/arm.animation.json"
 import femaleExtraAnimation from "../../assets/model/female/extra.animation.json"
+import femaleCarryOnAnimation from "../../assets/model/female/carryon.animation.json"
 import femaleTacAnimation from "../../assets/model/female/tac.animation.json"
 import maleMainModel from "../../assets/model/male/main.json"
 import maleArmModel from "../../assets/model/male/arm.json"
@@ -81,21 +83,25 @@ export default {
                     if (this.modelType === "female") {
                         Blockbench.writeFile(`${root}/main.json`, {content: compileJSON(femaleMainModel)});
                         Blockbench.writeFile(`${root}/arm.json`, {content: compileJSON(femaleArmModel)});
+                        Blockbench.writeFile(`${root}/arrow.json`, {content: compileJSON(femaleArrowModel)});
                         Blockbench.writeFile(`${root}/main.animation.json`, {content: compileJSON(femaleMainAnimation)});
                         Blockbench.writeFile(`${root}/arm.animation.json`, {content: compileJSON(femaleArmAnimation)});
                         Blockbench.writeFile(`${root}/extra.animation.json`, {content: compileJSON(femaleExtraAnimation)});
+                        Blockbench.writeFile(`${root}/carryon.animation.json`, {content: compileJSON(femaleCarryOnAnimation)});
                         Blockbench.writeFile(`${root}/tac.animation.json`, {content: compileJSON(femaleTacAnimation)});
                     } else {
                         Blockbench.writeFile(`${root}/main.json`, {content: compileJSON(maleMainModel)});
                         Blockbench.writeFile(`${root}/arm.json`, {content: compileJSON(maleArmModel)});
+                        Blockbench.writeFile(`${root}/arrow.json`, {content: compileJSON(femaleArrowModel)});
                         Blockbench.writeFile(`${root}/main.animation.json`, {content: compileJSON(maleMainAnimation)});
                         Blockbench.writeFile(`${root}/arm.animation.json`, {content: compileJSON(femaleArmAnimation)});
                         Blockbench.writeFile(`${root}/extra.animation.json`, {content: compileJSON(femaleExtraAnimation)});
+                        Blockbench.writeFile(`${root}/carryon.animation.json`, {content: compileJSON(femaleCarryOnAnimation)});
                         Blockbench.writeFile(`${root}/tac.animation.json`, {content: compileJSON(maleTacAnimation)});
                     }
-                    Blockbench.readFile([`${root}/arm.json`, `${root}/main.json`], {readtype: "text"}, files => {
+                    Blockbench.readFile([`${root}/arrow.json`, `${root}/arm.json`, `${root}/main.json`], {readtype: "text"}, files => {
                         files.forEach(file => loadModelFile(file))
-                        Blockbench.readFile([`${root}/main.animation.json`, `${root}/arm.animation.json`, `${root}/extra.animation.json`, `${root}/tac.animation.json`], {readtype: "text"}, files => {
+                        Blockbench.readFile([`${root}/main.animation.json`, `${root}/arm.animation.json`, `${root}/extra.animation.json`, `${root}/carryon.animation.json`, `${root}/tac.animation.json`], {readtype: "text"}, files => {
                             files.forEach(file => Animator.loadFile(file))
                             Blockbench.notification(tl("tip.ysm_utils.create_dialog.success.title"), tl("tip.ysm_utils.create_dialog.success.desc", [path]));
                             addToYsmCache(root);
@@ -112,9 +118,9 @@ export default {
 <template>
     <div style="margin-left: 0">
         <div>
-            <h5 style="margin: 0; padding: 0">{{ tl("menu.ysm_utils.create_default_model.new")}}
+            <h5 style="margin: 0; padding: 0">{{ tl("menu.ysm_utils.create_default_model.new") }}
                 <span style="color: #ff0000">*</span></h5>
-            <p style="color: #6a6a6d">{{ tl("menu.ysm_utils.create_default_model.model_id")}}</p>
+            <p style="color: #6a6a6d">{{ tl("menu.ysm_utils.create_default_model.model_id") }}</p>
             <input :style="{'border-color': packIdBorderColor, 'border-width': this.packIdBorderSize}"
                    @blur="checkId"
                    placeholder="" required
@@ -128,7 +134,7 @@ export default {
         <div style="margin-top: 20px">
             <button @click="submit"
                     style="width: 100%; height:50px; border-radius: 1px">
-                <h5>{{ tl("menu.ysm_utils.create_default_model.create")}}</h5></button>
+                <h5>{{ tl("menu.ysm_utils.create_default_model.create") }}</h5></button>
         </div>
     </div>
 </template>
