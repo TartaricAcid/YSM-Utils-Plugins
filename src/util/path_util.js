@@ -1,4 +1,11 @@
+import {dirname} from "path";
+
 export function arePathsEqual(path1, path2) {
+    // 如果文件不存在，那么必然不相等
+    if (!fs.existsSync(path1) || !fs.existsSync(path2)) {
+        return false;
+    }
+
     try {
         // 解析出绝对路径
         const absolutePath1 = fs.realpathSync(path1);
@@ -15,4 +22,9 @@ export function arePathsEqual(path1, path2) {
         console.error("Error resolving paths:", err);
         return false;
     }
+}
+
+export async function createDirectories(filePath) {
+    const dir = dirname(filePath);
+    await fs.promises.mkdir(dir, {recursive: true});
 }

@@ -94,10 +94,13 @@ function onDialogCancel(ysmJson, sha256Cache) {
         type: "warning",
         title: tl("level.ysm_utils.warning"),
         message: tl("menu.ysm_utils.import_model_menu.save_tip"),
-        buttons: [tl("dialog.confirm"), tl("dialog.cancel")],
+        buttons: [tl("menu.ysm_utils.save"), tl("menu.ysm_utils.exit_without_save"), tl("dialog.cancel")],
     });
     if (button === 0) {
         // TODO: 保存
+        return true;
+    } else if (button === 1) {
+        // 直接退出
         return true;
     }
     return false;

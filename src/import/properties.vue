@@ -60,7 +60,7 @@ export default {
             let allAnimationList = this.ysmJson?.["files"]["player"]["animation"] ?? {};
             for (let key in allAnimationList) {
                 let filePath = join(this.packDirectory, allAnimationList[key]);
-                if (fs.statSync(filePath).isFile()) {
+                if (fs.existsSync(filePath) &&fs.statSync(filePath).isFile()) {
                     let content = fs.readFileSync(join(this.packDirectory, allAnimationList[key]), "utf8");
                     let animations = autoParseJSON(content)["animations"] ?? {};
                     Object.keys(animations).forEach(name => keys.add(name));
@@ -76,7 +76,7 @@ export default {
             let extraAnimationFile = this.ysmJson?.["files"]["player"]["animation"]["extra"];
             if (extraAnimationFile) {
                 let filePath = join(this.packDirectory, extraAnimationFile);
-                if (fs.statSync(filePath).isFile()) {
+                if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
                     let content = fs.readFileSync(filePath, "utf8");
                     let animations = autoParseJSON(content)["animations"] ?? {};
                     Object.keys(animations).forEach(name => keys.add(name));
