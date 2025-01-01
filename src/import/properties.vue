@@ -22,8 +22,8 @@ export default {
     methods: {
         join,
         tl,
-        addNewExtraAnimation: function (extraAnimations) {
-            extraAnimations[""] = "";
+        addNewExtraAnimation: function () {
+            this.tmpExtraAnimation.push(["", ""]);
             this.$forceUpdate();
         },
         getAvailableExtraAnimation: function () {
@@ -35,11 +35,25 @@ export default {
                 }
             });
             return output;
+        },
+        updateExtraAnimation: function () {
+            let tmp = {};
+            for (let value of this.tmpExtraAnimation) {
+                tmp[value[0]] = value[1];
+            }
+            this.properties["extra_animation"] = tmp;
         }
     },
     computed: {
         properties: function () {
             return this.ysmJson["properties"];
+        },
+        tmpExtraAnimation: function () {
+            let output = [];
+            for (let key in this.properties["extra_animation"]) {
+                output.push([key, this.properties["extra_animation"][key]]);
+            }
+            return output;
         },
         allAnimations: function () {
             let keys = new Set();
@@ -121,18 +135,19 @@ export default {
             <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.properties.extra_animation.desc") }}</p>
 
             <div style="display: flex; flex-wrap: wrap; margin-top: 10px">
-                <div v-for="(_, animation) in properties['extra_animation']"
+                <div v-for="(value, index) in tmpExtraAnimation"
                      style="width: 49%; margin-left: 2px; margin-top: 2px">
-                    <select id="simple" name="simple" style="width: 40%; text-align: center;">
-                        <option selected>{{ animation }}</option>
+                    <select id="simple" name="simple" style="width: 40%; text-align: center;" v-model="value[0]"
+                            @change="updateExtraAnimation">
+                        <option selected>{{ value[0] }}</option>
                         <option v-for="name in getAvailableExtraAnimation()">{{ name }}</option>
                     </select>
                     <input class="input" type="text" style="width: 50%; margin-left: 2px;"
-                           v-model.trim="properties['extra_animation'][animation]">
+                           v-model.trim="value[1]" @input="updateExtraAnimation">
                 </div>
 
                 <button style="width: 44.8%; margin-left: 2px; margin-top: 2px;"
-                        @click="addNewExtraAnimation(properties['extra_animation'])">
+                        @click="addNewExtraAnimation()">
                     <i class="fa-solid fa-plus" style="vertical-align: middle;"></i>
                     <span>{{ tl("menu.ysm_utils.import_model_menu.properties.extra_animation.add") }}</span>
                 </button>

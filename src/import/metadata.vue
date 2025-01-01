@@ -33,8 +33,9 @@ export default {
         openNewAuthorDialog: function () {
             newAuthorDialog(this.ysmJson, this.packDirectory);
         },
-        editAuthorDialog: function (editAuthor) {
-            editAuthorDialog(this.ysmJson, this.packDirectory, editAuthor);
+        editAuthorDialog: function (editAuthor, index) {
+            let copyEditAuthor = JSON.parse(JSON.stringify(editAuthor));
+            editAuthorDialog(this.ysmJson, this.packDirectory, copyEditAuthor, index);
         }
     },
     computed: {
@@ -56,7 +57,8 @@ export default {
         <div class="metadata-item">
             <p class="title">{{ tl("menu.ysm_utils.import_model_menu.metadata.name") }}</p>
             <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.metadata.name.desc") }}</p>
-            <input class="input" type="text" v-model.trim="metadata['name']">
+            <input class="input" type="text" v-model.trim="metadata['name']"
+                   :placeholder="tl('menu.ysm_utils.required_fields')">
         </div>
 
 
@@ -64,7 +66,8 @@ export default {
             <p class="title">{{ tl("menu.ysm_utils.import_model_menu.metadata.tips") }}</p>
             <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.metadata.tips.desc") }}</p>
             <textarea class="textarea" :rows="this.getTipsRows(metadata['tips'])"
-                      v-model.trim="metadata['tips']"></textarea>
+                      v-model.trim="metadata['tips']" :placeholder="tl('menu.ysm_utils.can_be_empty')">
+            </textarea>
         </div>
 
 
@@ -74,12 +77,14 @@ export default {
 
             <div class="horizontal-item">
                 <p class="horizontal-text">{{ tl("menu.ysm_utils.import_model_menu.metadata.license.type") }}</p>
-                <input class="horizontal-input" type="text" v-model.trim="license['type']">
+                <input class="horizontal-input" type="text" v-model.trim="license['type']"
+                       :placeholder="tl('menu.ysm_utils.suggest')"/>
             </div>
 
             <div class="horizontal-item">
                 <p class="horizontal-text">{{ tl("menu.ysm_utils.import_model_menu.metadata.license.extra_desc") }}</p>
-                <input class="horizontal-input" type="text" v-model.trim="license['desc']">
+                <input class="horizontal-input" type="text" v-model.trim="license['desc']"
+                       :placeholder="tl('menu.ysm_utils.can_be_empty')"/>
             </div>
         </div>
 
@@ -89,8 +94,8 @@ export default {
             <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.metadata.authors.desc") }}</p>
 
             <div class="author">
-                <div class="author-item" v-for="author in metadata['authors']">
-                    <button class="author-config-button" @click="editAuthorDialog(author)">
+                <div class="author-item" v-for="(author,index) in metadata['authors']">
+                    <button class="author-config-button" @click="editAuthorDialog(author, index)">
                         <i class="fa-regular fa-pen-to-square" style="vertical-align: middle"></i>
                         <span>{{ tl("menu.ysm_utils.import_model_menu.metadata.authors.config") }}</span>
                     </button>
@@ -120,12 +125,14 @@ export default {
 
             <div class="horizontal-item">
                 <p class="horizontal-text">{{ tl("menu.ysm_utils.import_model_menu.metadata.link.home") }}</p>
-                <input class="horizontal-input" type="url" v-model.trim="link['home']">
+                <input class="horizontal-input" type="url" v-model.trim="link['home']"
+                       :placeholder="tl('menu.ysm_utils.suggest')">
             </div>
 
             <div class="horizontal-item">
                 <p class="horizontal-text">{{ tl("menu.ysm_utils.import_model_menu.metadata.link.donate") }}</p>
-                <input class="horizontal-input" type="url" v-model.trim="link['donate']">
+                <input class="horizontal-input" type="url" v-model.trim="link['donate']"
+                       :placeholder="tl('menu.ysm_utils.suggest')">
             </div>
         </div>
     </div>

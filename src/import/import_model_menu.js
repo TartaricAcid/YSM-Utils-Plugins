@@ -4,6 +4,7 @@ import playerFilesVue from "./player_files.vue";
 import arrowFilesVue from "./arrow_files.vue";
 import {join} from "path";
 import {oldVersionTransform} from "./old_version_transform.js";
+import {createHash} from "crypto";
 
 export let importModelMenuAction = new Action("ysm_utils.import_model_menu", {
     name: "menu.ysm_utils.import_model_menu.name",
@@ -66,7 +67,6 @@ function checkDirectory(packDirectory) {
             confirm: 0,
             cancel: 1
         }, (button) => {
-            console.log(button);
             if (button === 0) {
                 doOldVersionTransform(packDirectory, versionType === "1.1.4");
             }
@@ -83,15 +83,41 @@ function checkDirectory(packDirectory) {
     return false;
 }
 
+
+function onDialogCancel(ysmJson, sha256Cache) {
+    // 关闭页面时，计算一次哈希值
+    let sha256 = getSha256(ysmJson);
+    if (sha256 === sha256Cache) {
+        return true;
+    }
+    let button = electron.dialog.showMessageBoxSync({
+        type: "warning",
+        title: tl("level.ysm_utils.warning"),
+        message: tl("menu.ysm_utils.import_model_menu.save_tip"),
+        buttons: [tl("dialog.confirm"), tl("dialog.cancel")],
+    });
+    if (button === 0) {
+        // TODO: 保存
+        return true;
+    }
+    return false;
+}
+
 function openImportMenu(packDirectory) {
     let ysmJsonPath = join(packDirectory, "ysm.json");
     let ysmJson = autoParseJSON(fs.readFileSync(ysmJsonPath, "utf8"), true);
     ysmJson = normalization(ysmJson);
+    // 开始之前计算一次哈希值，用来判断是否已经修改了内容，用于提示保存
+    let sha256Cache = getSha256(ysmJson);
 
     let importModelMenuDialog = new Dialog({
         title: "menu.ysm_utils.import_model_menu.title",
         cancel_on_click_outside: false,
         width: 1000,
+        singleButton: true,
+        onCancel: function (event) {
+            return onDialogCancel(ysmJson, sha256Cache);
+        },
         sidebar: {
             pages: {
                 "metadata": tl("menu.ysm_utils.import_model_menu.sidebar.metadata"),
@@ -101,7 +127,9 @@ function openImportMenu(packDirectory) {
             },
             page: "metadata",
             onPageSwitch(page) {
-                importModelMenuDialog.content_vue.type = page;
+                if (importModelMenuDialog.content_vue.type !== page) {
+                    importModelMenuDialog.content_vue.type = page;
+                }
             }
         },
         component: {
@@ -140,12 +168,22 @@ function openImportMenu(packDirectory) {
                 </div>`
         }
     });
+
     importModelMenuDialog.show();
 
     if (importModelMenuDialog.object && importModelMenuDialog.object.style) {
         importModelMenuDialog.object.style["max-width"] = "1000px";
         importModelMenuDialog.object.style["min-height"] = "600px";
     }
+}
+
+/**
+ * 计算 ysmJson 的哈希值，用来判断是否进行了修改
+ */
+function getSha256(ysmJson) {
+    return createHash("sha256")
+        .update(JSON.stringify(ysmJson), "utf8")
+        .digest("hex");
 }
 
 /**

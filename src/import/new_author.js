@@ -5,6 +5,7 @@ export function newAuthorDialog(ysmJson, packDirectory) {
         title: "menu.ysm_utils.import_model_menu.metadata.authors.new",
         cancel_on_click_outside: false,
         width: 600,
+        singleButton: true,
         component: {
             data() {
                 return {
@@ -20,6 +21,7 @@ export function newAuthorDialog(ysmJson, packDirectory) {
                 <div>
                     <newAuthorVue :new-author-dialog="authorDialog"
                                   :authors="authors"
+                                  :author-index=-1
                                   :pack-directory='packDirectory'/>
                 </div>`
         }
@@ -27,11 +29,12 @@ export function newAuthorDialog(ysmJson, packDirectory) {
     newAuthorDialog.show();
 }
 
-export function editAuthorDialog(ysmJson, packDirectory, editAuthor) {
+export function editAuthorDialog(ysmJson, packDirectory, editAuthor, index) {
     let newAuthorDialog = new Dialog({
         title: "menu.ysm_utils.import_model_menu.metadata.authors.edit",
         cancel_on_click_outside: false,
         width: 600,
+        singleButton: true,
         component: {
             data() {
                 return {
@@ -39,6 +42,7 @@ export function editAuthorDialog(ysmJson, packDirectory, editAuthor) {
                     authors: ysmJson["metadata"]["authors"],
                     editAuthor: editAuthor,
                     packDirectory: packDirectory,
+                    index: index
                 };
             },
             components: {
@@ -48,6 +52,7 @@ export function editAuthorDialog(ysmJson, packDirectory, editAuthor) {
                 <div>
                     <newAuthorVue :new-author-dialog="authorDialog"
                                   :authors="authors" :new-author="editAuthor"
+                                  :author-index=index
                                   :pack-directory='packDirectory'/>
                 </div>`
         }
