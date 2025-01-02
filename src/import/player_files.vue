@@ -1,6 +1,6 @@
 <script>
 import {join} from "path";
-import {arePathsEqual, createDirectories} from "../util/path_util.js";
+import {changeCurrentFile, removeCurrentFile} from "./file_handler.js";
 
 export default {
     props: {
@@ -25,76 +25,134 @@ export default {
     methods: {
         join,
         tl,
-        changeFile: async function (file, folder, extension = "json") {
-            let result = await electron.dialog.showOpenDialog(currentwindow, {
-                title: tl("menu.ysm_utils.import_model_menu.files.select_files"),
-                filters: [{
-                    extensions: [extension],
-                    name: extension,
-                }],
-                properties: ["openFile"]
+        changeFile: async function (pathValue, defaultDir, extension = "json") {
+            return changeCurrentFile(this.packDirectory, pathValue, defaultDir, extension);
+        },
+        removeFile: function (pathValue, callback) {
+            removeCurrentFile(this.packDirectory, pathValue, callback);
+        },
+        importArmFile: function () {
+            let result = this.importModelMenuDialog.onCancel();
+            if (!result) {
+                return;
+            }
+            let armModel = this.playerFiles["model"]["arm"];
+            if (!armModel || armModel.length === 0) {
+                return;
+            }
+            let armModelPath = join(this.packDirectory, armModel);
+            if (!fs.existsSync(armModelPath)) {
+                return;
+            }
+            let jsonOptions = {readtype: "text", errorbox: true};
+            Blockbench.readFile([armModelPath], jsonOptions, files => {
+                loadModelFile(files[0]);
+                this.importTexture(false);
             });
-
-            if (result.filePaths[0]) {
-                console.assert(folder !== "");
-                // 路径为空，说明原文件不存在，那么给一个默认名
-                let srcFilePath;
-                if (!file || file.length === 0) {
-                    file = join(folder, pathToName(result.filePaths[0], true));
-                    srcFilePath = join(this.packDirectory, file);
-                    // 看看文件存不存在，不存在我们创一个空的
-                    await createDirectories(srcFilePath);
-                } else {
-                    srcFilePath = join(this.packDirectory, file);
-                }
-                let destFilePath = result.filePaths[0];
-                // 路径相同的，不进行任何操作
-                if (arePathsEqual(srcFilePath, destFilePath)) {
-                    Blockbench.showQuickMessage(tl("menu.ysm_utils.import_model_menu.files.same_file"), 2000);
-                    return file;
-                }
-                // 将原文件丢到回收站
-                if (fs.existsSync(srcFilePath)) {
-                    await electron.shell.trashItem(srcFilePath);
-                }
-                // 复制到指定目录下
-                if (fs.existsSync(destFilePath)) {
-                    let error = await fs.promises.copyFile(destFilePath, srcFilePath);
-                    if (!error) {
-                        Blockbench.showQuickMessage(tl("menu.ysm_utils.import_model_menu.files.replace_success"), 2000);
+        },
+        importMainFile: function () {
+            let result = this.importModelMenuDialog.onCancel();
+            if (!result) {
+                return;
+            }
+            let mainModel = this.playerFiles["model"]["main"];
+            if (!mainModel || mainModel.length === 0) {
+                return;
+            }
+            let mainModelPath = join(this.packDirectory, mainModel);
+            if (!fs.existsSync(mainModelPath)) {
+                return;
+            }
+            let jsonOptions = {readtype: "text", errorbox: true};
+            Blockbench.readFile([mainModelPath], jsonOptions, files => {
+                loadModelFile(files[0]);
+                this.importTexture();
+            });
+        },
+        importTexture: function (loadAnimation = true) {
+            let images = [];
+            for (let texture of this.playerFiles["texture"]) {
+                let uv = texture["uv"];
+                if (uv.endsWith(".png")) {
+                    let uvPath = join(this.packDirectory, uv);
+                    if (fs.existsSync(uvPath)) {
+                        images.push(uvPath);
                     }
                 }
             }
-
-            return file;
+            let imgOptions = {readtype: "image", errorbox: true};
+            Blockbench.readFile(images, imgOptions, files => {
+                files.forEach(file => new Texture().fromFile(file).add());
+                if (loadAnimation) {
+                    this.importAnimation();
+                } else {
+                    this.importModelMenuDialog.close();
+                }
+            });
         },
-        removeFile: function (file, callback) {
-            // 路径为空，不进行任何操作
-            if (!file || file.length === 0) {
+        importAnimation: function () {
+            let animations = [];
+            for (let animation of Object.values(this.playerFiles["animation"])) {
+                if (animation.endsWith(".json")) {
+                    let animationPath = join(this.packDirectory, animation);
+                    if (fs.existsSync(animationPath)) {
+                        animations.push(animationPath);
+                    }
+                }
+            }
+            let jsonOptions = {readtype: "text", errorbox: true};
+            Blockbench.readFile(animations, jsonOptions, files => {
+                files.forEach(file => Animator.loadFile(file));
+                this.importModelMenuDialog.close();
+            });
+        },
+        addNewTexture: function (textures) {
+            textures.push({
+                "uv": "",
+                "normal": "",
+                "specular": ""
+            });
+        },
+        deleteCurrentTexture: function (textures, index) {
+            let texture = textures[index];
+
+            let deleteFiles = [];
+            // 判断这些文件存不存在
+            for (let value of Object.values(texture)) {
+                let filePath = join(this.packDirectory, value);
+                if (value.length > 0 && fs.existsSync(filePath)) {
+                    deleteFiles.push(filePath);
+                }
+            }
+
+            // 如果全为空，那么直接删就行
+            if (deleteFiles.length <= 0) {
+                textures.splice(index, 1);
                 return;
             }
-            let srcFilePath = join(this.packDirectory, file);
-            // 原文件不存在，清空数值即可
-            if (!fs.existsSync(srcFilePath)) {
-                callback();
-                return;
-            }
+
+            let showMessage = tl("menu.ysm_utils.import_model_menu.files.delete_texture.tip");
+            deleteFiles.forEach(name => {
+                if (name.length > 0) {
+                    showMessage = showMessage + `<br> ${name}`;
+                }
+            });
+
             Blockbench.showMessageBox({
                 icon: "fa-warning",
                 title: tl("level.ysm_utils.warning"),
-                message: tl("menu.ysm_utils.import_model_menu.files.delete_files"),
+                message: showMessage,
                 buttons: [tl("dialog.confirm"), tl("dialog.cancel")],
                 confirm: 0,
                 cancel: 1
             }, (button) => {
-                if (button === 0) {
-                    let srcFilePath = join(this.packDirectory, file);
-                    // 将原文件丢到回收站
-                    if (fs.existsSync(srcFilePath)) {
-                        electron.shell.trashItem(srcFilePath);
-                    }
-                    callback();
+                if (button !== 0) {
+                    return;
                 }
+                for (let file of deleteFiles) {
+                    electron.shell.trashItem(file);
+                }
+                textures.splice(index, 1);
             });
         }
     },
@@ -111,7 +169,12 @@ export default {
 
 <template>
     <div class="new-author">
-        <button style="width: 100%"> {{ tl("menu.ysm_utils.import_model_menu.files.import") }}</button>
+        <button style="width: 49%" @click="importMainFile">
+            {{ tl("menu.ysm_utils.import_model_menu.files.import_main") }}
+        </button>
+        <button style="width: 49%" @click="importArmFile">
+            {{ tl("menu.ysm_utils.import_model_menu.files.import_arm") }}
+        </button>
 
 
         <div class="new-author-item">
@@ -181,7 +244,11 @@ export default {
             <p class="title">{{ tl("menu.ysm_utils.import_model_menu.files.player.texture") }}</p>
             <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.files.player.texture.desc") }}</p>
 
-            <div v-for="texture in playerFiles['texture']" class="li-item">
+            <div v-for="(texture, index) in playerFiles['texture']" class="li-item">
+                <div v-if="index>0" class="texture-delete" @click="deleteCurrentTexture(playerFiles['texture'], index)">
+                    <i class="fas fa-times"></i>
+                </div>
+
                 <div style="display: flex;">
                     <p class="li-text"> {{ tl("menu.ysm_utils.import_model_menu.files.player.texture.uv") }}</p>
                     <input class="input" type="text" v-model.trim="texture['uv']" readonly>
@@ -221,6 +288,12 @@ export default {
                         </button>
                     </div>
                 </div>
+            </div>
+
+            <div style="margin-top: 5px;">
+                <button style="width: 100%" @click="addNewTexture(playerFiles['texture'])">
+                    {{ tl("menu.ysm_utils.import_model_menu.files.add_new_texture") }}
+                </button>
             </div>
         </div>
     </div>
@@ -293,5 +366,22 @@ export default {
 .icon-button > i {
     font-size: large;
     margin-left: 4px;
+}
+
+.texture-delete {
+    position: relative;
+    width: 100%;
+    height: 20px;
+}
+
+.texture-delete > i {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: x-large;
+}
+
+.texture-delete > i:hover {
+    color: #ef3636;
 }
 </style>

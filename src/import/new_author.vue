@@ -88,10 +88,6 @@ export default {
                 // 复制头像
                 let destFolderPath = join(this.packDirectory, "avatar");
                 let destPath = join(destFolderPath, fileName);
-                // 检查文件夹是否存在
-                if (!fs.existsSync(destFolderPath)) {
-                    fs.mkdirSync(destFolderPath, {recursive: true});
-                }
                 // 目的地文件是否存在
                 if (fs.existsSync(destPath)) {
                     let button = electron.dialog.showMessageBoxSync({
@@ -103,8 +99,13 @@ export default {
                     if (button !== 0) {
                         return;
                     }
-                    fs.copyFileSync(this.avatarImgPath, destPath);
                 }
+                // 检查文件夹是否存在
+                if (!fs.existsSync(destFolderPath)) {
+                    fs.mkdirSync(destFolderPath, {recursive: true});
+                }
+                // 复制头像
+                fs.copyFileSync(this.avatarImgPath, destPath);
                 this.newAuthor["avatar"] = `avatar/${fileName}`;
             }
 

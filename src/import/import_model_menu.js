@@ -84,7 +84,7 @@ function checkDirectory(packDirectory) {
 }
 
 
-function onDialogCancel(ysmJson, sha256Cache) {
+function onDialogCancel(ysmJson, ysmJsonPath, sha256Cache) {
     // 关闭页面时，计算一次哈希值
     let sha256 = getSha256(ysmJson);
     if (sha256 === sha256Cache) {
@@ -97,13 +97,22 @@ function onDialogCancel(ysmJson, sha256Cache) {
         buttons: [tl("menu.ysm_utils.save"), tl("menu.ysm_utils.exit_without_save"), tl("dialog.cancel")],
     });
     if (button === 0) {
-        // TODO: 保存
+        saveYsmFile(ysmJson, ysmJsonPath);
         return true;
     } else if (button === 1) {
         // 直接退出
         return true;
     }
     return false;
+}
+
+/**
+ * 删除空白数据
+ */
+function saveYsmFile(ysmJson, ysmJsonPath) {
+    let result = autoStringify(ysmJson);
+    fs.writeFileSync(ysmJsonPath, result);
+    Blockbench.showQuickMessage(tl("menu.ysm_utils.save_success"), 3000);
 }
 
 function openImportMenu(packDirectory) {
@@ -117,9 +126,11 @@ function openImportMenu(packDirectory) {
         title: "menu.ysm_utils.import_model_menu.title",
         cancel_on_click_outside: false,
         width: 1000,
-        singleButton: true,
         onCancel: function (event) {
-            return onDialogCancel(ysmJson, sha256Cache);
+            return onDialogCancel(ysmJson, ysmJsonPath, sha256Cache);
+        },
+        onConfirm(formResult) {
+            saveYsmFile(ysmJson, ysmJsonPath);
         },
         sidebar: {
             pages: {

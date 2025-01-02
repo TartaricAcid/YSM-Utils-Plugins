@@ -60,7 +60,7 @@ export default {
             let allAnimationList = this.ysmJson?.["files"]["player"]["animation"] ?? {};
             for (let key in allAnimationList) {
                 let filePath = join(this.packDirectory, allAnimationList[key]);
-                if (fs.existsSync(filePath) &&fs.statSync(filePath).isFile()) {
+                if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
                     let content = fs.readFileSync(join(this.packDirectory, allAnimationList[key]), "utf8");
                     let animations = autoParseJSON(content)["animations"] ?? {};
                     Object.keys(animations).forEach(name => keys.add(name));
@@ -137,8 +137,8 @@ export default {
             <div style="display: flex; flex-wrap: wrap; margin-top: 10px">
                 <div v-for="(value, index) in tmpExtraAnimation"
                      style="width: 49%; margin-left: 2px; margin-top: 2px">
-                    <select id="simple" name="simple" style="width: 40%; text-align: center;" v-model="value[0]"
-                            @change="updateExtraAnimation">
+                    <select id="simple" name="simple" style="width: 40%; text-align: center;"
+                            v-model="value[0]" @change="updateExtraAnimation">
                         <option selected>{{ value[0] }}</option>
                         <option v-for="name in getAvailableExtraAnimation()">{{ name }}</option>
                     </select>
@@ -162,7 +162,7 @@ export default {
             </div>
 
             <div style="width: 20%; margin: 0 auto;">
-                <select style="width: 100%; text-align: center;">
+                <select v-model="ysmJson['properties']['preview_animation']" style="width: 100%; text-align: center;">
                     <option selected>{{ ysmJson["properties"]["preview_animation"] }}</option>
                     <option v-for="name in allAnimations">{{ name }}</option>
                 </select>
@@ -177,7 +177,7 @@ export default {
             </div>
 
             <div style="width: 20%; margin: 0 auto;">
-                <select style="width: 100%; text-align: center;">
+                <select v-model="ysmJson['properties']['default_texture']" style="width: 100%; text-align: center;">
                     <option selected>{{ ysmJson["properties"]["default_texture"] }}</option>
                     <option v-for="name in allTexture">{{ name }}</option>
                 </select>

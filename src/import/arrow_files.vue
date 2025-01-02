@@ -1,5 +1,6 @@
 <script>
 import {join} from "path";
+import {changeCurrentFile, removeCurrentFile} from "./file_handler.js";
 
 export default {
     props: {
@@ -21,7 +22,66 @@ export default {
     },
     methods: {
         join,
-        tl
+        tl,
+        changeFile: async function (pathValue, defaultDir, extension = "json") {
+            return changeCurrentFile(this.packDirectory, pathValue, defaultDir, extension);
+        },
+        removeFile: function (pathValue, callback) {
+            removeCurrentFile(this.packDirectory, pathValue, callback);
+        },
+        importMainFile: function () {
+            let result = this.importModelMenuDialog.onCancel();
+            if (!result) {
+                return;
+            }
+            let mainModel = this.arrowFiles["model"];
+            if (!mainModel || mainModel.length === 0) {
+                return;
+            }
+            let mainModelPath = join(this.packDirectory, mainModel);
+            if (!fs.existsSync(mainModelPath)) {
+                return;
+            }
+            let jsonOptions = {readtype: "text", errorbox: true};
+            Blockbench.readFile([mainModelPath], jsonOptions, files => {
+                loadModelFile(files[0]);
+                this.importTexture();
+            });
+        },
+        importTexture: function (loadAnimation = true) {
+            if (!this.arrowFiles["texture"].endsWith(".png")) {
+                return;
+            }
+            let uvPath = join(this.packDirectory, this.arrowFiles["texture"]);
+            if (!fs.existsSync(uvPath)) {
+                return;
+            }
+            let imgOptions = {readtype: "image", errorbox: true};
+            Blockbench.readFile([uvPath], imgOptions, files => {
+                files.forEach(file => new Texture().fromFile(file).add());
+                if (loadAnimation) {
+                    this.importAnimation();
+                } else {
+                    this.importModelMenuDialog.close();
+                }
+            });
+        },
+        importAnimation: function () {
+            if (!this.arrowFiles["animation"].endsWith(".json")) {
+                this.importModelMenuDialog.close();
+                return;
+            }
+            let animationPath = join(this.packDirectory, this.arrowFiles["animation"]);
+            if (!fs.existsSync(animationPath)) {
+                this.importModelMenuDialog.close();
+                return;
+            }
+            let jsonOptions = {readtype: "text", errorbox: true};
+            Blockbench.readFile([animationPath], jsonOptions, files => {
+                files.forEach(file => Animator.loadFile(file));
+                this.importModelMenuDialog.close();
+            });
+        },
     },
     computed: {
         arrowFiles: function () {
@@ -33,7 +93,9 @@ export default {
 
 <template>
     <div class="new-author">
-        <button style="width: 100%"> {{ tl("menu.ysm_utils.import_model_menu.files.import") }}</button>
+        <button style="width: 100%" @click="importMainFile">
+            {{ tl("menu.ysm_utils.import_model_menu.files.import") }}
+        </button>
 
         <div class="new-author-item">
             <p class="title">{{ tl("menu.ysm_utils.import_model_menu.sidebar.arrow_files") }}</p>
@@ -43,16 +105,47 @@ export default {
                 <div style="display: flex;">
                     <p class="li-text"> {{ tl("menu.ysm_utils.import_model_menu.files.arrow.model") }}</p>
                     <input class="input" type="text" v-model.trim="arrowFiles['model']" readonly>
+                    <div style="display: flex; margin-left: 2px">
+                        <button class="icon-button"
+                                @click="changeFile(arrowFiles['model'], 'models').then(result =>arrowFiles['model'] = result)">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                        <button class="icon-button"
+                                @click="removeFile(arrowFiles['model'], ()=>arrowFiles['model']='')">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div style="display: flex;">
                     <p class="li-text"> {{ tl("menu.ysm_utils.import_model_menu.files.arrow.texture") }}</p>
                     <input class="input" type="text" v-model.trim="arrowFiles['texture']" readonly>
+                    <div style="display: flex; margin-left: 2px">
+                        <button class="icon-button"
+                                @click="changeFile(arrowFiles['texture'], 'textures', 'png')
+                                .then(result =>arrowFiles['texture'] = result)">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                        <button class="icon-button"
+                                @click="removeFile(arrowFiles['texture'], ()=>arrowFiles['texture']='')">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div style="display: flex;">
                     <p class="li-text"> {{ tl("menu.ysm_utils.import_model_menu.files.arrow.animation") }}</p>
                     <input class="input" type="text" v-model.trim="arrowFiles['animation']" readonly>
+                    <div style="display: flex; margin-left: 2px">
+                        <button class="icon-button"
+                                @click="changeFile(arrowFiles['animation'], 'animations').then(result =>arrowFiles['animation'] = result)">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                        <button class="icon-button"
+                                @click="removeFile(arrowFiles['animation'], ()=>arrowFiles['animation']='')">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -113,5 +206,18 @@ export default {
     border-width: 1px;
     border-color: rgb(24, 26, 31, 0.5);
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3)
+}
+
+.icon-button {
+    margin: 2px;
+    padding: 0;
+    width: 40px;
+    min-width: 30px;
+    line-height: 0.5;
+}
+
+.icon-button > i {
+    font-size: large;
+    margin-left: 4px;
 }
 </style>
