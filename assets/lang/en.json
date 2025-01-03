@@ -98,5 +98,7 @@
   "menu.ysm_utils.import_model_menu.files.delete_texture.tip": "Do you want to delete these texture files:",
   "menu.ysm_utils.old_version_transform.directory_exists": "A folder with the same name already exists!",
   "menu.ysm_utils.old_version_transform.select_output_directory": "Select Output Directory",
-  "menu.ysm_utils.old_version_transform.success": "The export is successful, and the export path is: "
+  "menu.ysm_utils.old_version_transform.success": "The export is successful, and the export path is: ",
+  "menu.ysm_utils.load_cache_pack.name": "Open Recent Model",
+  "menu.ysm_utils.load_cache_pack.clear_all": "Clear All"
 }

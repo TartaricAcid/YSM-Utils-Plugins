@@ -1,4 +1,4 @@
-import newAuthorVue from "./new_author.vue";
+import newAuthorVue from "../vue/import/new_author.vue";
 
 export function newAuthorDialog(ysmJson, packDirectory) {
     let newAuthorDialog = new Dialog({

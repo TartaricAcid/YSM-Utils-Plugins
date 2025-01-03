@@ -98,5 +98,7 @@
   "menu.ysm_utils.import_model_menu.files.delete_texture.tip": "你打算删除这些材质么：",
   "menu.ysm_utils.old_version_transform.directory_exists": "同名文件夹已经存在了！",
   "menu.ysm_utils.old_version_transform.select_output_directory": "选择导出文件夹",
-  "menu.ysm_utils.old_version_transform.success": "导出成功，导出路径是："
+  "menu.ysm_utils.old_version_transform.success": "导出成功，导出路径是：",
+  "menu.ysm_utils.load_cache_pack.name": "打开历史模型",
+  "menu.ysm_utils.load_cache_pack.clear_all": "清除所有"
 }

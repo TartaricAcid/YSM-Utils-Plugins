@@ -1,2 +1,2 @@
-# TLM Utils Plugins
-A Blockbench Plugins Designed For Yes Steve Model Mod
+# YSM Utils Plugins
+A Blockbench Plugins Designed For Java Edition Yes Steve Model Mod

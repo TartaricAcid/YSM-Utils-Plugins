@@ -1,6 +1,6 @@
 <script>
 import {join} from "path";
-import {editAuthorDialog, newAuthorDialog} from "./new_author.js";
+import {editAuthorDialog, newAuthorDialog} from "../../import/new_author.js";
 
 export default {
     props: {

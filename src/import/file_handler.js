@@ -18,7 +18,7 @@ export async function changeCurrentFile(packDir, pathValue, defaultDir, extensio
         if (!pathValue || pathValue.length === 0) {
             pathValue = join(defaultDir, pathToName(result.filePaths[0], true));
             srcFilePath = join(packDir, pathValue);
-            // 看看文件存不存在，不存在我们创一个空的
+            // 看看文件夹存不存在，不存在我们创一个空的
             await createDirectories(srcFilePath);
         } else {
             srcFilePath = join(packDir, pathValue);

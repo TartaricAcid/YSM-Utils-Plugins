@@ -1,6 +1,6 @@
 <script>
 import {join} from "path";
-import {changeCurrentFile, removeCurrentFile} from "./file_handler.js";
+import {changeCurrentFile, removeCurrentFile} from "../../import/file_handler.js";
 
 export default {
     props: {

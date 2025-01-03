@@ -1,6 +1,6 @@
 <script>
 import {join} from "path";
-import {arePathsEqual} from "../util/path_util.js";
+import {arePathsEqual} from "../../util/path_util.js";
 
 export default {
     props: {

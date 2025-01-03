@@ -200,4 +200,6 @@ export function oldVersionTransform(srcPackPath, destPath, isVersion114) {
     fs.writeFileSync(join(destPackPath, "ysm.json"), autoStringify(outputYsmData));
     // 提示
     Blockbench.showQuickMessage(tl("menu.ysm_utils.old_version_transform.success") + destPackPath, 3000);
+    // 返回生成的文件夹路径
+    return destPackPath;
 }
