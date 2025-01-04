@@ -4,7 +4,7 @@ import metadataVue from "../vue/import/metadata.vue";
 import propertiesVue from "../vue/import/properties.vue";
 import playerFilesVue from "../vue/import/player_files.vue";
 import arrowFilesVue from "../vue/import/arrow_files.vue";
-import {createHash} from "crypto";
+import cryptoLib from "crypto";
 import {saveNormalization} from "./save_normalization.js";
 import {addToYsmCache} from "../menu/cache_model_menu.js";
 
@@ -47,7 +47,7 @@ function saveYsmFile(ysmJson, ysmJsonPath) {
  * 计算 ysmJson 的哈希值，用来判断是否进行了修改
  */
 function getSha256(ysmJson) {
-    return createHash("sha256")
+    return cryptoLib.createHash("sha256")
         .update(JSON.stringify(ysmJson), "utf8")
         .digest("hex");
 }

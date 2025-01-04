@@ -1,8 +1,8 @@
 {
   "type": "module",
   "name": "ysm-utils",
-  "version": "2.0.1",
-  "min_blockbench_version": "4.10.0",
+  "version": "2.0.2",
+  "min_blockbench_version": "4.0.0",
   "author": "tartaric_acid",
   "title": "YSM Mod Plugin",
   "description": "Yes Steve Model Mod Blockbench Plugin",
