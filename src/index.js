@@ -1,7 +1,8 @@
 import {loadI18n} from "./util/i18n.js";
 import packageInfo from "../package.json";
-import {importModelMenuAction} from "./menu/import_model_menu.js";
-import {CACHE_YSM_MODEL_ACTION, initCacheYsmFoldersAction} from "./menu/cache_model_menu.js";
+import {CACHE_YSM_INFO_ACTION, initCacheYsmFoldersAction} from "./menu/cache_info_menu.js";
+import {currentInfoMenuAction} from "./menu/current_info_menu.js";
+import {directImportMenuAction} from "./menu/direct_import.js";
 
 BBPlugin.register(packageInfo.name, {
     title: packageInfo.title,
@@ -17,7 +18,8 @@ BBPlugin.register(packageInfo.name, {
         doLoadEvent();
     },
     onunload() {
-        importModelMenuAction.delete();
+        directImportMenuAction.delete();
+        currentInfoMenuAction.delete();
     },
     oninstall() {
     },
@@ -29,8 +31,9 @@ function doLoadEvent() {
     loadI18n();
     initCacheYsmFoldersAction();
     new BarMenu("ysm_utils", [
-        "ysm_utils.import_model_menu",
-        CACHE_YSM_MODEL_ACTION,
+        "ysm_utils.direct_import",
+        "ysm_utils.current_info_menu",
+        CACHE_YSM_INFO_ACTION,
     ]);
     MenuBar.update();
 }

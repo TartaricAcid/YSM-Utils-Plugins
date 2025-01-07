@@ -55,16 +55,16 @@ export default {
 <template>
     <div class="metadata">
         <div class="metadata-item">
-            <p class="title">{{ tl("menu.ysm_utils.import_model_menu.metadata.name") }}</p>
-            <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.metadata.name.desc") }}</p>
+            <p class="title">{{ tl("menu.ysm_utils.load_info_menu.metadata.name") }}</p>
+            <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.metadata.name.desc") }}</p>
             <input class="input" type="text" v-model.trim="metadata['name']"
                    :placeholder="tl('menu.ysm_utils.required_fields')">
         </div>
 
 
         <div class="metadata-item">
-            <p class="title">{{ tl("menu.ysm_utils.import_model_menu.metadata.tips") }}</p>
-            <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.metadata.tips.desc") }}</p>
+            <p class="title">{{ tl("menu.ysm_utils.load_info_menu.metadata.tips") }}</p>
+            <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.metadata.tips.desc") }}</p>
             <textarea class="textarea" :rows="this.getTipsRows(metadata['tips'])"
                       v-model.trim="metadata['tips']" :placeholder="tl('menu.ysm_utils.can_be_empty')">
             </textarea>
@@ -72,17 +72,17 @@ export default {
 
 
         <div class="metadata-item">
-            <p class="title">{{ tl("menu.ysm_utils.import_model_menu.metadata.license") }}</p>
-            <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.metadata.license.desc") }}</p>
+            <p class="title">{{ tl("menu.ysm_utils.load_info_menu.metadata.license") }}</p>
+            <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.metadata.license.desc") }}</p>
 
             <div class="horizontal-item">
-                <p class="horizontal-text">{{ tl("menu.ysm_utils.import_model_menu.metadata.license.type") }}</p>
+                <p class="horizontal-text">{{ tl("menu.ysm_utils.load_info_menu.metadata.license.type") }}</p>
                 <input class="horizontal-input" type="text" v-model.trim="license['type']"
                        :placeholder="tl('menu.ysm_utils.suggest')"/>
             </div>
 
             <div class="horizontal-item">
-                <p class="horizontal-text">{{ tl("menu.ysm_utils.import_model_menu.metadata.license.extra_desc") }}</p>
+                <p class="horizontal-text">{{ tl("menu.ysm_utils.load_info_menu.metadata.license.extra_desc") }}</p>
                 <input class="horizontal-input" type="text" v-model.trim="license['desc']"
                        :placeholder="tl('menu.ysm_utils.can_be_empty')"/>
             </div>
@@ -90,14 +90,14 @@ export default {
 
 
         <div class="metadata-item">
-            <p class="title">{{ tl("menu.ysm_utils.import_model_menu.metadata.authors") }}</p>
-            <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.metadata.authors.desc") }}</p>
+            <p class="title">{{ tl("menu.ysm_utils.load_info_menu.metadata.authors") }}</p>
+            <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.metadata.authors.desc") }}</p>
 
             <div class="author">
                 <div class="author-item" v-for="(author,index) in metadata['authors']">
                     <button class="author-config-button" @click="editAuthorDialog(author, index)">
                         <i class="fa-regular fa-pen-to-square" style="vertical-align: middle"></i>
-                        <span>{{ tl("menu.ysm_utils.import_model_menu.metadata.authors.config") }}</span>
+                        <span>{{ tl("menu.ysm_utils.load_info_menu.metadata.authors.config") }}</span>
                     </button>
                     <div v-if="author['avatar']" class="avatar">
                         <img :src="join(packDirectory, author['avatar'])" alt="avatar" width="76px">
@@ -120,17 +120,17 @@ export default {
 
 
         <div class="metadata-item">
-            <p class="title">{{ tl("menu.ysm_utils.import_model_menu.metadata.link") }}</p>
-            <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.metadata.link.desc") }}</p>
+            <p class="title">{{ tl("menu.ysm_utils.load_info_menu.metadata.link") }}</p>
+            <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.metadata.link.desc") }}</p>
 
             <div class="horizontal-item">
-                <p class="horizontal-text">{{ tl("menu.ysm_utils.import_model_menu.metadata.link.home") }}</p>
+                <p class="horizontal-text">{{ tl("menu.ysm_utils.load_info_menu.metadata.link.home") }}</p>
                 <input class="horizontal-input" type="url" v-model.trim="link['home']"
                        :placeholder="tl('menu.ysm_utils.suggest')">
             </div>
 
             <div class="horizontal-item">
-                <p class="horizontal-text">{{ tl("menu.ysm_utils.import_model_menu.metadata.link.donate") }}</p>
+                <p class="horizontal-text">{{ tl("menu.ysm_utils.load_info_menu.metadata.link.donate") }}</p>
                 <input class="horizontal-input" type="url" v-model.trim="link['donate']"
                        :placeholder="tl('menu.ysm_utils.suggest')">
             </div>

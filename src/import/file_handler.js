@@ -3,7 +3,7 @@ import {arePathsEqual, createDirectories} from "../util/path_util.js";
 
 export async function changeCurrentFile(packDir, pathValue, defaultDir, extension) {
     let result = await electron.dialog.showOpenDialog(currentwindow, {
-        title: tl("menu.ysm_utils.import_model_menu.files.select_files"),
+        title: tl("menu.ysm_utils.load_info_menu.files.select_files"),
         filters: [{
             extensions: [extension],
             name: extension,
@@ -26,7 +26,7 @@ export async function changeCurrentFile(packDir, pathValue, defaultDir, extensio
         let destFilePath = result.filePaths[0];
         // 路径相同的，不进行任何操作
         if (arePathsEqual(srcFilePath, destFilePath)) {
-            Blockbench.showQuickMessage(tl("menu.ysm_utils.import_model_menu.files.same_file"), 2000);
+            Blockbench.showQuickMessage(tl("menu.ysm_utils.load_info_menu.files.same_file"), 2000);
             return pathValue;
         }
         // 将原文件丢到回收站
@@ -37,7 +37,7 @@ export async function changeCurrentFile(packDir, pathValue, defaultDir, extensio
         if (fs.existsSync(destFilePath)) {
             let error = await fs.promises.copyFile(destFilePath, srcFilePath);
             if (!error) {
-                Blockbench.showQuickMessage(tl("menu.ysm_utils.import_model_menu.files.replace_success"), 2000);
+                Blockbench.showQuickMessage(tl("menu.ysm_utils.load_info_menu.files.replace_success"), 2000);
             }
         }
     }
@@ -59,7 +59,7 @@ export async function removeCurrentFile(packDir, pathValue, callback) {
     Blockbench.showMessageBox({
         icon: "fa-warning",
         title: tl("level.ysm_utils.warning"),
-        message: tl("menu.ysm_utils.import_model_menu.files.delete_files"),
+        message: tl("menu.ysm_utils.load_info_menu.files.delete_files"),
         buttons: [tl("dialog.confirm"), tl("dialog.cancel")],
         confirm: 0,
         cancel: 1

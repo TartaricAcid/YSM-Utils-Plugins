@@ -1,6 +1,7 @@
 <script>
 import {join} from "path";
 import {changeCurrentFile, removeCurrentFile} from "../../import/file_handler.js";
+import {importArmFile, importMainFile} from "../../import/file_import.js";
 
 export default {
     props: {
@@ -31,80 +32,19 @@ export default {
         removeFile: function (pathValue, callback) {
             removeCurrentFile(this.packDirectory, pathValue, callback);
         },
-        importArmFile: function () {
+        importArmModel: function () {
             let result = this.importModelMenuDialog.onCancel();
             if (!result) {
                 return;
             }
-            let armModel = this.playerFiles["model"]["arm"];
-            if (!armModel || armModel.length === 0) {
-                return;
-            }
-            let armModelPath = join(this.packDirectory, armModel);
-            if (!fs.existsSync(armModelPath)) {
-                return;
-            }
-            let jsonOptions = {readtype: "text", errorbox: true};
-            Blockbench.readFile([armModelPath], jsonOptions, files => {
-                loadModelFile(files[0]);
-                this.importTexture(false);
-            });
+            importArmFile(this.packDirectory, this.ysmJson, this.importModelMenuDialog);
         },
-        importMainFile: function () {
+        importMainModel: function () {
             let result = this.importModelMenuDialog.onCancel();
             if (!result) {
                 return;
             }
-            let mainModel = this.playerFiles["model"]["main"];
-            if (!mainModel || mainModel.length === 0) {
-                return;
-            }
-            let mainModelPath = join(this.packDirectory, mainModel);
-            if (!fs.existsSync(mainModelPath)) {
-                return;
-            }
-            let jsonOptions = {readtype: "text", errorbox: true};
-            Blockbench.readFile([mainModelPath], jsonOptions, files => {
-                loadModelFile(files[0]);
-                this.importTexture();
-            });
-        },
-        importTexture: function (loadAnimation = true) {
-            let images = [];
-            for (let texture of this.playerFiles["texture"]) {
-                let uv = texture["uv"];
-                if (uv.endsWith(".png")) {
-                    let uvPath = join(this.packDirectory, uv);
-                    if (fs.existsSync(uvPath)) {
-                        images.push(uvPath);
-                    }
-                }
-            }
-            let imgOptions = {readtype: "image", errorbox: true};
-            Blockbench.readFile(images, imgOptions, files => {
-                files.forEach(file => new Texture().fromFile(file).add());
-                if (loadAnimation) {
-                    this.importAnimation();
-                } else {
-                    this.importModelMenuDialog.close();
-                }
-            });
-        },
-        importAnimation: function () {
-            let animations = [];
-            for (let animation of Object.values(this.playerFiles["animation"])) {
-                if (animation.endsWith(".json")) {
-                    let animationPath = join(this.packDirectory, animation);
-                    if (fs.existsSync(animationPath)) {
-                        animations.push(animationPath);
-                    }
-                }
-            }
-            let jsonOptions = {readtype: "text", errorbox: true};
-            Blockbench.readFile(animations, jsonOptions, files => {
-                files.forEach(file => Animator.loadFile(file));
-                this.importModelMenuDialog.close();
-            });
+            importMainFile(this.packDirectory, this.ysmJson, this.importModelMenuDialog);
         },
         addNewTexture: function (textures) {
             textures.push({
@@ -131,7 +71,7 @@ export default {
                 return;
             }
 
-            let showMessage = tl("menu.ysm_utils.import_model_menu.files.delete_texture.tip");
+            let showMessage = tl("menu.ysm_utils.load_info_menu.files.delete_texture.tip");
             deleteFiles.forEach(name => {
                 if (name.length > 0) {
                     showMessage = showMessage + `<br> ${name}`;
@@ -169,21 +109,21 @@ export default {
 
 <template>
     <div class="new-author">
-        <button style="width: 49%" @click="importMainFile">
-            {{ tl("menu.ysm_utils.import_model_menu.files.import_main") }}
+        <button style="width: 49%" @click="importMainModel">
+            {{ tl("menu.ysm_utils.load_info_menu.files.import_main") }}
         </button>
-        <button style="width: 49%" @click="importArmFile">
-            {{ tl("menu.ysm_utils.import_model_menu.files.import_arm") }}
+        <button style="width: 49%" @click="importArmModel">
+            {{ tl("menu.ysm_utils.load_info_menu.files.import_arm") }}
         </button>
 
 
         <div class="new-author-item">
-            <p class="title">{{ tl("menu.ysm_utils.import_model_menu.files.player.model") }}</p>
-            <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.files.player.model.desc") }}</p>
+            <p class="title">{{ tl("menu.ysm_utils.load_info_menu.files.player.model") }}</p>
+            <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.files.player.model.desc") }}</p>
 
             <div class="li-item">
                 <div style="display: flex;">
-                    <p class="li-text"> {{ tl("menu.ysm_utils.import_model_menu.files.player.model.main") }}</p>
+                    <p class="li-text"> {{ tl("menu.ysm_utils.load_info_menu.files.player.model.main") }}</p>
                     <input class="input" type="text" v-model.trim="playerFiles['model']['main']" readonly>
                     <div style="display: flex;margin-left: 2px">
                         <button class="icon-button"
@@ -194,7 +134,7 @@ export default {
                 </div>
 
                 <div style="display: flex;">
-                    <p class="li-text"> {{ tl("menu.ysm_utils.import_model_menu.files.player.model.arm") }}</p>
+                    <p class="li-text"> {{ tl("menu.ysm_utils.load_info_menu.files.player.model.arm") }}</p>
                     <input class="input" type="text" v-model.trim="playerFiles['model']['arm']" readonly>
                     <div style="display: flex; margin-left: 2px">
                         <button class="icon-button"
@@ -208,12 +148,12 @@ export default {
 
 
         <div class="new-author-item">
-            <p class="title">{{ tl("menu.ysm_utils.import_model_menu.files.player.animation") }}</p>
-            <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.files.player.animation.desc") }}</p>
+            <p class="title">{{ tl("menu.ysm_utils.load_info_menu.files.player.animation") }}</p>
+            <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.files.player.animation.desc") }}</p>
 
             <div class="li-item">
                 <div style="display: flex;">
-                    <p class="li-text"> {{ tl("menu.ysm_utils.import_model_menu.files.player.animation.main") }}</p>
+                    <p class="li-text"> {{ tl("menu.ysm_utils.load_info_menu.files.player.animation.main") }}</p>
                     <input class="input" type="text" v-model.trim="animations['main']" readonly>
                     <div style="display: flex; margin-left: 2px">
                         <button class="icon-button"
@@ -224,7 +164,7 @@ export default {
                 </div>
 
                 <div style="display: flex;" v-for="name in animation_type">
-                    <p class="li-text"> {{ tl(`menu.ysm_utils.import_model_menu.files.player.animation.${name}`) }}</p>
+                    <p class="li-text"> {{ tl(`menu.ysm_utils.load_info_menu.files.player.animation.${name}`) }}</p>
                     <input class="input" type="text" v-model.trim="animations[name]" readonly>
                     <div style="display: flex; margin-left: 2px">
                         <button class="icon-button"
@@ -241,8 +181,8 @@ export default {
 
 
         <div class="new-author-item">
-            <p class="title">{{ tl("menu.ysm_utils.import_model_menu.files.player.texture") }}</p>
-            <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.files.player.texture.desc") }}</p>
+            <p class="title">{{ tl("menu.ysm_utils.load_info_menu.files.player.texture") }}</p>
+            <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.files.player.texture.desc") }}</p>
 
             <div v-for="(texture, index) in playerFiles['texture']" class="li-item">
                 <div v-if="index>0" class="texture-delete" @click="deleteCurrentTexture(playerFiles['texture'], index)">
@@ -250,7 +190,7 @@ export default {
                 </div>
 
                 <div style="display: flex;">
-                    <p class="li-text"> {{ tl("menu.ysm_utils.import_model_menu.files.player.texture.uv") }}</p>
+                    <p class="li-text"> {{ tl("menu.ysm_utils.load_info_menu.files.player.texture.uv") }}</p>
                     <input class="input" type="text" v-model.trim="texture['uv']" readonly>
                     <div style="display: flex; margin-left: 2px">
                         <button class="icon-button"
@@ -261,7 +201,7 @@ export default {
                 </div>
 
                 <div style="display: flex;">
-                    <p class="li-text">{{ tl("menu.ysm_utils.import_model_menu.files.player.texture.normal") }}</p>
+                    <p class="li-text">{{ tl("menu.ysm_utils.load_info_menu.files.player.texture.normal") }}</p>
                     <input class="input" type="text" v-model.trim="texture['normal']" readonly>
                     <div style="display: flex; margin-left: 2px">
                         <button class="icon-button"
@@ -275,7 +215,7 @@ export default {
                 </div>
 
                 <div style="display: flex;">
-                    <p class="li-text">{{ tl("menu.ysm_utils.import_model_menu.files.player.texture.specular") }}</p>
+                    <p class="li-text">{{ tl("menu.ysm_utils.load_info_menu.files.player.texture.specular") }}</p>
                     <input class="input" type="text" v-model.trim="texture['specular']" readonly>
                     <div style="display: flex; margin-left: 2px">
                         <button class="icon-button"
@@ -292,7 +232,7 @@ export default {
 
             <div style="margin-top: 5px;">
                 <button style="width: 100%" @click="addNewTexture(playerFiles['texture'])">
-                    {{ tl("menu.ysm_utils.import_model_menu.files.add_new_texture") }}
+                    {{ tl("menu.ysm_utils.load_info_menu.files.add_new_texture") }}
                 </button>
             </div>
         </div>

@@ -2,7 +2,7 @@ import newAuthorVue from "../vue/import/new_author.vue";
 
 export function newAuthorDialog(ysmJson, packDirectory) {
     let newAuthorDialog = new Dialog({
-        title: "menu.ysm_utils.import_model_menu.metadata.authors.new",
+        title: "menu.ysm_utils.load_info_menu.metadata.authors.new",
         cancel_on_click_outside: false,
         width: 600,
         singleButton: true,
@@ -31,7 +31,7 @@ export function newAuthorDialog(ysmJson, packDirectory) {
 
 export function editAuthorDialog(ysmJson, packDirectory, editAuthor, index) {
     let newAuthorDialog = new Dialog({
-        title: "menu.ysm_utils.import_model_menu.metadata.authors.edit",
+        title: "menu.ysm_utils.load_info_menu.metadata.authors.edit",
         cancel_on_click_outside: false,
         width: 600,
         singleButton: true,

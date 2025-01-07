@@ -1,4 +1,7 @@
-function metadataHandle(metadata) {
+import {dirname, join} from "path";
+import {resizeImage} from "../util/image_handle.js";
+
+function metadataHandle(metadata, ysmJsonPath) {
     if (isEmptyString(metadata["name"])) {
         metadata["name"] = "<Unknown>";
     }
@@ -18,7 +21,6 @@ function metadataHandle(metadata) {
         deleteField(license, "desc");
         if (isEmptyString(license["desc"])) {
             delete license["desc"];
-            console.log(license);
         }
     }
 
@@ -36,6 +38,16 @@ function metadataHandle(metadata) {
             "name": "<Unknown>"
         }];
     }
+
+    // 压缩作者头像，避免有人使用超高清图像
+    let packDir = dirname(ysmJsonPath);
+    metadata["authors"].forEach(author => {
+        if (author["avatar"]) {
+            let imagePath = join(packDir, author["avatar"]);
+            resizeImage(imagePath).then(err => {
+            });
+        }
+    });
 
     metadata["link"] ??= {};
     deleteObject(metadata, "link");
@@ -99,12 +111,12 @@ function arrowHandle(files) {
 /**
  * 保存文件时，需要删除一些空白字段
  */
-export function saveNormalization(ysmJson) {
+export function saveNormalization(ysmJson, ysmJsonPath) {
     ysmJson["spec"] = 2;
 
     // metadata 部分
     let metadata = ysmJson["metadata"] ??= {};
-    metadataHandle(metadata);
+    metadataHandle(metadata, ysmJsonPath);
 
     // properties 部分
     let properties = ysmJson["properties"] ??= {};

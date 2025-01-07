@@ -1,17 +1,17 @@
 import {checkDirectory} from "../import/check_directory.js";
-import {openImportDialog} from "../import/open_import_dialog.js";
+import {openImportTypeDialog} from "./direct_import.js";
 
 const CACHE_YSM_FOLDERS = [];
 
-export const CACHE_YSM_MODEL_ACTION = {
-    name: "menu.ysm_utils.load_cache_pack.name",
-    id: "ysm_utils.load_cache_pack",
+export const CACHE_YSM_INFO_ACTION = {
+    name: "menu.ysm_utils.cache_info_menu.name",
+    id: "ysm_utils.cache_info_menu",
     icon: "fa-history",
     children: function () {
         let arr = [...CACHE_YSM_FOLDERS].reverse();
         if (arr.length) {
             arr.push("_", {
-                name: tl("menu.ysm_utils.load_cache_pack.clear_all"),
+                name: tl("menu.ysm_utils.cache_info_menu.clear_all"),
                 icon: "clear",
                 click: function () {
                     localStorage.removeItem("cacheYsmFolders");
@@ -73,7 +73,7 @@ function addCacheYsmFoldersAction(name, desc) {
             if (cacheYsmFolders[this.id]) {
                 let path = cacheYsmFolders[this.id];
                 if (fs.existsSync(path) && checkDirectory(path)) {
-                    openImportDialog(path);
+                    openImportTypeDialog(path);
                 }
             }
         }

@@ -1,6 +1,7 @@
 <script>
 import {join} from "path";
 import {changeCurrentFile, removeCurrentFile} from "../../import/file_handler.js";
+import {importArrowFile} from "../../import/file_import.js";
 
 export default {
     props: {
@@ -29,59 +30,13 @@ export default {
         removeFile: function (pathValue, callback) {
             removeCurrentFile(this.packDirectory, pathValue, callback);
         },
-        importMainFile: function () {
+        importArrowModel: function () {
             let result = this.importModelMenuDialog.onCancel();
             if (!result) {
                 return;
             }
-            let mainModel = this.arrowFiles["model"];
-            if (!mainModel || mainModel.length === 0) {
-                return;
-            }
-            let mainModelPath = join(this.packDirectory, mainModel);
-            if (!fs.existsSync(mainModelPath)) {
-                return;
-            }
-            let jsonOptions = {readtype: "text", errorbox: true};
-            Blockbench.readFile([mainModelPath], jsonOptions, files => {
-                loadModelFile(files[0]);
-                this.importTexture();
-            });
-        },
-        importTexture: function (loadAnimation = true) {
-            if (!this.arrowFiles["texture"].endsWith(".png")) {
-                return;
-            }
-            let uvPath = join(this.packDirectory, this.arrowFiles["texture"]);
-            if (!fs.existsSync(uvPath)) {
-                return;
-            }
-            let imgOptions = {readtype: "image", errorbox: true};
-            Blockbench.readFile([uvPath], imgOptions, files => {
-                files.forEach(file => new Texture().fromFile(file).add());
-                if (loadAnimation) {
-                    this.importAnimation();
-                } else {
-                    this.importModelMenuDialog.close();
-                }
-            });
-        },
-        importAnimation: function () {
-            if (!this.arrowFiles["animation"].endsWith(".json")) {
-                this.importModelMenuDialog.close();
-                return;
-            }
-            let animationPath = join(this.packDirectory, this.arrowFiles["animation"]);
-            if (!fs.existsSync(animationPath)) {
-                this.importModelMenuDialog.close();
-                return;
-            }
-            let jsonOptions = {readtype: "text", errorbox: true};
-            Blockbench.readFile([animationPath], jsonOptions, files => {
-                files.forEach(file => Animator.loadFile(file));
-                this.importModelMenuDialog.close();
-            });
-        },
+            importArrowFile(this.packDirectory, this.ysmJson, this.importModelMenuDialog);
+        }
     },
     computed: {
         arrowFiles: function () {
@@ -93,17 +48,17 @@ export default {
 
 <template>
     <div class="new-author">
-        <button style="width: 100%" @click="importMainFile">
-            {{ tl("menu.ysm_utils.import_model_menu.files.import") }}
+        <button style="width: 100%" @click="importArrowModel">
+            {{ tl("menu.ysm_utils.load_info_menu.files.import") }}
         </button>
 
         <div class="new-author-item">
-            <p class="title">{{ tl("menu.ysm_utils.import_model_menu.sidebar.arrow_files") }}</p>
-            <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.files.arrow.desc") }}</p>
+            <p class="title">{{ tl("menu.ysm_utils.load_info_menu.sidebar.arrow_files") }}</p>
+            <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.files.arrow.desc") }}</p>
 
             <div class="li-item">
                 <div style="display: flex;">
-                    <p class="li-text"> {{ tl("menu.ysm_utils.import_model_menu.files.arrow.model") }}</p>
+                    <p class="li-text"> {{ tl("menu.ysm_utils.load_info_menu.files.arrow.model") }}</p>
                     <input class="input" type="text" v-model.trim="arrowFiles['model']" readonly>
                     <div style="display: flex; margin-left: 2px">
                         <button class="icon-button"
@@ -118,7 +73,7 @@ export default {
                 </div>
 
                 <div style="display: flex;">
-                    <p class="li-text"> {{ tl("menu.ysm_utils.import_model_menu.files.arrow.texture") }}</p>
+                    <p class="li-text"> {{ tl("menu.ysm_utils.load_info_menu.files.arrow.texture") }}</p>
                     <input class="input" type="text" v-model.trim="arrowFiles['texture']" readonly>
                     <div style="display: flex; margin-left: 2px">
                         <button class="icon-button"
@@ -134,7 +89,7 @@ export default {
                 </div>
 
                 <div style="display: flex;">
-                    <p class="li-text"> {{ tl("menu.ysm_utils.import_model_menu.files.arrow.animation") }}</p>
+                    <p class="li-text"> {{ tl("menu.ysm_utils.load_info_menu.files.arrow.animation") }}</p>
                     <input class="input" type="text" v-model.trim="arrowFiles['animation']" readonly>
                     <div style="display: flex; margin-left: 2px">
                         <button class="icon-button"

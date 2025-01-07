@@ -22,6 +22,18 @@ export default {
     methods: {
         join,
         tl,
+        shouldAddLine: function (index, listSize) {
+            // 第一行除去
+            if (index === 0) {
+                return false;
+            }
+            // 倒数第二个除去
+            if (index === (listSize - 2)) {
+                return;
+            }
+            // 八个为一组，添加横线
+            return index % 8 === 6;
+        },
         addNewExtraAnimation: function () {
             this.tmpExtraAnimation.push(["", ""]);
             this.$forceUpdate();
@@ -104,8 +116,8 @@ export default {
     <div class="properties">
         <div class="horizontal-item">
             <div style="width: 50%">
-                <p class="title">{{ tl("menu.ysm_utils.import_model_menu.properties.height_scale") }}</p>
-                <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.properties.height_scale.desc") }}</p>
+                <p class="title">{{ tl("menu.ysm_utils.load_info_menu.properties.height_scale") }}</p>
+                <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.properties.height_scale.desc") }}</p>
             </div>
 
             <div style="width: 50%; margin: 0 auto;">
@@ -118,8 +130,8 @@ export default {
 
         <div class="horizontal-item">
             <div style="width: 50%">
-                <p class="title">{{ tl("menu.ysm_utils.import_model_menu.properties.width_scale") }}</p>
-                <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.properties.width_scale.desc") }}</p>
+                <p class="title">{{ tl("menu.ysm_utils.load_info_menu.properties.width_scale") }}</p>
+                <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.properties.width_scale.desc") }}</p>
             </div>
 
             <div style="width: 50%; margin: 0 auto;">
@@ -131,12 +143,12 @@ export default {
 
 
         <div class="properties-item">
-            <p class="title">{{ tl("menu.ysm_utils.import_model_menu.properties.extra_animation") }}</p>
-            <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.properties.extra_animation.desc") }}</p>
+            <p class="title">{{ tl("menu.ysm_utils.load_info_menu.properties.extra_animation") }}</p>
+            <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.properties.extra_animation.desc") }}</p>
 
             <div style="display: flex; flex-wrap: wrap; margin-top: 10px">
                 <div v-for="(value, index) in tmpExtraAnimation"
-                     style="width: 49%; margin-left: 2px; margin-top: 2px">
+                     style="width: 49%; margin-left: 2px; margin-top: 2px; overflow: visible;">
                     <select id="simple" name="simple" style="width: 40%; text-align: center;"
                             v-model="value[0]" @change="updateExtraAnimation">
                         <option selected>{{ value[0] }}</option>
@@ -144,12 +156,16 @@ export default {
                     </select>
                     <input class="input" type="text" style="width: 50%; margin-left: 2px;"
                            v-model.trim="value[1]" @input="updateExtraAnimation">
+
+                    <!-- 每 8 个添加一个分隔线 -->
+                    <hr v-if="shouldAddLine(index, tmpExtraAnimation.length)"
+                        style="width: 192.5%; border-top: 3px dashed #1e1e22;">
                 </div>
 
                 <button style="width: 44.8%; margin-left: 2px; margin-top: 2px;"
                         @click="addNewExtraAnimation()">
                     <i class="fa-solid fa-plus" style="vertical-align: middle;"></i>
-                    <span>{{ tl("menu.ysm_utils.import_model_menu.properties.extra_animation.add") }}</span>
+                    <span>{{ tl("menu.ysm_utils.load_info_menu.properties.extra_animation.add") }}</span>
                 </button>
             </div>
         </div>
@@ -157,8 +173,8 @@ export default {
 
         <div class="horizontal-item">
             <div style="width: 68%">
-                <p class="title">{{ tl("menu.ysm_utils.import_model_menu.properties.preview_animation") }}</p>
-                <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.properties.preview_animation.desc") }}</p>
+                <p class="title">{{ tl("menu.ysm_utils.load_info_menu.properties.preview_animation") }}</p>
+                <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.properties.preview_animation.desc") }}</p>
             </div>
 
             <div style="width: 20%; margin: 0 auto;">
@@ -172,8 +188,8 @@ export default {
 
         <div class="horizontal-item">
             <div style="width: 68%">
-                <p class="title">{{ tl("menu.ysm_utils.import_model_menu.properties.default_texture") }}</p>
-                <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.properties.default_texture.desc") }}</p>
+                <p class="title">{{ tl("menu.ysm_utils.load_info_menu.properties.default_texture") }}</p>
+                <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.properties.default_texture.desc") }}</p>
             </div>
 
             <div style="width: 20%; margin: 0 auto;">
@@ -187,8 +203,8 @@ export default {
 
         <div class="horizontal-item">
             <div style="width: 68%">
-                <p class="title">{{ tl("menu.ysm_utils.import_model_menu.properties.free") }}</p>
-                <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.properties.free.desc") }}</p>
+                <p class="title">{{ tl("menu.ysm_utils.load_info_menu.properties.free") }}</p>
+                <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.properties.free.desc") }}</p>
             </div>
 
             <div style="width: 20%; margin: 0 auto;">
@@ -199,8 +215,8 @@ export default {
 
         <div class="horizontal-item">
             <div style="width: 68%">
-                <p class="title">{{ tl("menu.ysm_utils.import_model_menu.properties.render_layers_first") }}</p>
-                <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.properties.render_layers_first.desc") }}</p>
+                <p class="title">{{ tl("menu.ysm_utils.load_info_menu.properties.render_layers_first") }}</p>
+                <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.properties.render_layers_first.desc") }}</p>
             </div>
 
             <div style="width: 20%; margin: 0 auto;">

@@ -62,7 +62,7 @@ export default {
             Blockbench.showMessageBox({
                 icon: "fa-warning",
                 title: tl("level.ysm_utils.warning"),
-                message: tl("menu.ysm_utils.import_model_menu.metadata.authors.delete.message"),
+                message: tl("menu.ysm_utils.load_info_menu.metadata.authors.delete.message"),
                 buttons: [tl("dialog.confirm"), tl("dialog.cancel")],
                 confirm: 0,
                 cancel: 1
@@ -76,7 +76,7 @@ export default {
         addAuthor: function () {
             // 先检查必填字段有没有
             if (!this.newAuthor["name"]) {
-                let tip = tl("menu.ysm_utils.import_model_menu.metadata.authors.need_author_name");
+                let tip = tl("menu.ysm_utils.load_info_menu.metadata.authors.need_author_name");
                 Blockbench.showQuickMessage(tip, 3000);
                 return;
             }
@@ -93,7 +93,7 @@ export default {
                     let button = electron.dialog.showMessageBoxSync({
                         type: "warning",
                         title: tl("level.ysm_utils.warning"),
-                        message: tl("menu.ysm_utils.import_model_menu.metadata.authors.same_file"),
+                        message: tl("menu.ysm_utils.load_info_menu.metadata.authors.same_file"),
                         buttons: [tl("dialog.confirm"), tl("dialog.cancel")]
                     });
                     if (button !== 0) {
@@ -137,7 +137,7 @@ export default {
         },
         addAvatarImg: function () {
             electron.dialog.showOpenDialog(currentwindow, {
-                title: tl("menu.ysm_utils.import_model_menu.metadata.authors.select_author_avatar"),
+                title: tl("menu.ysm_utils.load_info_menu.metadata.authors.select_author_avatar"),
                 filters: [{
                     extensions: ["png"],
                     name: "png",
@@ -170,16 +170,16 @@ export default {
 
             <div style="width: 58%">
                 <div style="width: 100%; height: 100%">
-                    <p class="title">{{ tl("menu.ysm_utils.import_model_menu.metadata.authors.name") }}</p>
-                    <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.metadata.authors.name.desc") }}</p>
+                    <p class="title">{{ tl("menu.ysm_utils.load_info_menu.metadata.authors.name") }}</p>
+                    <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.metadata.authors.name.desc") }}</p>
                     <input class="input" type="text" v-model.trim="newAuthor['name']"
                            :placeholder="tl('menu.ysm_utils.required_fields')">
                 </div>
 
 
                 <div style="width: 100%; height: 100%; margin-top: 10px">
-                    <p class="title">{{ tl("menu.ysm_utils.import_model_menu.metadata.authors.role") }}</p>
-                    <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.metadata.authors.role.desc") }}</p>
+                    <p class="title">{{ tl("menu.ysm_utils.load_info_menu.metadata.authors.role") }}</p>
+                    <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.metadata.authors.role.desc") }}</p>
                     <input class="input" type="text" v-model.trim="newAuthor['role']"
                            :placeholder="tl('menu.ysm_utils.can_be_empty')">
                 </div>
@@ -188,16 +188,16 @@ export default {
 
 
         <div class="new-author-item">
-            <p class="title">{{ tl("menu.ysm_utils.import_model_menu.metadata.authors.comment") }}</p>
-            <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.metadata.authors.comment.desc") }}</p>
+            <p class="title">{{ tl("menu.ysm_utils.load_info_menu.metadata.authors.comment") }}</p>
+            <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.metadata.authors.comment.desc") }}</p>
             <input class="input" type="text" v-model.trim="newAuthor['comment']"
                    :placeholder="tl('menu.ysm_utils.can_be_empty')">
         </div>
 
 
         <div class="new-author-item">
-            <p class="title">{{ tl("menu.ysm_utils.import_model_menu.metadata.authors.contact") }}</p>
-            <p class="desc">{{ tl("menu.ysm_utils.import_model_menu.metadata.authors.contact.desc") }}</p>
+            <p class="title">{{ tl("menu.ysm_utils.load_info_menu.metadata.authors.contact") }}</p>
+            <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.metadata.authors.contact.desc") }}</p>
 
             <div v-for="(value, index) in tmpContact">
                 <input class="input-contact-type" type="text" v-model="value[0]">
@@ -208,14 +208,14 @@ export default {
             </div>
 
             <button style="width: 100%;margin-top: 5px" @click="addNewContact()">
-                {{ tl("menu.ysm_utils.import_model_menu.metadata.authors.contact.add") }}
+                {{ tl("menu.ysm_utils.load_info_menu.metadata.authors.contact.add") }}
             </button>
         </div>
 
         <div style="width: 100%; margin-top: 10px">
             <div v-if="isEditAction">
                 <button style="width: 48.5%;" @click="deleteAuthor">
-                    {{ tl("menu.ysm_utils.import_model_menu.metadata.authors.delete") }}
+                    {{ tl("menu.ysm_utils.load_info_menu.metadata.authors.delete") }}
                 </button>
                 <button style="width: 48.5%; margin-left: 2%" @click="addAuthor">
                     {{ tl("dialog.confirm") }}

@@ -40,7 +40,7 @@ export function checkDirectory(packDirectory) {
         Blockbench.showMessageBox({
             icon: "fa-warning",
             title: tl("level.ysm_utils.warning"),
-            message: tl("menu.ysm_utils.import_model_menu.transform_model"),
+            message: tl("menu.ysm_utils.load_info_menu.transform_model"),
             width: 600,
             buttons: [tl("dialog.confirm"), tl("dialog.cancel")],
             confirm: 0,
@@ -60,7 +60,7 @@ export function checkDirectory(packDirectory) {
     Blockbench.showMessageBox({
         icon: "fa-warning",
         title: tl("level.ysm_utils.error"),
-        message: tl("menu.ysm_utils.import_model_menu.directory_error")
+        message: tl("menu.ysm_utils.load_info_menu.directory_error")
     });
 
     return false;

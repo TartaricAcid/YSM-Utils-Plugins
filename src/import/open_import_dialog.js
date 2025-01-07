@@ -1,13 +1,11 @@
 import {join} from "path";
-import {loadNormalization} from "./load_normalization.js";
 import metadataVue from "../vue/import/metadata.vue";
 import propertiesVue from "../vue/import/properties.vue";
 import playerFilesVue from "../vue/import/player_files.vue";
 import arrowFilesVue from "../vue/import/arrow_files.vue";
 import cryptoLib from "crypto";
-import JSON5 from "json5";
 import {saveNormalization} from "./save_normalization.js";
-import {addToYsmCache} from "../menu/cache_model_menu.js";
+import {readYsmFile} from "./ysm_file_read.js";
 
 function onDialogCancel(ysmJson, ysmJsonPath, sha256Cache) {
     // 关闭页面时，计算一次哈希值
@@ -20,7 +18,7 @@ function onDialogCancel(ysmJson, ysmJsonPath, sha256Cache) {
     let button = electron.dialog.showMessageBoxSync({
         type: "warning",
         title: tl("level.ysm_utils.warning"),
-        message: tl("menu.ysm_utils.import_model_menu.save_tip"),
+        message: tl("menu.ysm_utils.load_info_menu.save_tip"),
         buttons: [tl("menu.ysm_utils.save"), tl("menu.ysm_utils.exit_without_save"), tl("dialog.cancel")],
     });
     if (button === 0) {
@@ -39,7 +37,7 @@ function onDialogCancel(ysmJson, ysmJsonPath, sha256Cache) {
  * 删除空白数据
  */
 function saveYsmFile(ysmJson, ysmJsonPath) {
-    let result = autoStringify(saveNormalization(ysmJson));
+    let result = autoStringify(saveNormalization(ysmJson, ysmJsonPath));
     fs.writeFileSync(ysmJsonPath, result);
     Blockbench.showQuickMessage(tl("menu.ysm_utils.save_success"), 3000);
 }
@@ -55,28 +53,13 @@ function getSha256(ysmJson) {
 
 export function openImportDialog(packDirectory) {
     let ysmJsonPath = join(packDirectory, "ysm.json");
-    let content = fs.readFileSync(ysmJsonPath, "utf8");
-
-    let ysmJson;
-    try {
-        // 因为 BlockBench 自带的 JSON 解析存在 bug，换用 json5 读取
-        ysmJson = JSON5.parse(content);
-    } catch (err) {
-        console.error(err);
-        // 但是 json5 库没法弹窗报错，所以再用 BlockBench 读取一次，弹窗报错
-        ysmJson = autoParseJSON(content, true);
-        return;
-    }
-    // 数据进行一次标准化
-    ysmJson = loadNormalization(ysmJson);
+    let ysmJson = readYsmFile(packDirectory);
 
     // 开始之前计算一次哈希值，用来判断是否已经修改了内容，用于提示保存
     let sha256Cache = getSha256(ysmJson);
-    // 添加进缓存
-    addToYsmCache(packDirectory);
 
     let importModelMenuDialog = new Dialog({
-        title: "menu.ysm_utils.import_model_menu.title",
+        title: "menu.ysm_utils.load_info_menu.title",
         cancel_on_click_outside: false,
         width: 1000,
         onCancel: function (event) {
@@ -87,10 +70,10 @@ export function openImportDialog(packDirectory) {
         },
         sidebar: {
             pages: {
-                "metadata": tl("menu.ysm_utils.import_model_menu.sidebar.metadata"),
-                "properties": tl("menu.ysm_utils.import_model_menu.sidebar.properties"),
-                "player_files": tl("menu.ysm_utils.import_model_menu.sidebar.player_files"),
-                "arrow_files": tl("menu.ysm_utils.import_model_menu.sidebar.arrow_files")
+                "metadata": tl("menu.ysm_utils.load_info_menu.sidebar.metadata"),
+                "properties": tl("menu.ysm_utils.load_info_menu.sidebar.properties"),
+                "player_files": tl("menu.ysm_utils.load_info_menu.sidebar.player_files"),
+                "arrow_files": tl("menu.ysm_utils.load_info_menu.sidebar.arrow_files")
             },
             page: "metadata",
             onPageSwitch(page) {
