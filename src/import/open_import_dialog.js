@@ -5,6 +5,7 @@ import propertiesVue from "../vue/import/properties.vue";
 import playerFilesVue from "../vue/import/player_files.vue";
 import arrowFilesVue from "../vue/import/arrow_files.vue";
 import cryptoLib from "crypto";
+import JSON5 from "json5";
 import {saveNormalization} from "./save_normalization.js";
 import {addToYsmCache} from "../menu/cache_model_menu.js";
 
@@ -55,7 +56,19 @@ function getSha256(ysmJson) {
 export function openImportDialog(packDirectory) {
     let ysmJsonPath = join(packDirectory, "ysm.json");
     let content = fs.readFileSync(ysmJsonPath, "utf8");
-    let ysmJson = loadNormalization(autoParseJSON(content, true));
+
+    let ysmJson;
+    try {
+        // 因为 BlockBench 自带的 JSON 解析存在 bug，换用 json5 读取
+        ysmJson = JSON5.parse(content);
+    } catch (err) {
+        console.error(err);
+        // 但是 json5 库没法弹窗报错，所以再用 BlockBench 读取一次，弹窗报错
+        ysmJson = autoParseJSON(content, true);
+        return;
+    }
+    // 数据进行一次标准化
+    ysmJson = loadNormalization(ysmJson);
 
     // 开始之前计算一次哈希值，用来判断是否已经修改了内容，用于提示保存
     let sha256Cache = getSha256(ysmJson);

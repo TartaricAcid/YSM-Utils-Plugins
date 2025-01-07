@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "ysm-utils",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "min_blockbench_version": "4.0.0",
   "author": "tartaric_acid",
   "title": "YSM Mod Plugin",
@@ -29,5 +29,11 @@
     "rollup": "^4.21.2",
     "rollup-plugin-vue": "6.0.0",
     "vue-template-compiler": "latest"
+  },
+  "dependencies": {
+    "@jimp/core": "^1.6.0",
+    "@jimp/js-png": "^1.6.0",
+    "@jimp/plugin-resize": "^1.6.0",
+    "json5": "^2.2.3"
   }
 }

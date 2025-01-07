@@ -67,9 +67,11 @@ function playerHandle(files) {
     let playerModel = player["model"] ??= {};
     playerModel["main"] ??= "";
     playerModel["arm"] ??= "";
+    objSeparatorReplace(playerModel);
 
     // 动画部分
     player["animation"] ??= {};
+    objSeparatorReplace(player["animation"]);
     deleteObject(player, "animation");
 
     player["texture"] ??= [];
@@ -86,9 +88,11 @@ function playerHandle(files) {
         item = item ?? {};
         return Object.values(item).length > 0;
     });
+    textureSeparatorReplace(player["texture"]);
 }
 
 function arrowHandle(files) {
+    objSeparatorReplace(files["arrow"]);
     deleteObject(files, "arrow");
 }
 
@@ -114,6 +118,22 @@ export function saveNormalization(ysmJson) {
     arrowHandle(files);
 
     return ysmJson;
+}
+
+function textureSeparatorReplace(textures) {
+    for (let texture of textures) {
+        if (texture["uv"]) {
+            texture["uv"] = texture["uv"].replaceAll("\\", "/");
+        }
+    }
+}
+
+function objSeparatorReplace(obj) {
+    for (let key in obj) {
+        if (typeof obj[key] === "string") {
+            obj[key] = obj[key].replaceAll("\\", "/");
+        }
+    }
 }
 
 function deleteObject(obj, fieldName) {
