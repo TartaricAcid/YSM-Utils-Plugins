@@ -96,6 +96,7 @@
   "menu.ysm_utils.load_info_menu.files.add_new_texture": "添加新材质",
   "menu.ysm_utils.load_info_menu.files.delete_texture": "删除材质",
   "menu.ysm_utils.load_info_menu.files.delete_texture.tip": "你打算删除这些材质么：",
+  "menu.ysm_utils.load_info_menu.open_folder": "打开文件夹",
   "menu.ysm_utils.old_version_transform.directory_exists": "同名文件夹已经存在了！",
   "menu.ysm_utils.old_version_transform.select_output_directory": "选择导出文件夹",
   "menu.ysm_utils.old_version_transform.success": "导出成功，导出路径是：",
@@ -109,5 +110,10 @@
   "menu.ysm_utils.file_import.missing_file": "错误：%0 文件缺失",
   "menu.ysm_utils.import_type.player_main": "玩家主模型",
   "menu.ysm_utils.import_type.player_arm": "玩家手臂模型",
-  "menu.ysm_utils.import_type.arrow": "箭模型"
+  "menu.ysm_utils.import_type.arrow": "箭模型",
+  "menu.ysm_utils.create_default_model": "创建默认模型",
+  "menu.ysm_utils.create_default_model.select_output_directory": "选择输出文件夹",
+  "menu.ysm_utils.create_default_model.pack_name": "模型包名",
+  "menu.ysm_utils.create_default_model.pack_name.placeholder": "输入模型包名，支持任意字符",
+  "menu.ysm_utils.create_default_model.same_folder": "同名文件夹已存在"
 }

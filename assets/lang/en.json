@@ -96,6 +96,7 @@
   "menu.ysm_utils.load_info_menu.files.add_new_texture": "Add New Texture",
   "menu.ysm_utils.load_info_menu.files.delete_texture": "Delete Texture",
   "menu.ysm_utils.load_info_menu.files.delete_texture.tip": "Do you want to delete these texture files:",
+  "menu.ysm_utils.load_info_menu.open_folder": "Open Folder",
   "menu.ysm_utils.old_version_transform.directory_exists": "A folder with the same name already exists!",
   "menu.ysm_utils.old_version_transform.select_output_directory": "Select Output Directory",
   "menu.ysm_utils.old_version_transform.success": "The export is successful, and the export path is: ",
@@ -109,5 +110,10 @@
   "menu.ysm_utils.file_import.missing_file": "Error: %0 file is missing",
   "menu.ysm_utils.import_type.player_main": "Player Main Model",
   "menu.ysm_utils.import_type.player_arm": "Player Arm Model",
-  "menu.ysm_utils.import_type.arrow": "Arrow Model"
+  "menu.ysm_utils.import_type.arrow": "Arrow Model",
+  "menu.ysm_utils.create_default_model": "Create Default Model",
+  "menu.ysm_utils.create_default_model.select_output_directory": "Select Output Directory",
+  "menu.ysm_utils.create_default_model.pack_name": "Pack Name",
+  "menu.ysm_utils.create_default_model.pack_name.placeholder": "Enter the pack name, support any characters",
+  "menu.ysm_utils.create_default_model.same_folder": "A folder with the same name exists"
 }

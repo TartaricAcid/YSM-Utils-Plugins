@@ -34,6 +34,11 @@ export default {
             // 八个为一组，添加横线
             return index % 8 === 6;
         },
+        deleteExtraAnimation: function (index) {
+            this.tmpExtraAnimation.splice(index, 1);
+            this.updateExtraAnimation();
+            this.$forceUpdate();
+        },
         addNewExtraAnimation: function () {
             this.tmpExtraAnimation.push(["", ""]);
             this.$forceUpdate();
@@ -149,13 +154,14 @@ export default {
             <div style="display: flex; flex-wrap: wrap; margin-top: 10px">
                 <div v-for="(value, index) in tmpExtraAnimation"
                      style="width: 49%; margin-left: 2px; margin-top: 2px; overflow: visible;">
-                    <select id="simple" name="simple" style="width: 40%; text-align: center;"
+                    <select id="simple" name="simple" style="width: 30%; text-align: center;"
                             v-model="value[0]" @change="updateExtraAnimation">
                         <option selected>{{ value[0] }}</option>
                         <option v-for="name in getAvailableExtraAnimation()">{{ name }}</option>
                     </select>
                     <input class="input" type="text" style="width: 50%; margin-left: 2px;"
                            v-model.trim="value[1]" @input="updateExtraAnimation">
+                    <i class="fa-solid fa-trash-can extra-delete" @click="deleteExtraAnimation(index)"></i>
 
                     <!-- 每 8 个添加一个分隔线 -->
                     <hr v-if="shouldAddLine(index, tmpExtraAnimation.length)"
@@ -272,5 +278,14 @@ export default {
     border-style: solid;
     border-width: 1px;
     border-color: #181a1f;
+}
+
+.extra-delete {
+    width: 20px;
+    margin-left: 5px
+}
+
+.extra-delete:hover {
+    color: #2d5ee8;
 }
 </style>

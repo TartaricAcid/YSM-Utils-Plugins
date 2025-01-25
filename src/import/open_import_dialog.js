@@ -76,6 +76,16 @@ export function openImportDialog(packDirectory) {
                 "arrow_files": tl("menu.ysm_utils.load_info_menu.sidebar.arrow_files")
             },
             page: "metadata",
+            actions: [
+                new Action("ysm_utils.load_info_menu.open_folder", {
+                    name: "menu.ysm_utils.load_info_menu.open_folder",
+                    icon: "fa-folder-open",
+                    click: function () {
+                        electron.shell.openPath(packDirectory).then(result => {
+                        });
+                    }
+                }),
+            ],
             onPageSwitch(page) {
                 if (importModelMenuDialog.content_vue.type !== page) {
                     importModelMenuDialog.content_vue.type = page;

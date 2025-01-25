@@ -3,6 +3,7 @@ import packageInfo from "../package.json";
 import {CACHE_YSM_INFO_ACTION, initCacheYsmFoldersAction} from "./menu/cache_info_menu.js";
 import {currentInfoMenuAction} from "./menu/current_info_menu.js";
 import {directImportMenuAction} from "./menu/direct_import.js";
+import {createDefaultModel} from "./create/create_default.js";
 
 BBPlugin.register(packageInfo.name, {
     title: packageInfo.title,
@@ -18,6 +19,7 @@ BBPlugin.register(packageInfo.name, {
         doLoadEvent();
     },
     onunload() {
+        createDefaultModel.delete();
         directImportMenuAction.delete();
         currentInfoMenuAction.delete();
     },
@@ -31,6 +33,7 @@ function doLoadEvent() {
     loadI18n();
     initCacheYsmFoldersAction();
     new BarMenu("ysm_utils", [
+        "ysm_utils.create_default_model",
         "ysm_utils.direct_import",
         "ysm_utils.current_info_menu",
         CACHE_YSM_INFO_ACTION,

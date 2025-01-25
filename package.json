@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "ysm-utils",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "min_blockbench_version": "4.0.0",
   "author": "tartaric_acid",
   "title": "YSM Mod Plugin",
