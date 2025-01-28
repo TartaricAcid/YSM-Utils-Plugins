@@ -137,6 +137,12 @@ function textureSeparatorReplace(textures) {
         if (texture["uv"]) {
             texture["uv"] = texture["uv"].replaceAll("\\", "/");
         }
+        if (texture["normal"]) {
+            texture["normal"] = texture["normal"].replaceAll("\\", "/");
+        }
+        if (texture["specular"]) {
+            texture["specular"] = texture["specular"].replaceAll("\\", "/");
+        }
     }
 }
 
