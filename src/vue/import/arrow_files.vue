@@ -73,16 +73,48 @@ export default {
                 </div>
 
                 <div style="display: flex;">
-                    <p class="li-text"> {{ tl("menu.ysm_utils.load_info_menu.files.arrow.texture") }}</p>
-                    <input class="input" type="text" v-model.trim="arrowFiles['texture']" readonly>
+                    <p class="li-text"> {{ tl("menu.ysm_utils.load_info_menu.files.arrow.texture.uv") }}</p>
+                    <input class="input" type="text" v-model.trim="arrowFiles['texture']['uv']" readonly>
                     <div style="display: flex; margin-left: 2px">
                         <button class="icon-button"
-                                @click="changeFile(arrowFiles['texture'], 'textures', 'png')
-                                .then(result =>arrowFiles['texture'] = result)">
+                                @click="changeFile(arrowFiles['texture']['uv'], 'textures', 'png')
+                                .then(result =>arrowFiles['texture']['uv'] = result)">
                             <i class="fas fa-exchange-alt"></i>
                         </button>
                         <button class="icon-button"
-                                @click="removeFile(arrowFiles['texture'], ()=>arrowFiles['texture']='')">
+                                @click="removeFile(arrowFiles['texture']['uv'], ()=>arrowFiles['texture']['uv']='')">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div style="display: flex;">
+                    <p class="li-text"> {{ tl("menu.ysm_utils.load_info_menu.files.arrow.texture.normal") }}</p>
+                    <input class="input" type="text" v-model.trim="arrowFiles['texture']['normal']" readonly>
+                    <div style="display: flex; margin-left: 2px">
+                        <button class="icon-button"
+                                @click="changeFile(arrowFiles['texture']['normal'], 'textures', 'png')
+                                .then(result =>arrowFiles['texture']['normal'] = result)">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                        <button class="icon-button"
+                                @click="removeFile(arrowFiles['texture']['normal'], ()=>arrowFiles['texture']['normal']='')">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div style="display: flex;">
+                    <p class="li-text"> {{ tl("menu.ysm_utils.load_info_menu.files.arrow.texture.specular") }}</p>
+                    <input class="input" type="text" v-model.trim="arrowFiles['texture']['specular']" readonly>
+                    <div style="display: flex; margin-left: 2px">
+                        <button class="icon-button"
+                                @click="changeFile(arrowFiles['texture']['specular'], 'textures', 'png')
+                                .then(result =>arrowFiles['texture']['specular'] = result)">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                        <button class="icon-button"
+                                @click="removeFile(arrowFiles['texture']['specular'], ()=>arrowFiles['texture']['specular']='')">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </div>

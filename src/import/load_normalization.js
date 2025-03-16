@@ -86,7 +86,19 @@ function arrowHandle(files) {
     };
     arrow["model"] ??= "";
     arrow["animation"] ??= "";
-    arrow["texture"] ??= "";
+
+    let texture = arrow["texture"] ?? {};
+    if (typeof texture == "string") {
+        arrow["texture"] = {
+            "uv": texture,
+            "normal": "",
+            "specular": ""
+        };
+    } else {
+        texture["uv"] ??= "";
+        texture["normal"] ??= "";
+        texture["specular"] ??= "";
+    }
 }
 
 /**

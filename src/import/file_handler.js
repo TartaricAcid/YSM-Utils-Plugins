@@ -30,14 +30,20 @@ export async function changeCurrentFile(packDir, pathValue, defaultDir, extensio
             return pathValue;
         }
         // 将原文件丢到回收站
+        let oldFileExists = false;
         if (fs.existsSync(srcFilePath)) {
             await electron.shell.trashItem(srcFilePath);
+            oldFileExists = true;
         }
         // 复制到指定目录下
         if (fs.existsSync(destFilePath)) {
             let error = await fs.promises.copyFile(destFilePath, srcFilePath);
             if (!error) {
-                Blockbench.showQuickMessage(tl("menu.ysm_utils.load_info_menu.files.replace_success"), 2000);
+                if (oldFileExists) {
+                    Blockbench.showQuickMessage(tl("menu.ysm_utils.load_info_menu.files.replace_success.remove_file"), 2000);
+                } else {
+                    Blockbench.showQuickMessage(tl("menu.ysm_utils.load_info_menu.files.replace_success"), 2000);
+                }
             }
         }
     }

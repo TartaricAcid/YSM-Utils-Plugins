@@ -100,11 +100,13 @@ function playerHandle(files) {
         item = item ?? {};
         return Object.values(item).length > 0;
     });
-    textureSeparatorReplace(player["texture"]);
+    textureListSeparatorReplace(player["texture"]);
 }
 
 function arrowHandle(files) {
     objSeparatorReplace(files["arrow"]);
+    textureSeparatorReplace(files["arrow"]["texture"]);
+    deleteObject(files["arrow"], "texture");
     deleteObject(files, "arrow");
 }
 
@@ -132,17 +134,21 @@ export function saveNormalization(ysmJson, ysmJsonPath) {
     return ysmJson;
 }
 
-function textureSeparatorReplace(textures) {
+function textureSeparatorReplace(texture) {
+    if (texture["uv"]) {
+        texture["uv"] = texture["uv"].replaceAll("\\", "/");
+    }
+    if (texture["normal"]) {
+        texture["normal"] = texture["normal"].replaceAll("\\", "/");
+    }
+    if (texture["specular"]) {
+        texture["specular"] = texture["specular"].replaceAll("\\", "/");
+    }
+}
+
+function textureListSeparatorReplace(textures) {
     for (let texture of textures) {
-        if (texture["uv"]) {
-            texture["uv"] = texture["uv"].replaceAll("\\", "/");
-        }
-        if (texture["normal"]) {
-            texture["normal"] = texture["normal"].replaceAll("\\", "/");
-        }
-        if (texture["specular"]) {
-            texture["specular"] = texture["specular"].replaceAll("\\", "/");
-        }
+        textureSeparatorReplace(texture);
     }
 }
 
