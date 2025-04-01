@@ -229,6 +229,28 @@ export default {
                 <input type="checkbox" v-model="properties['render_layers_first']" style="width: 100%;">
             </div>
         </div>
+
+        <div class="horizontal-item">
+            <div style="width: 68%">
+                <p class="title">{{ tl("menu.ysm_utils.load_info_menu.properties.disable_preview_rotation") }}</p>
+                <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.properties.disable_preview_rotation.desc") }}</p>
+            </div>
+
+            <div style="width: 20%; margin: 0 auto;">
+                <input type="checkbox" v-model="properties['disable_preview_rotation']" style="width: 100%;">
+            </div>
+        </div>
+
+        <div class="horizontal-item">
+            <div style="width: 68%">
+                <p class="title">{{ tl("menu.ysm_utils.load_info_menu.properties.all_cutout") }}</p>
+                <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.properties.all_cutout.desc") }}</p>
+            </div>
+
+            <div style="width: 20%; margin: 0 auto;">
+                <input type="checkbox" v-model="properties['all_cutout']" style="width: 100%;">
+            </div>
+        </div>
     </div>
 </template>
 

@@ -3,67 +3,34 @@
 	"animations": {
 		"tac:idle": {
 			"loop": "hold_on_last_frame",
-			"animation_length": 0.04167,
+			"animation_length": 0.0417,
 			"bones": {
 				"Root": {
-					"rotation": [0, 0, 0],
-					"position": [0, -0.592, 0],
-					"scale": [1, 1, 1]
-				},
-				"UpBody": {
-					"rotation": [0, 0, 0],
-					"position": [0, 0, 0]
-				},
-				"AllHead": {
-					"rotation": [0, 0, 0],
-					"position": [0, 0, 0]
+					"position": [0, -0.592, 0]
 				},
 				"Head": {
-					"rotation": ["query.head_y_rotation", "query.head_x_rotation", 0],
-					"position": [0, 0, 0]
-				},
-				"LeftArm": {
-					"rotation": [0, 0, 0],
-					"position": [0, 0, 0]
-				},
-				"LeftForeArm": {
-					"rotation": [0, 0, 0],
-					"position": [0, 0, 0]
-				},
-				"RightArm": {
-					"rotation": [0, 0, 0],
-					"position": [0, 0, 0]
-				},
-				"RightForeArm": {
-					"rotation": [0, 0, 0],
-					"position": [0, 0, 0]
+					"rotation": ["query.head_y_rotation", "query.head_x_rotation", 0]
 				},
 				"DownBody": {
 					"rotation": [0, 22.5, 0]
 				},
 				"LeftLeg": {
-					"rotation": [-3.09529, -16.86065, -9.27898],
-					"position": [0, 0, 0]
+					"rotation": [-3.09529, -16.86065, -9.27898]
 				},
 				"LeftLowerLeg": {
-					"rotation": [9.5, 0, 0],
-					"position": [0, 0, 0]
+					"rotation": [9.5, 0, 0]
 				},
 				"LeftFoot": {
-					"rotation": [-3.44487, -0.42792, 6.43164],
-					"position": [0, 0, 0]
+					"rotation": [-3.44487, -0.42792, 6.43164]
 				},
 				"RightLeg": {
-					"rotation": [-5.28787, "(!query.is_sneaking)?((ysm.head_yaw<0)?(-23.2866-0.4*ysm.head_yaw):(-23.2866+0.4*ysm.head_yaw)):(-23.2866)", 1.63341],
-					"position": [0, 0, 0]
+					"rotation": [-5.28787, "(!query.is_sneaking)?((ysm.head_yaw<0)?(-23.2866-0.4*ysm.head_yaw):(-23.2866+0.4*ysm.head_yaw)):(-23.2866)", 1.63341]
 				},
 				"RightLowerLeg": {
-					"rotation": [12.75, 0, 0],
-					"position": [0, 0, 0]
+					"rotation": [12.75, 0, 0]
 				},
 				"RightFoot": {
-					"rotation": [-7.32127, -1.62005, -1.67203],
-					"position": [0, 0, 0]
+					"rotation": [-7.32127, -1.62005, -1.67203]
 				}
 			}
 		},
@@ -289,12 +256,6 @@
 			"animation_length": 1,
 			"bones": {
 				"Root": {
-					"rotation": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					},
 					"position": {
 						"0.0": [0, -1.55, 0],
 						"0.0417": [-0.00778, -1.64992, 0],
@@ -321,130 +282,6 @@
 						"0.9167": [-0.00729, -1.31587, 0],
 						"0.9583": [-0.00745, -1.4068, 0],
 						"1.0": [0, -1.55, 0]
-					},
-					"scale": {
-						"0.0": {
-							"post": [1, 1, 1],
-							"lerp_mode": "catmullrom"
-						}
-					}
-				},
-				"AllBody": {
-					"rotation": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					},
-					"position": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					},
-					"scale": {
-						"0.0": {
-							"post": [1, 1, 1],
-							"lerp_mode": "catmullrom"
-						}
-					}
-				},
-				"UpBody": {
-					"rotation": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					},
-					"position": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					}
-				},
-				"AllHead": {
-					"rotation": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					},
-					"position": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					}
-				},
-				"Head": {
-					"rotation": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					},
-					"position": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					}
-				},
-				"LeftArm": {
-					"rotation": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					},
-					"position": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					}
-				},
-				"LeftForeArm": {
-					"rotation": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					},
-					"position": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					}
-				},
-				"RightArm": {
-					"rotation": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					},
-					"position": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					}
-				},
-				"RightForeArm": {
-					"rotation": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					},
-					"position": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
 					}
 				},
 				"LeftLeg": {
@@ -478,12 +315,6 @@
 						"0.9167": [-30.38551, 0, 0],
 						"0.9583": [-32.08508, 0, 0],
 						"1.0": [-32.5, 0, 0]
-					},
-					"position": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
 					}
 				},
 				"LeftLowerLeg": {
@@ -517,12 +348,6 @@
 						"0.9167": [33.75415, 0, 0],
 						"0.9583": [30.47425, 0, 0],
 						"1.0": [30, 0, 0]
-					},
-					"position": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
 					}
 				},
 				"LeftFoot": {
@@ -553,12 +378,6 @@
 						},
 						"1.0": {
 							"post": [2.5, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					},
-					"position": {
-						"0.0": {
-							"post": [0, 0, 0],
 							"lerp_mode": "catmullrom"
 						}
 					}
@@ -597,12 +416,6 @@
 						"0.9167": [-8.51463, 28.46227, 4.3897],
 						"0.9583": [-3.96674, 28.57542, 6.28673],
 						"1.0": [-0.01561, 27.32462, 8.16755]
-					},
-					"position": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
 					}
 				},
 				"RightLowerLeg": {
@@ -629,12 +442,6 @@
 						},
 						"1.0": {
 							"post": [35, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					},
-					"position": {
-						"0.0": {
-							"post": [0, 0, 0],
 							"lerp_mode": "catmullrom"
 						}
 					}
@@ -667,12 +474,6 @@
 						},
 						"1.0": {
 							"post": [-32.19157, -3.81024, -9.25249],
-							"lerp_mode": "catmullrom"
-						}
-					},
-					"position": {
-						"0.0": {
-							"post": [0, 0, 0],
 							"lerp_mode": "catmullrom"
 						}
 					}
@@ -1116,7 +917,7 @@
 			}
 		},
 		"tac:reload:rifle": {
-			"animation_length": 10,
+			"animation_length": 1.75,
 			"bones": {
 				"UpBody": {
 					"rotation": {
@@ -1848,8 +1649,7 @@
 			"bones": {
 				"Root": {
 					"rotation": [90, 0, 0],
-					"position": [0, 2, 19],
-					"scale": 1
+					"position": [0, 6.6, 13.6]
 				},
 				"AllBody": {
 					"rotation": [0, 0, 0],
@@ -2250,8 +2050,7 @@
 				},
 				"Root": {
 					"rotation": [90, 0, 0],
-					"position": [0, 2, 19],
-					"scale": 1
+					"position": [0, 6.6, 13.6]
 				},
 				"AllBody": {
 					"rotation": [0, 0, 0],
@@ -2429,8 +2228,7 @@
 			"bones": {
 				"Root": {
 					"rotation": [90, 0, 0],
-					"position": [0, 2, 19],
-					"scale": 1
+					"position": [0, 6.6, 13.6]
 				},
 				"AllBody": {
 					"rotation": [0, 0, 0],
@@ -2889,7 +2687,7 @@
 		},
 		"tac:reload:pistol": {
 			"loop": "hold_on_last_frame",
-			"animation_length": 10,
+			"animation_length": 1.7083,
 			"bones": {
 				"UpBody": {
 					"rotation": {
@@ -3507,8 +3305,7 @@
 			"bones": {
 				"Root": {
 					"rotation": [90, 0, 0],
-					"position": [0, 2, 19],
-					"scale": 1
+					"position": [0, 6.6, 13.6]
 				},
 				"AllBody": {
 					"rotation": [0, 0, 0],
@@ -3913,8 +3710,7 @@
 			"bones": {
 				"Root": {
 					"rotation": [90, 0, 0],
-					"position": [0, 2, 19],
-					"scale": 1
+					"position": [0, 6.6, 13.6]
 				},
 				"AllBody": {
 					"rotation": [0, 0, 0],
@@ -4429,8 +4225,7 @@
 			"bones": {
 				"Root": {
 					"rotation": [90, 0, 0],
-					"position": [0, 2, 19],
-					"scale": 1
+					"position": [0, 6.6, 13.6]
 				},
 				"AllBody": {
 					"rotation": [0, 0, 0],
@@ -4775,7 +4570,7 @@
 		},
 		"tac:reload:rpg": {
 			"loop": "hold_on_last_frame",
-			"animation_length": 10,
+			"animation_length": 3.0417,
 			"bones": {
 				"UpBody": {
 					"rotation": {
@@ -5259,7 +5054,7 @@
 			"bones": {
 				"Root": {
 					"rotation": [90, 0, 0],
-					"position": [0, 2, 19],
+					"position": [0, 6.6, 13.6],
 					"scale": 1
 				},
 				"AllBody": {
@@ -5659,7 +5454,7 @@
 			"bones": {
 				"Root": {
 					"rotation": [90, 0, 0],
-					"position": [0, 2, 19],
+					"position": [0, 6.6, 13.6],
 					"scale": 1
 				},
 				"AllBody": {
@@ -5932,7 +5727,7 @@
 				},
 				"RightHandLocator": {
 					"rotation": [37.47917, 10.76049, 6.10976],
-					"position": [-0.99161, -1.78881, 2.61457]
+					"position": [0.00839, -0.78881, 0.61457]
 				},
 				"Arm": {
 					"rotation": {
@@ -6073,7 +5868,7 @@
 				},
 				"RightHandLocator": {
 					"rotation": [37.47917, 10.76049, 6.10976],
-					"position": [-0.99161, -1.78881, 2.61457]
+					"position": [0.00839, -0.78881, 0.61457]
 				},
 				"Arm": {
 					"rotation": {
@@ -6103,7 +5898,7 @@
 			"bones": {
 				"Root": {
 					"rotation": [90, 0, 0],
-					"position": [0, 2, 19],
+					"position": [0, 6.6, 13.6],
 					"scale": 1
 				},
 				"AllBody": {
@@ -6587,7 +6382,7 @@
 				}
 			}
 		},
-		"tac:hold:minigun": {
+		"tac:hold$tac:minigun": {
 			"loop": "hold_on_last_frame",
 			"bones": {
 				"UpBody": {
@@ -6702,7 +6497,7 @@
 				}
 			}
 		},
-		"tac:hold:fire:minigun": {
+		"tac:hold:fire$tac:minigun": {
 			"loop": true,
 			"animation_length": 0.1667,
 			"bones": {
@@ -6897,7 +6692,7 @@
 				}
 			}
 		},
-		"tac:aim:minigun": {
+		"tac:aim$tac:minigun": {
 			"loop": "hold_on_last_frame",
 			"bones": {
 				"UpBody": {
@@ -7012,7 +6807,7 @@
 				}
 			}
 		},
-		"tac:aim:fire:minigun": {
+		"tac:aim:fire$tac:minigun": {
 			"loop": true,
 			"animation_length": 0.1667,
 			"bones": {
@@ -7207,7 +7002,7 @@
 				}
 			}
 		},
-		"tac:run:minigun": {
+		"tac:run$tac:minigun": {
 			"loop": true,
 			"animation_length": 0.6667,
 			"bones": {
@@ -7504,13 +7299,13 @@
 				}
 			}
 		},
-		"tac:climb:minigun": {
+		"tac:climb$tac:minigun": {
 			"loop": true,
 			"animation_length": 1,
 			"bones": {
 				"Root": {
 					"rotation": [90, 0, 0],
-					"position": [0, 2, 19],
+					"position": [0, 6.6, 13.6],
 					"scale": 1
 				},
 				"AllBody": {
@@ -7940,7 +7735,7 @@
 				}
 			}
 		},
-		"tac:climbing:minigun": {
+		"tac:climbing$tac:minigun": {
 			"loop": true,
 			"bones": {
 				"UpperBody": {
@@ -7949,7 +7744,7 @@
 				},
 				"Root": {
 					"rotation": [90, 0, 0],
-					"position": [0, 2, 19],
+					"position": [0, 6.6, 13.6],
 					"scale": 1
 				},
 				"AllBody": {
@@ -8122,7 +7917,7 @@
 				}
 			}
 		},
-		"tac:climbing:fire:minigun": {
+		"tac:climbing:fire$tac:minigun": {
 			"loop": true,
 			"bones": {
 				"UpperBody": {
@@ -8131,7 +7926,7 @@
 				},
 				"Root": {
 					"rotation": [90, 0, 0],
-					"position": [0, 2, 19],
+					"position": [0, 6.6, 13.6],
 					"scale": 1
 				},
 				"AllBody": {

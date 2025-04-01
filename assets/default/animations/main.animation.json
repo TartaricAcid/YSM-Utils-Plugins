@@ -2069,15 +2069,9 @@
 					}
 				},
 				"AllBody": {
-					"rotation": [0, "1.5*v.L6_P0-0.4*v.L4_P0", "0.6*v.L6_P0"],
-					"position": [0, 0, 0],
-					"scale": 1
+					"rotation": [0, "-1.5*ysm.second_order('鞘翅yaw', -ysm.head_yaw, 1, 0.8, 0)", "0.6*ysm.second_order('鞘翅yaw', -ysm.head_yaw, 1, 0.8, 0)"]
 				},
 				"AllHead": {
-					"rotation": [0, 0, 0],
-					"position": [0, 0, 0]
-				},
-				"Head": {
 					"rotation": {
 						"0.0": [-27.5, 0, 0],
 						"0.0417": [-27.23, 0, 0],
@@ -2104,8 +2098,10 @@
 						"0.9167": [-27.13, 0, 0],
 						"0.9583": [-27.4, 0, 0],
 						"1.0": [-27.5, 0, 0]
-					},
-					"position": [0, 0, 0]
+					}
+				},
+				"Head": {
+					"rotation": ["ysm.head_pitch", "ysm.head_yaw", 0]
 				},
 				"DownBody": {
 					"rotation": {
@@ -2140,7 +2136,7 @@
 					"rotation": [30, 0, 0]
 				},
 				"MAllBody": {
-					"rotation": ["-v.L6_P00", 0, 0]
+					"rotation": ["ysm.second_order('鞘翅pitch', -ysm.head_pitch, 1, 0.8, 0)", 0, 0]
 				},
 				"MHead": {
 					"rotation": ["ysm.head_pitch", "math.clamp(ysm.head_yaw,-60,60)", 0]
@@ -2915,7 +2911,7 @@
 			"bones": {
 				"Root": {
 					"rotation": [90, 0, 0],
-					"position": [0, 14, 21],
+					"position": [0, 7, 21],
 					"scale": 1
 				},
 				"UpBody": {
@@ -2923,24 +2919,14 @@
 					"position": [0, 0, 0]
 				},
 				"LeftArm": {
-					"rotation": {
-						"0.0": [7.25, 0, 0],
-						"0.1667": [8.25, 0, 0],
-						"0.3333": [7.25, 0, 0]
-					},
-					"position": [0, 0, 0]
+					"rotation": [8, 0, "0.5*ysm.elytra_rot_z"]
 				},
 				"LeftForeArm": {
 					"rotation": [0, 0, 0],
 					"position": [0, 0, 0]
 				},
 				"RightArm": {
-					"rotation": {
-						"0.0": [8.25, 0, 0],
-						"0.1667": [10, 0, 0],
-						"0.3333": [8.25, 0, 0]
-					},
-					"position": [0, 0, 0]
+					"rotation": [8, 0, "-(0.5*ysm.elytra_rot_z)"]
 				},
 				"RightForeArm": {
 					"rotation": [0, 0, 0],
@@ -2987,15 +2973,13 @@
 					"position": [0, 0, 0]
 				},
 				"AllBody": {
-					"rotation": [0, "1.5*v.L6_P0-0.4*v.L4_P0", "0.6*v.L6_P0"]
+					"rotation": [0, "-1.5*ysm.second_order('鞘翅yaw', -ysm.head_yaw, 1, 0.8, 0)", "0.6*ysm.second_order('鞘翅yaw', -ysm.head_yaw, 1, 0.8, 0)"]
 				},
 				"AllHead": {
-					"rotation": [0, 0, 0],
-					"position": [0, 0, 0]
+					"rotation": [-60, 0, 0]
 				},
 				"Head": {
-					"rotation": [-65, 0, 0],
-					"position": [0, 0, 0]
+					"rotation": ["ysm.head_pitch", "ysm.head_yaw", 0]
 				},
 				"LongHair": {
 					"rotation": {
@@ -3005,9 +2989,6 @@
 						"0.25": [67.5, 0, 0],
 						"0.3333": [65, 0, 0]
 					}
-				},
-				"MHead": {
-					"rotation": ["ysm.head_pitch", "math.clamp(ysm.head_yaw,-60,60)", 0]
 				},
 				"FLongHair": {
 					"rotation": [0, 0, 0]
@@ -3022,7 +3003,7 @@
 					"rotation": ["v.bv=math.sin(query.life_time*2000)*3", 0, 0]
 				},
 				"MAllBody": {
-					"rotation": ["-v.L6_P00", 0, 0]
+					"rotation": ["ysm.second_order('鞘翅pitch', -ysm.head_pitch, 1, 0.8, 0)", 0, 0]
 				}
 			}
 		},
@@ -3328,29 +3309,29 @@
 			"bones": {
 				"Root": {
 					"rotation": [90, 0, 0],
-					"position": [0, 0, 19],
+					"position": [0, 5, 19],
 					"scale": 1
 				},
 				"UpBody": {
 					"rotation": {
 						"0.0": {
-							"post": ["q.ground_speed<0.8?4", 0, "q.ground_speed<0.8?5+ysm.head_yaw"],
+							"post": [4, 0, "5+ysm.head_yaw"],
 							"lerp_mode": "catmullrom"
 						},
 						"0.25": {
-							"post": ["q.ground_speed<0.8?6", 0, "q.ground_speed<0.8?-0.625+ysm.head_yaw"],
+							"post": [6, 0, "-0.625+ysm.head_yaw"],
 							"lerp_mode": "catmullrom"
 						},
 						"0.5": {
-							"post": ["q.ground_speed<0.8?4", 0, "q.ground_speed<0.8?-5+ysm.head_yaw"],
+							"post": [4, 0, "-5+ysm.head_yaw"],
 							"lerp_mode": "catmullrom"
 						},
 						"0.75": {
-							"post": ["q.ground_speed<0.8?6", 0, "q.ground_speed<0.8?0.625+ysm.head_yaw"],
+							"post": [6, 0, "0.625+ysm.head_yaw"],
 							"lerp_mode": "catmullrom"
 						},
 						"1.0": {
-							"post": ["q.ground_speed<0.8?4", 0, "q.ground_speed<0.8?5+ysm.head_yaw"],
+							"post": [4, 0, "5+ysm.head_yaw"],
 							"lerp_mode": "catmullrom"
 						}
 					},
@@ -3370,17 +3351,17 @@
 					}
 				},
 				"UpperBody": {
-					"rotation": ["q.ground_speed>0.8?45", 0, 0],
+					"rotation": [0, 0, 0],
 					"position": [0, 0, 0]
 				},
 				"LeftArm": {
 					"rotation": {
 						"0.0": {
-							"post": ["q.ground_speed<0.8?-15:-12", "-(q.ground_speed<0.8?-17:10)", "-(q.ground_speed<0.8?17.5:110)"],
+							"post": [-15, 17, -17.5],
 							"lerp_mode": "catmullrom"
 						},
 						"0.3333": {
-							"post": ["q.ground_speed<0.8?9.17:-12", "-(q.ground_speed<0.8?-12.7:10)", "-(q.ground_speed<0.8?89.1:110)"],
+							"post": [9.17, 12.7, -89.1],
 							"lerp_mode": "catmullrom"
 						},
 						"0.5": {
@@ -3388,7 +3369,7 @@
 							"lerp_mode": "catmullrom"
 						},
 						"1.0": {
-							"post": ["q.ground_speed<0.8?-15:-12", "-(q.ground_speed<0.8?-17:10)", "-(q.ground_speed<0.8?17.5:110)"],
+							"post": [-15, 17, -17.5],
 							"lerp_mode": "catmullrom"
 						}
 					},
@@ -3410,23 +3391,23 @@
 				"LeftForeArm": {
 					"rotation": {
 						"0.0": {
-							"post": [0, 0, "-(q.ground_speed<0.8?145:0)"],
+							"post": [0, 0, -145],
 							"lerp_mode": "catmullrom"
 						},
 						"0.3333": {
-							"post": [0, 0, "-(q.ground_speed<0.8?70:0)"],
+							"post": [0, 0, -70],
 							"lerp_mode": "catmullrom"
 						},
 						"0.5": {
-							"post": [0, 0, "-(q.ground_speed<0.8?35:0)"],
+							"post": [0, 0, -35],
 							"lerp_mode": "catmullrom"
 						},
 						"0.75": {
-							"post": [0, 0, "-(q.ground_speed<0.8?109.69:0)"],
+							"post": [0, 0, -109.69],
 							"lerp_mode": "catmullrom"
 						},
 						"1.0": {
-							"post": [0, 0, "-(q.ground_speed<0.8?145:0)"],
+							"post": [0, 0, -145],
 							"lerp_mode": "catmullrom"
 						}
 					},
@@ -3452,11 +3433,11 @@
 							"lerp_mode": "catmullrom"
 						},
 						"0.5": {
-							"post": ["q.ground_speed<0.8?-15:-12", "q.ground_speed<0.8?-17:10", "q.ground_speed<0.8?17.5:110"],
+							"post": [-15, -17, 17.5],
 							"lerp_mode": "catmullrom"
 						},
 						"0.8333": {
-							"post": ["q.ground_speed<0.8?9.17:-12", "q.ground_speed<0.8?-12.7:10", "q.ground_speed<0.8?89.1:110"],
+							"post": [9.17, -12.7, 89.1],
 							"lerp_mode": "catmullrom"
 						},
 						"1.0": {
@@ -3482,23 +3463,23 @@
 				"RightForeArm": {
 					"rotation": {
 						"0.0": {
-							"post": [0, 0, "q.ground_speed<0.8?35:0"],
+							"post": [0, 0, 35],
 							"lerp_mode": "catmullrom"
 						},
 						"0.25": {
-							"post": [0, 0, "q.ground_speed<0.8?109.69:0"],
+							"post": [0, 0, 109.69],
 							"lerp_mode": "catmullrom"
 						},
 						"0.5": {
-							"post": [0, 0, "q.ground_speed<0.8?145:0"],
+							"post": [0, 0, 145],
 							"lerp_mode": "catmullrom"
 						},
 						"0.8333": {
-							"post": [0, 0, "q.ground_speed<0.8?70:0"],
+							"post": [0, 0, 70],
 							"lerp_mode": "catmullrom"
 						},
 						"1.0": {
-							"post": [0, 0, "q.ground_speed<0.8?35:0"],
+							"post": [0, 0, 35],
 							"lerp_mode": "catmullrom"
 						}
 					},
@@ -3520,15 +3501,15 @@
 				"LeftLeg": {
 					"rotation": {
 						"0.0": {
-							"post": ["q.ground_speed<0.8?-20:-30", "-(q.ground_speed<0.8?60:0)", 0],
+							"post": [-20, -60, 0],
 							"lerp_mode": "catmullrom"
 						},
 						"0.5": {
-							"post": ["q.ground_speed<0.8?-2.5:-30", "-(q.ground_speed<0.8?-2.5:0)", 0],
+							"post": [-2.5, 2.5, 0],
 							"lerp_mode": "catmullrom"
 						},
 						"1.0": {
-							"post": ["q.ground_speed<0.8?-20:-30", "-(q.ground_speed<0.8?60:0)", 0],
+							"post": [-20, -60, 0],
 							"lerp_mode": "catmullrom"
 						}
 					},
@@ -3550,15 +3531,15 @@
 				"LeftLowerLeg": {
 					"rotation": {
 						"0.0": {
-							"post": ["q.ground_speed<0.8?30:60", 0, 0],
+							"post": [30, 0, 0],
 							"lerp_mode": "catmullrom"
 						},
 						"0.5": {
-							"post": ["q.ground_speed<0.8?5:60", 0, 0],
+							"post": [5, 0, 0],
 							"lerp_mode": "catmullrom"
 						},
 						"1.0": {
-							"post": ["q.ground_speed<0.8?30:60", 0, 0],
+							"post": [30, 0, 0],
 							"lerp_mode": "catmullrom"
 						}
 					},
@@ -3584,15 +3565,15 @@
 				"RightLeg": {
 					"rotation": {
 						"0.0": {
-							"post": ["q.ground_speed<0.8?-2.5:0", "q.ground_speed<0.8?-2.5:0", 0],
+							"post": [-2.5, -2.5, 0],
 							"lerp_mode": "catmullrom"
 						},
 						"0.5": {
-							"post": ["q.ground_speed<0.8?-20:0", "q.ground_speed<0.8?60:0", 0],
+							"post": [-20, 60, 0],
 							"lerp_mode": "catmullrom"
 						},
 						"1.0": {
-							"post": ["q.ground_speed<0.8?-2.5", "q.ground_speed<0.8?-2.5", 0],
+							"post": [-2.5, -2.5, 0],
 							"lerp_mode": "catmullrom"
 						}
 					},
@@ -3614,15 +3595,15 @@
 				"RightLowerLeg": {
 					"rotation": {
 						"0.0": {
-							"post": ["q.ground_speed<0.8?5", 0, 0],
+							"post": [5, 0, 0],
 							"lerp_mode": "catmullrom"
 						},
 						"0.5": {
-							"post": ["q.ground_speed<0.8?30", 0, 0],
+							"post": [30, 0, 0],
 							"lerp_mode": "catmullrom"
 						},
 						"1.0": {
-							"post": ["q.ground_speed<0.8?5", 0, 0],
+							"post": [5, 0, 0],
 							"lerp_mode": "catmullrom"
 						}
 					},
@@ -3646,8 +3627,8 @@
 					"position": [0, 0, 0]
 				},
 				"AllBody": {
-					"rotation": ["q.ground_speed>0.8?-180", 0, 0],
-					"position": [0, "q.ground_speed>0.8?6", "q.ground_speed>0.8?-2"],
+					"rotation": [0, 0, 0],
+					"position": [0, 0, 0],
 					"scale": 1
 				},
 				"AllHead": {
@@ -3657,15 +3638,15 @@
 				"Head": {
 					"rotation": {
 						"0.0": {
-							"post": [-90, "ysm.head_yaw", "q.ground_speed<0.8?-5"],
+							"post": [-90, "ysm.head_yaw", -5],
 							"lerp_mode": "catmullrom"
 						},
 						"0.5": {
-							"post": [-90, "ysm.head_yaw", "q.ground_speed<0.8?5"],
+							"post": [-90, "ysm.head_yaw", 5],
 							"lerp_mode": "catmullrom"
 						},
 						"1.0": {
-							"post": [-90, "ysm.head_yaw", "q.ground_speed<0.8?-5"],
+							"post": [-90, "ysm.head_yaw", -5],
 							"lerp_mode": "catmullrom"
 						}
 					},
@@ -3674,32 +3655,32 @@
 				"DownBody": {
 					"rotation": {
 						"0.0": {
-							"post": ["q.ground_speed<0.8?-4", "q.ground_speed<0.8?-11", "q.ground_speed<0.8?10"],
+							"post": [-4, -11, 10],
 							"lerp_mode": "catmullrom"
 						},
 						"0.3333": {
-							"post": ["q.ground_speed<0.8?-4", "q.ground_speed<0.8?16.2519", "q.ground_speed<0.8?-5.8811"],
+							"post": [-4, 16.2519, -5.8811],
 							"lerp_mode": "catmullrom"
 						},
 						"0.5": {
-							"post": ["q.ground_speed<0.8?-4", "q.ground_speed<0.8?11", "q.ground_speed<0.8?-10"],
+							"post": [-4, 11, -10],
 							"lerp_mode": "catmullrom"
 						},
 						"0.8333": {
-							"post": ["q.ground_speed<0.8?-4", "q.ground_speed<0.8?-16.2519", "q.ground_speed<0.8?5.8811"],
+							"post": [-4, -16.2519, 5.8811],
 							"lerp_mode": "catmullrom"
 						},
 						"1.0": {
-							"post": ["q.ground_speed<0.8?-4", "q.ground_speed<0.8?-11", "q.ground_speed<0.8?10"],
+							"post": [-4, -11, 10],
 							"lerp_mode": "catmullrom"
 						}
 					}
 				},
 				"LongHair": {
-					"rotation": ["90+(q.ground_speed>0.8?-90)", 0, 0]
+					"rotation": [90, 0, 0]
 				},
 				"MHead": {
-					"rotation": ["ysm.head_pitch+(q.ground_speed>0.8?120)", 0, 0]
+					"rotation": ["ysm.head_pitch", 0, 0]
 				},
 				"FLongHair": {
 					"rotation": [0, 0, 0]
@@ -3708,10 +3689,7 @@
 					"rotation": [0, 0, 0]
 				},
 				"Arm": {
-					"rotation": ["q.ground_speed>0.8?-70", 0, 0]
-				},
-				"molang": {
-					"rotation": ["v.bv=math.lerp(20,math.cos(q.anim_time*1440)*-20,math.exp(-q.anim_time*5))", 0, 0]
+					"rotation": [0, 0, 0]
 				}
 			}
 		},
@@ -3720,7 +3698,7 @@
 			"bones": {
 				"Root": {
 					"rotation": [90, 0, 0],
-					"position": [0, 0, 19],
+					"position": [0, 5, 19],
 					"scale": 1
 				},
 				"UpBody": {
@@ -3800,6 +3778,15 @@
 					"rotation": ["ysm.head_pitch", 0, 0]
 				},
 				"FLongHair": {
+					"rotation": [0, 0, 0]
+				},
+				"UpperBody": {
+					"rotation": [0, 0, 0]
+				},
+				"MLongHair": {
+					"rotation": [0, 0, 0]
+				},
+				"Arm": {
 					"rotation": [0, 0, 0]
 				}
 			}
@@ -4960,7 +4947,8 @@
 			"animation_length": 0.25,
 			"bones": {
 				"Root": {
-					"rotation": [0, 0, 0],
+					"rotation": [90, 0, 0],
+					"position": [0, 5, 23],
 					"scale": 1
 				},
 				"UpBody": {
@@ -5021,12 +5009,10 @@
 				},
 				"AllBody": {
 					"rotation": {
-						"0.0": [87.49046, -4.99523, 0.21865],
-						"0.125": [87.4939, -3.99619, -179.82524],
-						"0.25": [87.49046, -4.99523, -359.78135]
-					},
-					"position": [0, 0, 0],
-					"scale": 1
+						"0.0": [0, 0, 5],
+						"0.125": [0, -179.82524, -5],
+						"0.25": [0, -360, 5]
+					}
 				},
 				"AllHead": {
 					"rotation": [0, 0, 0],
@@ -6631,226 +6617,99 @@
 				}
 			}
 		},
+		"passenger$touhou_little_maid:maid": {
+			"loop": true,
+			"bones": {
+				"Root": {
+					"rotation": [2, 0, 0]
+				},
+				"UpBody": {
+					"rotation": [-10, 0, 0]
+				},
+				"Head": {
+					"rotation": [10, 0, 0]
+				},
+				"LeftArm": {
+					"rotation": [-30, 5, -5],
+					"position": [0, -0.5, 0]
+				},
+				"LeftForeArm": {
+					"rotation": [-90, -47.5, 90]
+				},
+				"LeftHandLocator": {
+					"scale": 0
+				},
+				"RightArm": {
+					"rotation": [-30, -5, 5],
+					"position": [0, -0.5, 0]
+				},
+				"RightForeArm": {
+					"rotation": [-90, 47.5, -90]
+				},
+				"RightHandLocator": {
+					"scale": 0
+				},
+				"RightHand": {
+					"rotation": [0, 0, 0]
+				},
+				"LeftHand": {
+					"rotation": [0, 0, 0]
+				},
+				"clothe": {
+					"rotation": [7.5, 0, 0]
+				}
+			}
+		},
+		"——物理模拟——": {
+			"loop": true
+		},
 		"parallel0": {
 			"loop": true,
 			"bones": {
 				"RightEyesBase": {
-					"position": ["ysm.head_yaw/180", "ysm.head_pitch/360", 0]
+					"position": ["ysm.second_order('眼睛yaw', ysm.head_yaw/180, 1, 0.8, 0)", "ysm.second_order('眼睛pitch', ysm.head_pitch/360, 1, 0.8, 0)", 0]
 				},
 				"LeftEyesBase": {
-					"position": ["ysm.head_yaw/180", "ysm.head_pitch/360", 0]
+					"position": ["ysm.second_order('眼睛yaw', ysm.head_yaw/180, 1, 0.8, 0)", "ysm.second_order('眼睛pitch', ysm.head_pitch/360, 1, 0.8, 0)", 0]
 				},
 				"Breast": {
-					"rotation": ["v.L7_P0+v.L8_P0", "-0.1*v.L4_P0", 0],
-					"scale": ["1-0.002*(v.L7_P0+v.L8_P0)", "1+0.01*(v.L7_P0+v.L8_P0)", "1-0.008*(v.L7_P0+v.L8_P0)"]
+					"rotation": [
+						"ysm.second_order('胸部垂直', math.clamp(q.vertical_speed+v.bv,-30,30), 3, 0.3, 0)+ysm.second_order('胸部水平', math.clamp(q.ground_speed+v.bg,0,20), 2, 0.5, 1)",
+						"ysm.second_order('胸部角速度', math.clamp(-0.01*q.yaw_speed,-30,30), 3, 0.3, 0)",
+						0
+					],
+					"scale": [
+						"1-0.002*(ysm.second_order('胸部垂直', math.clamp(q.vertical_speed+v.bv,-30,30), 3, 0.3, 0)+ysm.second_order('胸部水平', math.clamp(q.ground_speed+v.bg,0,20), 2, 0.5, 1))",
+						"1+0.01*(ysm.second_order('胸部垂直', math.clamp(q.vertical_speed+v.bv,-30,30), 3, 0.3, 0)+ysm.second_order('胸部水平', math.clamp(q.ground_speed+v.bg,0,20), 2, 0.5, 1))",
+						"1-0.008*(ysm.second_order('胸部垂直', math.clamp(q.vertical_speed+v.bv,-30,30), 3, 0.3, 0)+ysm.second_order('胸部水平', math.clamp(q.ground_speed+v.bg,0,20), 2, 0.5, 1))"
+					]
 				}
 			}
-		},
-		"parallel1": {
-			"loop": true,
-			"animation_length": 0.4583,
-			"timeline": {
-				"0.0": [
-					"v.L1_F=2;",
-					"v.L1_C=0.6;",
-					"v.L1_R=90;",
-					"v.L1_K1=v.L1_C/math.pi/v.L1_F;",
-					"v.L1_K2=1/math.pow(2*math.pi*v.L1_F,2);",
-					"v.L1_K3=v.L1_R*v.L1_C/2/math.pi/v.L1_F;"
-				],
-				"0.0417": [
-					"v.L2_F=2;",
-					"v.L2_C=0.6;",
-					"v.L2_R=60;",
-					"v.L2_K1=v.L2_C/math.pi/v.L2_F;",
-					"v.L2_K2=1/math.pow(2*math.pi*v.L2_F,2);",
-					"v.L2_K3=v.L2_R*v.L2_C/2/math.pi/v.L2_F;"
-				],
-				"0.0833": [
-					"v.L3_F=2;",
-					"v.L3_C=0.6;",
-					"v.L3_R=15;",
-					"v.L3_K1=v.L3_C/math.pi/v.L3_F;",
-					"v.L3_K2=1/math.pow(2*math.pi*v.L3_F,2);",
-					"v.L3_K3=v.L3_R*v.L3_C/2/math.pi/v.L3_F;"
-				],
-				"0.125": [
-					"v.L4_F=2;",
-					"v.L4_C=0.5;",
-					"v.L4_R=28;",
-					"v.L4_K1=v.L4_C/math.pi/v.L4_F;",
-					"v.L4_K2=1/math.pow(2*math.pi*v.L4_F,2);",
-					"v.L4_K3=v.L4_R*v.L4_C/2/math.pi/v.L4_F;"
-				],
-				"0.1667": [
-					"v.L5_F=2;",
-					"v.L5_C=0.5;",
-					"v.L5_R=28;",
-					"v.L5_K1=v.L5_C/math.pi/v.L5_F;",
-					"v.L5_K2=1/math.pow(2*math.pi*v.L5_F,2);",
-					"v.L5_K3=v.L5_R*v.L5_C/2/math.pi/v.L5_F;"
-				],
-				"0.2083": [
-					"v.L6_F=1.2;",
-					"v.L6_C=0.8;",
-					"v.L6_R=10;",
-					"v.L6_K1=v.L6_C/math.pi/v.L6_F;",
-					"v.L6_K2=1/math.pow(2*math.pi*v.L6_F,2);",
-					"v.L6_K3=v.L6_R*v.L6_C/2/math.pi/v.L6_F;"
-				],
-				"0.25": [
-					"v.L7_F=5;",
-					"v.L7_C=0.2;",
-					"v.L7_R=160;",
-					"v.L7_K1=v.L7_C/math.pi/v.L7_F;",
-					"v.L7_K2=1/math.pow(2*math.pi*v.L7_F,2);",
-					"v.L7_K3=v.L7_R*v.L7_C/2/math.pi/v.L7_F;"
-				],
-				"0.2917": [
-					"v.L8_F=5;",
-					"v.L8_C=0.2;",
-					"v.L8_R=160;",
-					"v.L8_K1=v.L8_C/math.pi/v.L8_F;",
-					"v.L8_K2=1/math.pow(2*math.pi*v.L8_F,2);",
-					"v.L8_K3=v.L8_R*v.L8_C/2/math.pi/v.L8_F;"
-				],
-				"0.3333": [
-					"v.L9_F=1.2;",
-					"v.L9_C=0.6;",
-					"v.L9_R=10;",
-					"v.L9_K1=v.L9_C/math.pi/v.L9_F;",
-					"v.L9_K2=1/math.pow(2*math.pi*v.L9_F,2);",
-					"v.L9_K3=v.L9_R*v.L9_C/2/math.pi/v.L9_F;"
-				],
-				"0.375": [
-					"v.L10_F=1.2;",
-					"v.L10_C=0.6;",
-					"v.L10_R=10;",
-					"v.L10_K1=v.L10_C/math.pi/v.L10_F;",
-					"v.L10_K2=1/math.pow(2*math.pi*v.L10_F,2);",
-					"v.L10_K3=v.L10_R*v.L10_C/2/math.pi/v.L10_F;"
-				],
-				"0.4167": [
-					"v.L11_F=1.2;",
-					"v.L11_C=0.6;",
-					"v.L11_R=10;",
-					"v.L11_K1=v.L11_C/math.pi/v.L11_F;",
-					"v.L11_K2=1/math.pow(2*math.pi*v.L11_F,2);",
-					"v.L11_K3=v.L11_R*v.L11_C/2/math.pi/v.L11_F;"
-				],
-				"0.4583": [
-					"v.L12_F=5;",
-					"v.L12_C=0.8;",
-					"v.L12_R=200;",
-					"v.L12_K1=v.L12_C/math.pi/v.L12_F;",
-					"v.L12_K2=1/math.pow(2*math.pi*v.L12_F,2);",
-					"v.L12_K3=v.L12_R*v.L12_C/2/math.pi/v.L12_F;"
-				]
-			}
-		},
-		"parallel2": {
-			"loop": true,
-			"animation_length": 0.01,
-			"timeline": {
-				"0.0": [
-					"v.L1_P1=v.L1_P0+0.01*v.L1_P0dot;",
-					"v.L2_P1=v.L2_P0+0.01*v.L2_P0dot;",
-					"v.L3_P1=v.L3_P0+0.01*v.L3_P0dot;",
-					"v.L4_P1=v.L4_P0+0.01*v.L4_P0dot;",
-					"v.L5_P1=v.L5_P0+0.01*v.L5_P0dot;",
-					"v.L6_P1=v.L6_P0+0.01*v.L6_P0dot;",
-					"v.L6_P10=v.L6_P00+0.01*v.L6_P00dot;",
-					"v.L7_P1=v.L7_P0+0.01*v.L7_P0dot;",
-					"v.L8_P1=v.L8_P0+0.01*v.L8_P0dot;",
-					"v.L9_P1=v.L9_P0+0.01*v.L9_P0dot;",
-					"v.L10_P1=v.L10_P0+0.01*v.L10_P0dot;",
-					"v.L11_P1=v.L11_P0+0.01*v.L11_P0dot;",
-					"v.L12_P1=v.L12_P0+0.01*v.L12_P0dot;",
-					"'头发垂直速度物理';",
-					"v.L1_P1dot=v.L1_P0dot+0.01*(v.L1_K3*math.clamp(q.vertical_speed+v.hv,-30,1)-v.L1_P1-v.L1_K1*v.L1_P0dot)/v.L1_K2;",
-					"'头发水平速度物理';",
-					"v.L2_P1dot=v.L2_P0dot+0.01*(v.L2_K3*math.clamp(2*q.ground_speed+v.hg,0,30)-v.L2_P1-v.L2_K1*v.L2_P0dot)/v.L2_K2;",
-					"'头发水平角速度物理';",
-					"v.L3_P1dot=v.L3_P0dot+0.01*(v.L3_K3*math.clamp(q.yaw_speed,-600,600)-v.L3_P1-v.L3_K1*v.L3_P0dot)/v.L3_K2;",
-					"'胸部水平角速度物理';",
-					"v.L4_P1dot=v.L4_P0dot+0.01*(v.L4_K3*math.clamp((math.min(q.yaw_speed,-300)+math.max(q.yaw_speed,300)),-300,300)-v.L4_P1-v.L4_K1*v.L4_P0dot)/v.L4_K2;",
-					"'玩家头发垂直角度物理';",
-					"v.L5_P1dot=v.L5_P0dot+0.01*(v.L5_K3*(ysm.head_pitch>-40?ysm.head_pitch:-40)-v.L5_P1-v.L5_K1*v.L5_P0dot)/v.L5_K2;",
-					"'玩家头部水平角度物理';",
-					"v.L6_P1dot=v.L6_P0dot+0.01*(v.L6_K3*ysm.head_yaw-v.L6_P1-v.L6_K1*v.L6_P0dot)/v.L6_K2;",
-					"'玩家头部垂直角度物理';",
-					"v.L6_P10dot=v.L6_P00dot+0.01*(v.L6_K3*ysm.head_pitch-v.L6_P10-v.L6_K1*v.L6_P00dot)/v.L6_K2;",
-					"'胸部垂直速度物理';",
-					"v.L7_P1dot=v.L7_P0dot+0.01*(v.L7_K3*math.clamp(q.vertical_speed+v.bv,-30,30)-v.L7_P1-v.L7_K1*v.L7_P0dot)/v.L7_K2;",
-					"'胸部水平速度物理';",
-					"v.L8_P1dot=v.L8_P0dot+0.01*(v.L8_K3*math.clamp(q.ground_speed+v.bg,0,20)-v.L8_P1-v.L8_K1*v.L8_P0dot)/v.L8_K2;",
-					"'玩家x坐标增量物理';",
-					"v.L9_P1dot=v.L9_P0dot+0.01*(v.L9_K3*(100*query.position_delta(0))-v.L9_P1-v.L9_K1*v.L9_P0dot)/v.L9_K2;",
-					"'玩家y坐标增量物理';",
-					"v.L10_P1dot=v.L10_P0dot+0.01*(v.L10_K3*(100*query.position_delta(1))-v.L10_P1-v.L10_K1*v.L10_P0dot)/v.L10_K2;",
-					"'玩家z坐标增量物理';",
-					"v.L11_P1dot=v.L11_P0dot+0.01*(v.L11_K3*(100*query.position_delta(2))-v.L11_P1-v.L11_K1*v.L11_P0dot)/v.L11_K2;",
-					"'玩家下落速度物理重锤相关';",
-					"v.L12_P1dot=v.L12_P0dot+0.01*(v.L12_K3*(math.clamp(q.vertical_speed,-30,0))-v.L12_P1-v.L12_K1*v.L12_P0dot)/v.L12_K2;"
-				],
-				"0.0101": [
-					"v.L1_P0=v.L1_P1;",
-					"v.L2_P0=v.L2_P1;",
-					"v.L3_P0=v.L3_P1;",
-					"v.L4_P0=v.L4_P1;",
-					"v.L5_P0=v.L5_P1;",
-					"v.L6_P0=v.L6_P1;",
-					"v.L6_P00=v.L6_P10;",
-					"v.L7_P0=v.L7_P1;",
-					"v.L8_P0=v.L8_P1;",
-					"v.L9_P0=v.L9_P1;",
-					"v.L10_P0=v.L10_P1;",
-					"v.L11_P0=v.L11_P1;",
-					"v.L12_P0=v.L12_P1;",
-					"v.L1_P0dot=v.L1_P1dot;",
-					"v.L2_P0dot=v.L2_P1dot;",
-					"v.L3_P0dot=v.L3_P1dot;",
-					"v.L4_P0dot=v.L4_P1dot;",
-					"v.L5_P0dot=v.L5_P1dot;",
-					"v.L6_P0dot=v.L6_P1dot;",
-					"v.L6_P00dot=v.L6_P10dot;",
-					"v.L7_P0dot=v.L7_P1dot;",
-					"v.L8_P0dot=v.L8_P1dot;",
-					"v.L9_P0dot=v.L9_P1dot;",
-					"v.L10_P0dot=v.L10_P1dot;",
-					"v.L11_P0dot=v.L11_P1dot;",
-					"v.L12_P0dot=v.L12_P1dot;"
-				]
-			}
-		},
-		"parallel3": {
-			"loop": true
-		},
-		"parallel4": {
-			"loop": true
-		},
-		"parallel5": {
-			"loop": true
-		},
-		"parallel6": {
-			"loop": true
-		},
-		"parallel7": {
-			"loop": true
 		},
 		"pre_parallel0": {
 			"loop": true,
 			"bones": {
 				"FLongHair": {
-					"rotation": ["v.L5_P0", 0, 0]
+					"rotation": ["ysm.second_order('抬头头发防穿模', ysm.head_pitch>-40?ysm.head_pitch:-40, 2, 0.6, 0)", 0, 0]
 				},
 				"ElytraLocator": {
-					"rotation": ["-0.6*v.L1_P0+0.6*v.L2_P0", 0, "0.1*v.L3_P0"]
+					"rotation": [
+						"0.6*ysm.second_order('头发垂直', math.clamp(-3*q.vertical_speed+v.hv,-10,120), 2, 0.6, 0)+0.6*ysm.second_order('头发水平', math.clamp(q.ground_speed+v.hg,0,20), 2, 0.6, 0)",
+						0,
+						"ysm.second_order('头发角速度', math.clamp(-0.02*q.yaw_speed,-60,60), 2, 0.6, 0)"
+					]
 				},
 				"MLongHair": {
-					"rotation": ["-v.L1_P0+v.L2_P0", 0, "0.1*v.L3_P0"]
+					"rotation": [
+						"ysm.second_order('头发垂直', math.clamp(-3*q.vertical_speed+v.hv,-10,120), 2, 0.6, 0)+ysm.second_order('头发水平', math.clamp(q.ground_speed+v.hg,0,20), 2, 0.6, 0)",
+						0,
+						"ysm.second_order('头发角速度', math.clamp(-0.02*q.yaw_speed,-60,60), 2, 0.6, 0)"
+					]
 				}
 			}
+		},
+		"——眨眼动画——": {
+			"loop": true
 		},
 		"pre_parallel1": {
 			"loop": true,
@@ -6938,8 +6797,48 @@
 				}
 			}
 		},
-		"pre_parallel2": {
+		"——并行动画——": {
 			"loop": true
+		},
+		"parallel1": {
+			"loop": true,
+			"bones": {
+				"Ribbon": {
+					"scale": "v.red_bow_headdress??1"
+				}
+			}
+		},
+		"parallel2": {
+			"loop": true
+		},
+		"parallel3": {
+			"loop": true
+		},
+		"parallel4": {
+			"loop": true
+		},
+		"parallel5": {
+			"loop": true
+		},
+		"parallel6": {
+			"loop": true
+		},
+		"parallel7": {
+			"loop": true
+		},
+		"——低优先级并行动画——": {
+			"loop": true
+		},
+		"pre_parallel2": {
+			"loop": true,
+			"bones": {
+				"SheathLocator": {
+					"scale": 0
+				},
+				"BladeLocator": {
+					"scale": 0
+				}
+			}
 		},
 		"pre_parallel3": {
 			"loop": true
@@ -6959,49 +6858,6 @@
 		"empty": {
 			"loop": true,
 			"animation_length": 2
-		},
-		"passenger$touhou_little_maid:maid": {
-			"loop": true,
-			"bones": {
-				"Root": {
-					"rotation": [2, 0, 0]
-				},
-				"UpBody": {
-					"rotation": [-10, 0, 0]
-				},
-				"Head": {
-					"rotation": [10, 0, 0]
-				},
-				"LeftArm": {
-					"rotation": [-30, 5, -5],
-					"position": [0, -0.5, 0]
-				},
-				"LeftForeArm": {
-					"rotation": [-90, -47.5, 90]
-				},
-				"LeftHandLocator": {
-					"scale": 0
-				},
-				"RightArm": {
-					"rotation": [-30, -5, 5],
-					"position": [0, -0.5, 0]
-				},
-				"RightForeArm": {
-					"rotation": [-90, 47.5, -90]
-				},
-				"RightHandLocator": {
-					"scale": 0
-				},
-				"RightHand": {
-					"rotation": [0, 0, 0]
-				},
-				"LeftHand": {
-					"rotation": [0, 0, 0]
-				},
-				"clothe": {
-					"rotation": [7.5, 0, 0]
-				}
-			}
 		}
 	},
 	"geckolib_format_version": 2

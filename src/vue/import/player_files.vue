@@ -20,7 +20,7 @@ export default {
     },
     data() {
         return {
-            animation_type: ["arm", "extra", "tac", "carryon", "swem", "parcool"]
+            animation_type: ["arm", "extra", "tac", "carryon", "swem", "parcool", "slashblade", "tlm"]
         };
     },
     methods: {
@@ -52,6 +52,9 @@ export default {
                 "normal": "",
                 "specular": ""
             });
+        },
+        addNewControllers: function () {
+            this.playerFiles["animation_controllers"].push("");
         },
         deleteCurrentTexture: function (textures, index) {
             let texture = textures[index];
@@ -179,6 +182,35 @@ export default {
             </div>
         </div>
 
+        <div class="new-author-item">
+            <p class="title">{{ tl("menu.ysm_utils.load_info_menu.files.player.animation_controllers") }}</p>
+            <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.files.player.animation_controllers.desc") }}</p>
+
+            <div class="li-item"
+                 v-if="playerFiles['animation_controllers'] && playerFiles['animation_controllers'].length > 0">
+                <div style="display: flex;" v-for="(value, index) in playerFiles['animation_controllers']">
+                    <p class="li-text">
+                        {{ tl("menu.ysm_utils.load_info_menu.files.player.animation_controllers.prefix", index + 1) }}
+                    </p>
+                    <input class="input" type="text" v-model.trim="playerFiles['animation_controllers'][index]"
+                           readonly>
+                    <div style="display: flex; margin-left: 2px">
+                        <button class="icon-button"
+                                @click="changeFile(value, `controller`).then(result =>playerFiles['animation_controllers'][index] = result)">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                        <button class="icon-button"
+                                @click="removeFile(value, ()=>playerFiles['animation_controllers'].splice(index, 1))">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <button style="width: 100%; margin-top: 5px" @click="addNewControllers">
+                {{ tl("menu.ysm_utils.load_info_menu.files.add_new_controllers") }}
+            </button>
+        </div>
 
         <div class="new-author-item">
             <p class="title">{{ tl("menu.ysm_utils.load_info_menu.files.player.texture") }}</p>

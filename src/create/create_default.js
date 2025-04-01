@@ -8,6 +8,8 @@ import mainAnimationJson from "../../assets/default/animations/main.animation.js
 import parcoolAnimationJson from "../../assets/default/animations/parcool.animation.json";
 import swemAnimationJson from "../../assets/default/animations/swem.animation.json";
 import tacAnimationJson from "../../assets/default/animations/tac.animation.json";
+import slashbladeAnimationJson from "../../assets/default/animations/slashblade.animation.json";
+import tlmAnimationJson from "../../assets/default/animations/tlm.animation.json";
 import armModelJson from "../../assets/default/models/arm.json";
 import arrowModelJson from "../../assets/default/models/arrow.json";
 import mainModelJson from "../../assets/default/models/main.json";
@@ -35,12 +37,16 @@ function createAllFiles(selectFilePaths, formResult) {
     let avatar = join(packPath, "avatar");
     let models = join(packPath, "models");
     let textures = join(packPath, "textures");
+    let sounds = join(packPath, "sounds");
+    let controller = join(packPath, "controller");
 
     mkdirSync(packPath, {recursive: true});
     mkdirSync(animations, {recursive: true});
     mkdirSync(avatar, {recursive: true});
     mkdirSync(models, {recursive: true});
     mkdirSync(textures, {recursive: true});
+    mkdirSync(sounds, {recursive: true});
+    mkdirSync(controller, {recursive: true});
 
     // 复制文件
     fs.writeFileSync(join(animations, "arm.animation.json"), autoStringify(armAnimationJson));
@@ -51,6 +57,8 @@ function createAllFiles(selectFilePaths, formResult) {
     fs.writeFileSync(join(animations, "parcool.animation.json"), autoStringify(parcoolAnimationJson));
     fs.writeFileSync(join(animations, "swem.animation.json"), autoStringify(swemAnimationJson));
     fs.writeFileSync(join(animations, "tac.animation.json"), autoStringify(tacAnimationJson));
+    fs.writeFileSync(join(animations, "slashblade.animation.json"), autoStringify(slashbladeAnimationJson));
+    fs.writeFileSync(join(animations, "tlm.animation.json"), autoStringify(tlmAnimationJson));
 
     fs.writeFileSync(join(models, "arm.json"), autoStringify(armModelJson));
     fs.writeFileSync(join(models, "arrow.json"), autoStringify(arrowModelJson));

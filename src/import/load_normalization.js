@@ -36,10 +36,14 @@ function propertiesHandle(properties) {
         "extra6": "",
         "extra7": ""
     };
+    properties["extra_animation_classify"] ??= [];
+    properties["extra_animation_buttons"] ??= [];
     properties["preview_animation"] ??= "idle";
     properties["default_texture"] ??= "";
     properties["free"] ??= false;
     properties["render_layers_first"] ??= false;
+    properties["disable_preview_rotation"] ??= false;
+    properties["all_cutout"] ??= false;
 }
 
 function playerHandle(files) {
@@ -59,6 +63,11 @@ function playerHandle(files) {
     animation["carryon"] ??= "";
     animation["swem"] ??= "";
     animation["parcool"] ??= "";
+    animation["slashblade"] ??= "";
+    animation["tlm"] ??= "";
+
+    // 控制器部分
+    player["animation_controllers"] ??= [];
 
     // texture 部分，将其全部修改为对象
     player["texture"] ??= [];
@@ -76,6 +85,9 @@ function playerHandle(files) {
             return value;
         }
     });
+
+    // 声音包路径
+    player["sound_path"] ??= "sounds";
 }
 
 function arrowHandle(files) {

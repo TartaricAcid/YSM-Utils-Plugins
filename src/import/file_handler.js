@@ -54,6 +54,7 @@ export async function changeCurrentFile(packDir, pathValue, defaultDir, extensio
 export async function removeCurrentFile(packDir, pathValue, callback) {
     // 路径为空，不进行任何操作
     if (!pathValue || pathValue.length === 0) {
+        callback();
         return;
     }
     let srcFilePath = join(packDir, pathValue);

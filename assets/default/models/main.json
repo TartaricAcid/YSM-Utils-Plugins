@@ -13,7 +13,7 @@
 			"bones": [
 				{
 					"name": "Root",
-					"pivot": [0, -0.35, -5]
+					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "MAllBody",
@@ -374,6 +374,16 @@
 					"pivot": [4.125, 19.575, 0.025]
 				},
 				{
+					"name": "SheathLocator",
+					"parent": "LeftHand",
+					"pivot": [4.125, 19.575, 0.025]
+				},
+				{
+					"name": "LeftWaistLocator",
+					"parent": "LeftHand",
+					"pivot": [4.125, 19.575, 0.025]
+				},
+				{
 					"name": "RightArm",
 					"parent": "Arm",
 					"pivot": [-3.4, 31.025, 0],
@@ -405,6 +415,11 @@
 					"pivot": [-4.125, 19.575, 0.025]
 				},
 				{
+					"name": "BladeLocator",
+					"parent": "RightHand",
+					"pivot": [-4.125, 19.575, 0.025]
+				},
+				{
 					"name": "Collar",
 					"parent": "UpperBody",
 					"pivot": [0, 30.925, -0.025],
@@ -429,16 +444,15 @@
 					"rotation": [0, 0, 45]
 				},
 				{
+					"name": "BackpackLocator",
+					"parent": "UpperBody",
+					"pivot": [0, 30, 0]
+				},
+				{
 					"name": "PistolLocator",
 					"parent": "UpBody",
 					"pivot": [-4, 24.75, -1.6],
 					"rotation": [-30, 0, 0]
-				},
-				{
-					"name": "LeftWaistLocator",
-					"parent": "UpBody",
-					"pivot": [4, 23, 0],
-					"rotation": [-20, 0, 0]
 				},
 				{
 					"name": "RightWaistLocator",

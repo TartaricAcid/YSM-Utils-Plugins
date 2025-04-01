@@ -86,6 +86,19 @@ function playerHandle(files) {
     objSeparatorReplace(player["animation"]);
     deleteObject(player, "animation");
 
+    // 控制器部分
+    player["animation_controllers"] ??= [];
+    player["animation_controllers"] = player["animation_controllers"].map(value => {
+        if (typeof value == "string" && !isEmptyString(value)) {
+            return value.replaceAll("\\", "/");
+        }
+        return null;
+    }).filter(item => item != null);
+    if (player["animation_controllers"].length <= 0) {
+        delete player["animation_controllers"];
+    }
+
+    // 材质部分
     player["texture"] ??= [];
     player["texture"] = player["texture"].map(value => {
         if (typeof value == "string" && !isEmptyString(value)) {
@@ -101,12 +114,21 @@ function playerHandle(files) {
         return Object.values(item).length > 0;
     });
     textureListSeparatorReplace(player["texture"]);
+
+    // 声音包路径，如果是 sounds 这个，就不需要存在了，直接删掉
+    if (player["sound_path"] && player["sound_path"] === "sounds") {
+        delete player["sound_path"];
+    }
 }
 
 function arrowHandle(files) {
     objSeparatorReplace(files["arrow"]);
-    textureSeparatorReplace(files["arrow"]["texture"]);
-    deleteObject(files["arrow"], "texture");
+    if (files["arrow"]["texture"]) {
+        textureSeparatorReplace(files["arrow"]["texture"]);
+    }
+    if (files["arrow"] && files["arrow"]["texture"]) {
+        deleteObject(files["arrow"], "texture");
+    }
     deleteObject(files, "arrow");
 }
 
@@ -135,6 +157,7 @@ export function saveNormalization(ysmJson, ysmJsonPath) {
 }
 
 function textureSeparatorReplace(texture) {
+    texture = texture ?? {};
     if (texture["uv"]) {
         texture["uv"] = texture["uv"].replaceAll("\\", "/");
     }
