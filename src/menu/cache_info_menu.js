@@ -58,6 +58,22 @@ export function addToYsmCache(path) {
     addCacheYsmFoldersAction(name, path);
 }
 
+export function getCacheYsmImportConfig() {
+    let cacheYsmImportConfig = localStorage.getItem("cacheYsmImportConfig");
+    if (!cacheYsmImportConfig || !cacheYsmImportConfig.length) {
+        return {
+            "load_animation": true,
+            "load_animation_controllers": true
+        };
+    } else {
+        return JSON.parse(cacheYsmImportConfig);
+    }
+}
+
+export function saveCacheYsmImportConfig(config) {
+    localStorage.setItem("cacheYsmImportConfig", JSON.stringify(config));
+}
+
 function addCacheYsmFoldersAction(name, desc) {
     CACHE_YSM_FOLDERS.push({
         id: name,

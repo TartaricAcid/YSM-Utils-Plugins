@@ -119,6 +119,8 @@
   "menu.ysm_utils.current_info_menu.no_info": "The current model has no associated information",
   "menu.ysm_utils.current_info_menu.status_bar_text": "Java YSM Model File",
   "menu.ysm_utils.direct_import.name": "Direct Import",
+  "menu.ysm_utils.direct_import.import_animation": "Import Animation",
+  "menu.ysm_utils.direct_import.import_animation_controller": "Import Animation Controller",
   "menu.ysm_utils.file_import.missing_field": "Error: The ysm.json file is missing the '%0' field",
   "menu.ysm_utils.file_import.missing_file": "Error: %0 file is missing",
   "menu.ysm_utils.import_type.player_main": "Player Main Model",

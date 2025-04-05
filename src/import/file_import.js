@@ -4,7 +4,7 @@ import {addProjectInfo} from "../util/project_info_manager.js";
 const JSON_OPTIONS = {readtype: "text", errorbox: true};
 const IMG_OPTIONS = {readtype: "image", errorbox: true};
 
-export function importMainFile(packDir, ysmJson, dialog) {
+export function importMainFile(packDir, ysmJson, dialog, config = {}) {
     let files = ysmJson["files"];
     if (!files) {
         showMissingFieldTip("files");
@@ -28,11 +28,11 @@ export function importMainFile(packDir, ysmJson, dialog) {
     }
     Blockbench.readFile([mainModelPath], JSON_OPTIONS, files => {
         loadModelFile(files[0]);
-        importTexture(playerFiles, packDir, true, dialog);
+        importTexture(playerFiles, packDir, dialog, config);
     });
 }
 
-export function importArmFile(packDir, ysmJson, dialog) {
+export function importArmFile(packDir, ysmJson, dialog, config = {}) {
     let files = ysmJson["files"];
     if (!files) {
         showMissingFieldTip("files");
@@ -56,11 +56,11 @@ export function importArmFile(packDir, ysmJson, dialog) {
     }
     Blockbench.readFile([armModelPath], JSON_OPTIONS, files => {
         loadModelFile(files[0]);
-        importTexture(playerFiles, packDir, false, dialog);
+        importTexture(playerFiles, packDir, dialog, config);
     });
 }
 
-export function importArrowFile(packDir, ysmJson, dialog) {
+export function importArrowFile(packDir, ysmJson, dialog, config = {}) {
     let files = ysmJson["files"];
     if (!files) {
         showMissingFieldTip("files");
@@ -84,13 +84,14 @@ export function importArrowFile(packDir, ysmJson, dialog) {
     }
     Blockbench.readFile([arrowModelPath], JSON_OPTIONS, files => {
         loadModelFile(files[0]);
-        importTexture(arrowFiles, packDir, true, dialog);
+        importTexture(arrowFiles, packDir, dialog, config);
     });
 }
 
-function importTexture(objFiles, packDir, loadAnimation, dialog) {
+function importTexture(objFiles, packDir, dialog, config = {}) {
     let images = [];
     let texture = objFiles["texture"];
+    let loadAnimation = config["load_animation"] ?? false;
 
     if (typeof texture === "string") {
         pushFile(images, texture, ".png", packDir);
@@ -107,7 +108,7 @@ function importTexture(objFiles, packDir, loadAnimation, dialog) {
     Blockbench.readFile(images, IMG_OPTIONS, files => {
         files.forEach(file => new Texture().fromFile(file).add());
         if (loadAnimation) {
-            importAnimation(objFiles, packDir, dialog);
+            importAnimation(objFiles, packDir, dialog, config);
         } else {
             dialog.close();
         }
@@ -115,9 +116,10 @@ function importTexture(objFiles, packDir, loadAnimation, dialog) {
     });
 }
 
-function importAnimation(objFiles, packDir, dialog) {
+function importAnimation(objFiles, packDir, dialog, config = {}) {
     let animations = [];
     let animation = objFiles["animation"];
+    let loadController = config["load_animation_controllers"] ?? false;
 
     if (typeof animation === "string") {
         pushFile(animations, animation, ".json", packDir);
@@ -129,6 +131,29 @@ function importAnimation(objFiles, packDir, dialog) {
 
     Blockbench.readFile(animations, JSON_OPTIONS, files => {
         files.forEach(file => Animator.loadFile(file));
+        // 加载控制器
+        if (loadController) {
+            importController(objFiles, packDir, dialog);
+        } else {
+            dialog.close();
+        }
+    });
+}
+
+function importController(objFiles, packDir, dialog) {
+    let animationControllersData = objFiles["animation_controllers"] ?? [];
+    if (animationControllersData.length <= 0) {
+        dialog.close();
+    }
+    let animationControllers = [];
+    animationControllersData.forEach(value => pushFile(animationControllers, value, ".json", packDir));
+    if (animationControllers.length <= 0) {
+        dialog.close();
+    }
+    Blockbench.readFile(animationControllers, JSON_OPTIONS, files => {
+        files.forEach(file => {
+            Animator.loadFile(file);
+        });
         dialog.close();
     });
 }

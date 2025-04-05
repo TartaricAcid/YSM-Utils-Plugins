@@ -119,6 +119,8 @@
   "menu.ysm_utils.current_info_menu.no_info": "当前模型没有关联信息",
   "menu.ysm_utils.current_info_menu.status_bar_text": "Java YSM 模型文件",
   "menu.ysm_utils.direct_import.name": "直接导入",
+  "menu.ysm_utils.direct_import.import_animation": "导入动画",
+  "menu.ysm_utils.direct_import.import_animation_controller": "导入动画控制器",
   "menu.ysm_utils.file_import.missing_field": "错误：ysm.json 文件缺失“%0”字段",
   "menu.ysm_utils.file_import.missing_file": "错误：%0 文件缺失",
   "menu.ysm_utils.import_type.player_main": "玩家主模型",
