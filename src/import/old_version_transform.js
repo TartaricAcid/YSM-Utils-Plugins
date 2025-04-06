@@ -116,6 +116,8 @@ function writeArrowFilesJson(srcPackPath, files) {
     let arrow = {};
     if (fs.existsSync(join(srcPackPath, "arrow.json"))) {
         arrow["model"] = "models/arrow.json";
+    } else {
+        return;
     }
     if (fs.existsSync(join(srcPackPath, "arrow.png"))) {
         arrow["texture"] = "textures/arrow.png";

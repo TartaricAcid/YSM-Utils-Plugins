@@ -91,12 +91,11 @@ export default {
         <div class="type-import-div">
             <div>
                 <input type="checkbox" v-model="importConfig['load_animation']" @change="saveConfig"/>
-                <label for="scales">{{ tl("menu.ysm_utils.direct_import.import_animation") }}</label>
+                <label>{{ tl("menu.ysm_utils.direct_import.import_animation") }}</label>
             </div>
             <div>
-                <input type="checkbox" v-model="importConfig['load_animation_controllers']"
-                       :disabled="!importConfig['load_animation']" @change="saveConfig"/>
-                <label for="scales">{{ tl("menu.ysm_utils.direct_import.import_animation_controller") }}</label>
+                <input type="checkbox" v-model="importConfig['load_animation_controllers']" @change="saveConfig"/>
+                <label>{{ tl("menu.ysm_utils.direct_import.import_animation_controller") }}</label>
             </div>
         </div>
     </div>

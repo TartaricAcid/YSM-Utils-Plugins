@@ -1,5 +1,8 @@
 <script>
 import {join} from "path";
+import {editExtraAnimationDialog} from "../../import/edit_extra_animation.js";
+import {editExtraAnimationClassifyDialog} from "../../import/edit_extra_animation_classify.js";
+import {editExtraAnimationButtonsDialog} from "../../import/edit_extra_animation_buttons.js";
 
 export default {
     props: {
@@ -43,23 +46,39 @@ export default {
             this.tmpExtraAnimation.push(["", ""]);
             this.$forceUpdate();
         },
-        getAvailableExtraAnimation: function () {
-            let output = new Set();
-            let existExtraAnimations = Object.keys(this.properties["extra_animation"] ?? {});
-            this.allExtraAnimations.forEach(name => {
-                if (!existExtraAnimations.includes(name)) {
-                    output.add(name);
-                }
-            });
-            return output;
-        },
         updateExtraAnimation: function () {
             let tmp = {};
             for (let value of this.tmpExtraAnimation) {
                 tmp[value[0]] = value[1];
             }
             this.properties["extra_animation"] = tmp;
-        }
+        },
+        editExtraAnimation: function (index) {
+            this.updateExtraAnimation();
+            editExtraAnimationDialog(this.ysmJson, this.packDirectory, index);
+        },
+        deleteExtraAnimationClassify: function (index) {
+            this.properties["extra_animation_classify"].splice(index, 1);
+            this.$forceUpdate();
+        },
+        addNewExtraAnimationClassify: function () {
+            this.properties["extra_animation_classify"].push({"id": "", "extra_animation": {}});
+            this.$forceUpdate();
+        },
+        editExtraAnimationClassify: function (index) {
+            editExtraAnimationClassifyDialog(this.ysmJson, this.packDirectory, index);
+        },
+        deleteExtraAnimationButtons: function (index) {
+            this.properties["extra_animation_buttons"].splice(index, 1);
+            this.$forceUpdate();
+        },
+        addNewExtraAnimationButtons: function () {
+            this.properties["extra_animation_buttons"].push({"id": "", "name": "", "config_forms": []});
+            this.$forceUpdate();
+        },
+        editExtraAnimationButtons: function (index) {
+            editExtraAnimationButtonsDialog(this.ysmJson, this.packDirectory, index);
+        },
     },
     computed: {
         properties: function () {
@@ -79,22 +98,6 @@ export default {
                 let filePath = join(this.packDirectory, allAnimationList[key]);
                 if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
                     let content = fs.readFileSync(join(this.packDirectory, allAnimationList[key]), "utf8");
-                    let animations = autoParseJSON(content)["animations"] ?? {};
-                    Object.keys(animations).forEach(name => keys.add(name));
-                }
-            }
-            return keys;
-        },
-        allExtraAnimations: function () {
-            let keys = new Set();
-            for (let i = 0; i < 8; i++) {
-                keys.add(`extra${i}`);
-            }
-            let extraAnimationFile = this.ysmJson?.["files"]["player"]["animation"]["extra"];
-            if (extraAnimationFile) {
-                let filePath = join(this.packDirectory, extraAnimationFile);
-                if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
-                    let content = fs.readFileSync(filePath, "utf8");
                     let animations = autoParseJSON(content)["animations"] ?? {};
                     Object.keys(animations).forEach(name => keys.add(name));
                 }
@@ -154,13 +157,11 @@ export default {
             <div style="display: flex; flex-wrap: wrap; margin-top: 10px">
                 <div v-for="(value, index) in tmpExtraAnimation"
                      style="width: 49%; margin-left: 2px; margin-top: 2px; overflow: visible;">
-                    <select id="simple" name="simple" style="width: 30%; text-align: center;"
-                            v-model="value[0]" @change="updateExtraAnimation">
-                        <option selected>{{ value[0] }}</option>
-                        <option v-for="name in getAvailableExtraAnimation()">{{ name }}</option>
-                    </select>
-                    <input class="input" type="text" style="width: 50%; margin-left: 2px;"
-                           v-model.trim="value[1]" @input="updateExtraAnimation">
+                    <input class="input" type="text" style="width: 30%; margin-left: 2px;"
+                           v-model.trim="value[0]" disabled>
+                    <input class="input" type="text" style="width: 40%; margin-left: 2px;"
+                           v-model.trim="value[1]" disabled>
+                    <i class="fa-solid fa-pen-to-square extra-delete" @click="editExtraAnimation(index)"></i>
                     <i class="fa-solid fa-trash-can extra-delete" @click="deleteExtraAnimation(index)"></i>
 
                     <!-- 每 8 个添加一个分隔线 -->
@@ -170,6 +171,46 @@ export default {
 
                 <button style="width: 44.8%; margin-left: 2px; margin-top: 2px;"
                         @click="addNewExtraAnimation()">
+                    <i class="fa-solid fa-plus" style="vertical-align: middle;"></i>
+                    <span>{{ tl("menu.ysm_utils.load_info_menu.properties.extra_animation.add") }}</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="properties-item">
+            <p class="title">{{ tl("menu.ysm_utils.load_info_menu.properties.extra_animation_classify") }}</p>
+            <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.properties.extra_animation_classify.desc") }}</p>
+
+            <div style="display: flex; flex-wrap: wrap; margin-top: 10px">
+                <div v-for="(value, index) in properties['extra_animation_classify']"
+                     style="width: 49%; margin-left: 2px; margin-top: 2px; overflow: visible;">
+                    <input class="input" type="text" style="width: 72%; margin-left: 2px;"
+                           v-model="value['id']" disabled>
+                    <i class="fa-solid fa-pen-to-square extra-delete" @click="editExtraAnimationClassify(index)"></i>
+                    <i class="fa-solid fa-trash-can extra-delete" @click="deleteExtraAnimationClassify(index)"></i>
+                </div>
+                <button style="width: 44.8%; margin-left: 2px; margin-top: 2px;"
+                        @click="addNewExtraAnimationClassify">
+                    <i class="fa-solid fa-plus" style="vertical-align: middle;"></i>
+                    <span>{{ tl("menu.ysm_utils.load_info_menu.properties.extra_animation.add") }}</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="properties-item">
+            <p class="title">{{ tl("menu.ysm_utils.load_info_menu.properties.extra_animation_buttons") }}</p>
+            <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.properties.extra_animation_buttons.desc") }}</p>
+
+            <div style="display: flex; flex-wrap: wrap; margin-top: 10px">
+                <div v-for="(value, index) in properties['extra_animation_buttons']"
+                     style="width: 49%; margin-left: 2px; margin-top: 2px; overflow: visible;">
+                    <input class="input" type="text" style="width: 72%; margin-left: 2px;"
+                           v-model="value['id']" disabled>
+                    <i class="fa-solid fa-pen-to-square extra-delete" @click="editExtraAnimationButtons(index)"></i>
+                    <i class="fa-solid fa-trash-can extra-delete" @click="deleteExtraAnimationButtons(index)"></i>
+                </div>
+                <button style="width: 44.8%; margin-left: 2px; margin-top: 2px;"
+                        @click="addNewExtraAnimationButtons">
                     <i class="fa-solid fa-plus" style="vertical-align: middle;"></i>
                     <span>{{ tl("menu.ysm_utils.load_info_menu.properties.extra_animation.add") }}</span>
                 </button>
@@ -304,7 +345,7 @@ export default {
 
 .extra-delete {
     width: 20px;
-    margin-left: 5px
+    margin-left: 2px
 }
 
 .extra-delete:hover {
