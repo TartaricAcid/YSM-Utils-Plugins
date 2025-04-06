@@ -36,7 +36,7 @@ function onDialogCancel(ysmJson, ysmJsonPath, sha256Cache) {
 /**
  * 删除空白数据
  */
-function saveYsmFile(ysmJson, ysmJsonPath) {
+export function saveYsmFile(ysmJson, ysmJsonPath) {
     let result = autoStringify(saveNormalization(ysmJson, ysmJsonPath));
     fs.writeFileSync(ysmJsonPath, result);
     Blockbench.showQuickMessage(tl("menu.ysm_utils.save_success"), 3000);

@@ -66,10 +66,65 @@ function propertiesHandle(properties) {
         "extra6": "",
         "extra7": ""
     };
+    extraAnimationClassifyHandle(properties);
+    extraAnimationButtonsHandle(properties);
     properties["preview_animation"] ??= "idle";
     deleteField(properties, "default_texture");
     properties["free"] ??= false;
     properties["render_layers_first"] ??= false;
+}
+
+function extraAnimationClassifyHandle(properties) {
+    let extraAnimationClassify = properties["extra_animation_classify"] ??= [];
+    let output = [];
+    extraAnimationClassify.forEach(value => {
+        if (!isEmptyString(value["id"])) {
+            output.push(value);
+        }
+    });
+    if (output.length > 0) {
+        properties["extra_animation_classify"] = output;
+    } else {
+        delete properties["extra_animation_classify"];
+    }
+}
+
+function extraAnimationButtonsHandle(properties) {
+    let extraAnimationButtons = properties["extra_animation_buttons"] ??= [];
+    let output = [];
+    extraAnimationButtons.forEach(value => {
+        if (!isEmptyString(value["id"])) {
+            value["config_forms"].forEach(forms => {
+                delete forms["uuid"];
+                delete forms["tmp_labels"];
+
+                // 删除不必要的属性
+                if (forms["type"] === "checkbox") {
+                    delete forms["step"];
+                    delete forms["min"];
+                    delete forms["max"];
+                    delete forms["labels"];
+                }
+                if (forms["type"] === "range") {
+                    delete forms["labels"];
+                }
+                if (forms["type"] === "radio") {
+                    delete forms["step"];
+                    delete forms["min"];
+                    delete forms["max"];
+                    Object.keys(forms["labels"]).forEach(key => {
+                        deleteField(forms["labels"], key);
+                    });
+                }
+            });
+            output.push(value);
+        }
+    });
+    if (output.length > 0) {
+        properties["extra_animation_buttons"] = output;
+    } else {
+        delete properties["extra_animation_buttons"];
+    }
 }
 
 function playerHandle(files) {
