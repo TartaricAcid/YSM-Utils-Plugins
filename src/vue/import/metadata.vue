@@ -23,12 +23,10 @@ export default {
     methods: {
         join,
         tl,
-        getTipsRows: function (tips) {
-            let size = tips.split("\n").length;
-            if (size < 3) {
-                return 3;
-            }
-            return size;
+        resizeTextarea() {
+            const textarea = this.$refs.textarea;
+            textarea.style.height = "auto";
+            textarea.style.height = textarea.scrollHeight + "px";
         },
         openNewAuthorDialog: function () {
             newAuthorDialog(this.ysmJson, this.packDirectory);
@@ -65,7 +63,7 @@ export default {
         <div class="metadata-item">
             <p class="title">{{ tl("menu.ysm_utils.load_info_menu.metadata.tips") }}</p>
             <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.metadata.tips.desc") }}</p>
-            <textarea class="textarea" :rows="this.getTipsRows(metadata['tips'])"
+            <textarea class="textarea" @input="resizeTextarea" @click="resizeTextarea" ref="textarea"
                       v-model.trim="metadata['tips']" :placeholder="tl('menu.ysm_utils.can_be_empty')">
             </textarea>
         </div>

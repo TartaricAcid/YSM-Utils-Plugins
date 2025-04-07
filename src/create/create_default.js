@@ -10,6 +10,7 @@ import swemAnimationJson from "../../assets/default/animations/swem.animation.js
 import tacAnimationJson from "../../assets/default/animations/tac.animation.json";
 import slashbladeAnimationJson from "../../assets/default/animations/slashblade.animation.json";
 import tlmAnimationJson from "../../assets/default/animations/tlm.animation.json";
+import animationControllers from "../../assets/default/controller/main.animation_controllers.json";
 import armModelJson from "../../assets/default/models/arm.json";
 import arrowModelJson from "../../assets/default/models/arrow.json";
 import mainModelJson from "../../assets/default/models/main.json";
@@ -59,6 +60,8 @@ function createAllFiles(selectFilePaths, formResult) {
     fs.writeFileSync(join(animations, "tac.animation.json"), autoStringify(tacAnimationJson));
     fs.writeFileSync(join(animations, "slashblade.animation.json"), autoStringify(slashbladeAnimationJson));
     fs.writeFileSync(join(animations, "tlm.animation.json"), autoStringify(tlmAnimationJson));
+
+    fs.writeFileSync(join(controller, "main.animation_controllers.json"), autoStringify(animationControllers));
 
     fs.writeFileSync(join(models, "arm.json"), autoStringify(armModelJson));
     fs.writeFileSync(join(models, "arrow.json"), autoStringify(arrowModelJson));

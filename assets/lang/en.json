@@ -42,7 +42,7 @@
   "menu.ysm_utils.load_info_menu.metadata.authors.comment.desc": "Author Comment Desc",
   "menu.ysm_utils.load_info_menu.metadata.authors.config": "Config",
   "menu.ysm_utils.load_info_menu.metadata.authors.delete": "Delete The Author",
-  "menu.ysm_utils.load_info_menu.metadata.authors.delete.message": "Do you want to delete this author?",
+  "menu.ysm_utils.load_info_menu.metadata.authors.delete.message": "Do you want to delete this author?<br>This will also put the avatar into the recycle bin!",
   "menu.ysm_utils.load_info_menu.metadata.authors.need_author_name": "Author name is required",
   "menu.ysm_utils.load_info_menu.metadata.authors.select_author_avatar": "Select Author Avatar",
   "menu.ysm_utils.load_info_menu.metadata.authors.same_file": "The author's avatar with the same name exists.\nDo you want to overwrite it?",

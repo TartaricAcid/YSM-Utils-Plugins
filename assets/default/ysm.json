@@ -27,17 +27,41 @@
     "height_scale": 0.7,
     "width_scale": 0.7,
     "extra_animation": {
-      "extra0": "",
+      "extra0": "#extra_config",
       "extra1": "",
       "extra2": "",
       "extra3": "",
       "extra4": "",
       "extra5": "",
       "extra6": "",
-      "extra7": ""
+      "#extra_classify": "Extra Classify"
     },
-    "extra_animation_classify": [],
-    "extra_animation_buttons": [],
+    "extra_animation_classify": [
+      {
+        "id": "extra_classify",
+        "extra_animation": {
+          "extra0": "Extra In Classify 1",
+          "extra1": "Extra In Classify 2"
+        }
+      }
+    ],
+    "extra_animation_buttons": [
+      {
+        "id": "extra_config",
+        "name": "Simple Config",
+        "config_forms": [
+          {
+            "type": "range",
+            "title": "Size/大小: ",
+            "description": "Change the player size (改变玩家大小)",
+            "value": "v.player_size",
+            "step": 0.05,
+            "min": 0.2,
+            "max": 3
+          }
+        ]
+      }
+    ],
     "preview_animation": "idle",
     "default_texture": "default",
     "render_layers_first": false,
@@ -62,7 +86,9 @@
         "slashblade": "animations/slashblade.animation.json",
         "tlm": "animations/tlm.animation.json"
       },
-      "animation_controllers": [],
+      "animation_controllers": [
+        "controller/main.animation_controllers.json"
+      ],
       "texture": [
         "textures/default.png",
         "textures/blue.png"

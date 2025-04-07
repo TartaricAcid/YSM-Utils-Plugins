@@ -2069,7 +2069,7 @@
 					}
 				},
 				"AllBody": {
-					"rotation": [0, "-1.5*ysm.second_order('鞘翅yaw', -ysm.head_yaw, 1, 0.8, 0)", "0.6*ysm.second_order('鞘翅yaw', -ysm.head_yaw, 1, 0.8, 0)"]
+					"rotation": [0, "-1.5*ysm.second_order('ElytraYaw', -ysm.head_yaw, 1, 0.8, 0)", "0.6*ysm.second_order('ElytraYaw', -ysm.head_yaw, 1, 0.8, 0)"]
 				},
 				"AllHead": {
 					"rotation": {
@@ -2136,7 +2136,7 @@
 					"rotation": [30, 0, 0]
 				},
 				"MAllBody": {
-					"rotation": ["ysm.second_order('鞘翅pitch', -ysm.head_pitch, 1, 0.8, 0)", 0, 0]
+					"rotation": ["ysm.second_order('ElytraPitch', -ysm.head_pitch, 1, 0.8, 0)", 0, 0]
 				},
 				"MHead": {
 					"rotation": ["ysm.head_pitch", "math.clamp(ysm.head_yaw,-60,60)", 0]
@@ -2973,7 +2973,7 @@
 					"position": [0, 0, 0]
 				},
 				"AllBody": {
-					"rotation": [0, "-1.5*ysm.second_order('鞘翅yaw', -ysm.head_yaw, 1, 0.8, 0)", "0.6*ysm.second_order('鞘翅yaw', -ysm.head_yaw, 1, 0.8, 0)"]
+					"rotation": [0, "-1.5*ysm.second_order('ElytraYaw', -ysm.head_yaw, 1, 0.8, 0)", "0.6*ysm.second_order('ElytraYaw', -ysm.head_yaw, 1, 0.8, 0)"]
 				},
 				"AllHead": {
 					"rotation": [-60, 0, 0]
@@ -3003,7 +3003,7 @@
 					"rotation": ["v.bv=math.sin(query.life_time*2000)*3", 0, 0]
 				},
 				"MAllBody": {
-					"rotation": ["ysm.second_order('鞘翅pitch', -ysm.head_pitch, 1, 0.8, 0)", 0, 0]
+					"rotation": ["ysm.second_order('ElytraPitch', -ysm.head_pitch, 1, 0.8, 0)", 0, 0]
 				}
 			}
 		},
@@ -6660,28 +6660,25 @@
 				}
 			}
 		},
-		"——物理模拟——": {
-			"loop": true
-		},
 		"parallel0": {
 			"loop": true,
 			"bones": {
 				"RightEyesBase": {
-					"position": ["ysm.second_order('眼睛yaw', ysm.head_yaw/180, 1, 0.8, 0)", "ysm.second_order('眼睛pitch', ysm.head_pitch/360, 1, 0.8, 0)", 0]
+					"position": ["ysm.second_order('EyeYaw', ysm.head_yaw/180, 1, 0.8, 0)", "ysm.second_order('EyePitch', ysm.head_pitch/360, 1, 0.8, 0)", 0]
 				},
 				"LeftEyesBase": {
-					"position": ["ysm.second_order('眼睛yaw', ysm.head_yaw/180, 1, 0.8, 0)", "ysm.second_order('眼睛pitch', ysm.head_pitch/360, 1, 0.8, 0)", 0]
+					"position": ["ysm.second_order('EyeYaw', ysm.head_yaw/180, 1, 0.8, 0)", "ysm.second_order('EyePitch', ysm.head_pitch/360, 1, 0.8, 0)", 0]
 				},
 				"Breast": {
 					"rotation": [
-						"ysm.second_order('胸部垂直', math.clamp(q.vertical_speed+v.bv,-30,30), 3, 0.3, 0)+ysm.second_order('胸部水平', math.clamp(q.ground_speed+v.bg,0,20), 2, 0.5, 1)",
-						"ysm.second_order('胸部角速度', math.clamp(-0.01*q.yaw_speed,-30,30), 3, 0.3, 0)",
+						"ysm.second_order('BreastVertical', math.clamp(q.vertical_speed+v.bv,-30,30), 3, 0.3, 0)+ysm.second_order('BreastHorizontal', math.clamp(q.ground_speed+v.bg,0,20), 2, 0.5, 1)",
+						"ysm.second_order('BreastYawSpeed', math.clamp(-0.01*q.yaw_speed,-30,30), 3, 0.3, 0)",
 						0
 					],
 					"scale": [
-						"1-0.002*(ysm.second_order('胸部垂直', math.clamp(q.vertical_speed+v.bv,-30,30), 3, 0.3, 0)+ysm.second_order('胸部水平', math.clamp(q.ground_speed+v.bg,0,20), 2, 0.5, 1))",
-						"1+0.01*(ysm.second_order('胸部垂直', math.clamp(q.vertical_speed+v.bv,-30,30), 3, 0.3, 0)+ysm.second_order('胸部水平', math.clamp(q.ground_speed+v.bg,0,20), 2, 0.5, 1))",
-						"1-0.008*(ysm.second_order('胸部垂直', math.clamp(q.vertical_speed+v.bv,-30,30), 3, 0.3, 0)+ysm.second_order('胸部水平', math.clamp(q.ground_speed+v.bg,0,20), 2, 0.5, 1))"
+						"1-0.002*(ysm.second_order('BreastVertical', math.clamp(q.vertical_speed+v.bv,-30,30), 3, 0.3, 0)+ysm.second_order('BreastHorizontal', math.clamp(q.ground_speed+v.bg,0,20), 2, 0.5, 1))",
+						"1+0.01*(ysm.second_order('BreastVertical', math.clamp(q.vertical_speed+v.bv,-30,30), 3, 0.3, 0)+ysm.second_order('BreastHorizontal', math.clamp(q.ground_speed+v.bg,0,20), 2, 0.5, 1))",
+						"1-0.008*(ysm.second_order('BreastVertical', math.clamp(q.vertical_speed+v.bv,-30,30), 3, 0.3, 0)+ysm.second_order('BreastHorizontal', math.clamp(q.ground_speed+v.bg,0,20), 2, 0.5, 1))"
 					]
 				}
 			}
@@ -6690,26 +6687,23 @@
 			"loop": true,
 			"bones": {
 				"FLongHair": {
-					"rotation": ["ysm.second_order('抬头头发防穿模', ysm.head_pitch>-40?ysm.head_pitch:-40, 2, 0.6, 0)", 0, 0]
+					"rotation": ["ysm.second_order('LongHairFix', ysm.head_pitch>-40?ysm.head_pitch:-40, 2, 0.6, 0)", 0, 0]
 				},
 				"ElytraLocator": {
 					"rotation": [
-						"0.6*ysm.second_order('头发垂直', math.clamp(-3*q.vertical_speed+v.hv,-10,120), 2, 0.6, 0)+0.6*ysm.second_order('头发水平', math.clamp(q.ground_speed+v.hg,0,20), 2, 0.6, 0)",
+						"0.6*ysm.second_order('HairVertical', math.clamp(-3*q.vertical_speed+v.hv,-10,120), 2, 0.6, 0)+0.6*ysm.second_order('HairHorizontal', math.clamp(q.ground_speed+v.hg,0,20), 2, 0.6, 0)",
 						0,
-						"ysm.second_order('头发角速度', math.clamp(-0.02*q.yaw_speed,-60,60), 2, 0.6, 0)"
+						"ysm.second_order('HairYawSpeed', math.clamp(-0.02*q.yaw_speed,-60,60), 2, 0.6, 0)"
 					]
 				},
 				"MLongHair": {
 					"rotation": [
-						"ysm.second_order('头发垂直', math.clamp(-3*q.vertical_speed+v.hv,-10,120), 2, 0.6, 0)+ysm.second_order('头发水平', math.clamp(q.ground_speed+v.hg,0,20), 2, 0.6, 0)",
+						"ysm.second_order('HairVertical', math.clamp(-3*q.vertical_speed+v.hv,-10,120), 2, 0.6, 0)+ysm.second_order('HairHorizontal', math.clamp(q.ground_speed+v.hg,0,20), 2, 0.6, 0)",
 						0,
-						"ysm.second_order('头发角速度', math.clamp(-0.02*q.yaw_speed,-60,60), 2, 0.6, 0)"
+						"ysm.second_order('HairYawSpeed', math.clamp(-0.02*q.yaw_speed,-60,60), 2, 0.6, 0)"
 					]
 				}
 			}
-		},
-		"——眨眼动画——": {
-			"loop": true
 		},
 		"pre_parallel1": {
 			"loop": true,
@@ -6797,9 +6791,6 @@
 				}
 			}
 		},
-		"——并行动画——": {
-			"loop": true
-		},
 		"parallel1": {
 			"loop": true,
 			"bones": {
@@ -6824,9 +6815,6 @@
 			"loop": true
 		},
 		"parallel7": {
-			"loop": true
-		},
-		"——低优先级并行动画——": {
 			"loop": true
 		},
 		"pre_parallel2": {

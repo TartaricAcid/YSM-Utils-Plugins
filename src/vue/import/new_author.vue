@@ -68,7 +68,12 @@ export default {
                 cancel: 1
             }, (button) => {
                 if (button === 0 && this.isEditAction) {
-                    this.authors.splice(this.authorIndex, 1);
+                    let deleteAuthors = this.authors.splice(this.authorIndex, 1);
+                    // 查看头像是否存在，移动到回收站
+                    let avatarPath = join(this.packDirectory, deleteAuthors[0]["avatar"]);
+                    if (fs.existsSync(avatarPath)) {
+                        electron.shell.trashItem(avatarPath);
+                    }
                     this.newAuthorDialog.close();
                 }
             });

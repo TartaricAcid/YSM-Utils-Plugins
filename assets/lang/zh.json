@@ -42,7 +42,7 @@
   "menu.ysm_utils.load_info_menu.metadata.authors.comment.desc": "添加作者描述文本",
   "menu.ysm_utils.load_info_menu.metadata.authors.config": "修改",
   "menu.ysm_utils.load_info_menu.metadata.authors.delete": "删除该作者",
-  "menu.ysm_utils.load_info_menu.metadata.authors.delete.message": "你真的打算删除该作者么？",
+  "menu.ysm_utils.load_info_menu.metadata.authors.delete.message": "你真的打算删除该作者么？<br>这也会一并将头像也放入回收站！",
   "menu.ysm_utils.load_info_menu.metadata.authors.need_author_name": "作者名称是必填内容",
   "menu.ysm_utils.load_info_menu.metadata.authors.select_author_avatar": "选择作者头像",
   "menu.ysm_utils.load_info_menu.metadata.authors.same_file": "头像存在同名文件\n你打算覆盖它么？",
