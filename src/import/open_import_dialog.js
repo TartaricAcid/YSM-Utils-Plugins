@@ -62,11 +62,28 @@ export function openImportDialog(packDirectory) {
         title: "menu.ysm_utils.load_info_menu.title",
         cancel_on_click_outside: false,
         width: 1000,
+        confirmIndex: 0,
+        cancelIndex: 2,
+        buttons: [
+            tl("menu.ysm_utils.save"),
+            tl("menu.ysm_utils.save_quit"),
+            tl("dialog.close")
+        ],
+        onConfirm(formResult) {
+            // 保存，但是不关闭窗口
+            saveYsmFile(JSON.parse(JSON.stringify(ysmJson)), ysmJsonPath);
+            sha256Cache = getSha256(ysmJson); // 更新一次哈希值，避免重复提醒
+            return false;
+        },
+        onButton(button_index, event) {
+            // 保存，并关闭窗口
+            if (button_index === 1) {
+                saveYsmFile(ysmJson, ysmJsonPath);
+                return true;
+            }
+        },
         onCancel: function (event) {
             return onDialogCancel(ysmJson, ysmJsonPath, sha256Cache);
-        },
-        onConfirm(formResult) {
-            saveYsmFile(ysmJson, ysmJsonPath);
         },
         sidebar: {
             pages: {
