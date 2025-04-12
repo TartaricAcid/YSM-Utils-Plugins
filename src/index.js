@@ -4,6 +4,7 @@ import {CACHE_YSM_INFO_ACTION, initCacheYsmFoldersAction} from "./menu/cache_inf
 import {currentInfoMenuAction} from "./menu/current_info_menu.js";
 import {directImportMenuAction} from "./menu/direct_import.js";
 import {createDefaultModel} from "./create/create_default.js";
+import {addYsmMolang} from "./molang/YsmMolang.js";
 
 BBPlugin.register(packageInfo.name, {
     title: packageInfo.title,
@@ -32,6 +33,7 @@ BBPlugin.register(packageInfo.name, {
 function doLoadEvent() {
     loadI18n();
     initCacheYsmFoldersAction();
+    addYsmMolang();
     new BarMenu("ysm_utils", [
         "ysm_utils.create_default_model",
         "ysm_utils.direct_import",
