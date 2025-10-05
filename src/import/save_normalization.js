@@ -72,6 +72,8 @@ function propertiesHandle(properties) {
     deleteField(properties, "default_texture");
     properties["free"] ??= false;
     properties["render_layers_first"] ??= false;
+    deleteField(properties, "gui_foreground");
+    deleteField(properties, "gui_background");
 }
 
 function extraAnimationClassifyHandle(properties) {
@@ -169,22 +171,37 @@ function playerHandle(files) {
         return Object.values(item).length > 0;
     });
     textureListSeparatorReplace(player["texture"]);
-
-    // 声音包路径，如果是 sounds 这个，就不需要存在了，直接删掉
-    if (player["sound_path"] && player["sound_path"] === "sounds") {
-        delete player["sound_path"];
-    }
 }
 
-function arrowHandle(files) {
-    objSeparatorReplace(files["arrow"]);
-    if (files["arrow"]["texture"]) {
-        textureSeparatorReplace(files["arrow"]["texture"]);
+function otherFilesHandle(files) {
+    Object.values(files).forEach(file => {
+        objSeparatorReplace(file);
+        if (file["texture"]) {
+            textureSeparatorReplace(file["texture"]);
+        }
+        if (file && file["texture"]) {
+            deleteObject(file, "texture");
+        }
+    });
+    // 删除空字段
+    Object.keys(objSeparatorReplace).forEach(key => {
+        deleteField(files, key);
+    });
+}
+
+function pathDefineHandle(files) {
+    // 声音包路径，如果是 sounds 这个，就不需要存在了，直接删掉
+    if (files["sound_path"] && files["sound_path"] === "sounds") {
+        delete files["sound_path"];
     }
-    if (files["arrow"] && files["arrow"]["texture"]) {
-        deleteObject(files["arrow"], "texture");
+    // 函数路径
+    if (files["function_path"] && files["function_path"] === "functions") {
+        delete files["function_path"];
     }
-    deleteObject(files, "arrow");
+    // 语言文件路径
+    if (files["language_path"] && files["language_path"] === "lang") {
+        delete files["language_path"];
+    }
 }
 
 /**
@@ -203,10 +220,20 @@ export function saveNormalization(ysmJson, ysmJsonPath) {
 
     // files 部分
     let files = ysmJson["files"] ??= {};
+
     // player 部分
     playerHandle(files);
-    // arrow 部分
-    arrowHandle(files);
+
+    // 投掷物和载具部分
+    let projectiles = files["projectiles"] ??= {};
+    let vehicles = files["vehicles"] ??= {};
+    otherFilesHandle(projectiles);
+    otherFilesHandle(vehicles);
+    deleteObject(files, "projectiles");
+    deleteObject(files, "vehicles");
+
+    // 路径定义部分
+    pathDefineHandle(files);
 
     return ysmJson;
 }

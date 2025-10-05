@@ -44,6 +44,9 @@ function propertiesHandle(properties) {
     properties["render_layers_first"] ??= false;
     properties["disable_preview_rotation"] ??= false;
     properties["all_cutout"] ??= false;
+    properties["gui_no_lighting"] ??= false;
+    properties["gui_foreground"] ??= "";
+    properties["gui_background"] ??= "";
 }
 
 function playerHandle(files) {
@@ -87,30 +90,41 @@ function playerHandle(files) {
     });
 
     // 声音包路径
-    player["sound_path"] ??= "sounds";
+    // 2.4.1 及之前的版本该字段在 player 下，2.4.1 之后移到 files 下
+    if ("sound_path" in player) {
+        files["sound_path"] = player["sound_path"];
+        delete player["sound_path"];
+    }
 }
 
-function arrowHandle(files) {
-    let arrow = files["arrow"] ??= {
-        "model": "",
-        "animation": "",
-        "texture": ""
-    };
-    arrow["model"] ??= "";
-    arrow["animation"] ??= "";
-
-    let texture = arrow["texture"] ?? {};
-    if (typeof texture == "string") {
-        arrow["texture"] = {
-            "uv": texture,
-            "normal": "",
-            "specular": ""
-        };
-    } else {
-        texture["uv"] ??= "";
-        texture["normal"] ??= "";
-        texture["specular"] ??= "";
+// 将旧版的 arrow 字段转换为新版
+function oldArrowHandle(files) {
+    if (!("arrow" in files)) {
+        return;
     }
+    let projectiles = files["projectiles"];
+    projectiles["minecraft:arrow"] = files["arrow"];
+    delete files["arrow"];
+}
+
+function otherFilesHandle(files) {
+    Object.values(files).forEach(file => {
+        file["model"] ??= "";
+        file["animation"] ??= "";
+
+        let texture = file["texture"] ?? {};
+        if (typeof texture == "string") {
+            file["texture"] = {
+                "uv": texture,
+                "normal": "",
+                "specular": ""
+            };
+        } else {
+            texture["uv"] ??= "";
+            texture["normal"] ??= "";
+            texture["specular"] ??= "";
+        }
+    });
 }
 
 /**
@@ -129,10 +143,21 @@ export function loadNormalization(ysmJson) {
 
     // files 部分
     let files = ysmJson["files"] ??= {};
+    // 投掷物和载具部分
+    let projectiles = files["projectiles"] ??= {};
+    let vehicles = files["vehicles"] ??= {};
+    // 函数、声音包、语言文件部分
+    files["sound_path"] ??= "sounds";
+    files["function_path"] ??= "functions";
+    files["language_path"] ??= "lang";
+
     // player 部分
     playerHandle(files);
     // arrow 部分
-    arrowHandle(files);
+    oldArrowHandle(files);
+    // 投掷物和载具部分
+    otherFilesHandle(projectiles);
+    otherFilesHandle(vehicles);
 
     return ysmJson;
 }

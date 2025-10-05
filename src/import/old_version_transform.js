@@ -125,7 +125,8 @@ function writeArrowFilesJson(srcPackPath, files) {
     if (fs.existsSync(join(srcPackPath, "arrow.animation.png"))) {
         arrow["animation"] = "animations/arrow.animation.json";
     }
-    files["arrow"] = arrow;
+    let projectiles = files["projectiles"] ??= {};
+    projectiles["minecraft:arrow"] = arrow;
 }
 
 function copyFile(srcPath, srcFileName, destPath) {
