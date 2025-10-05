@@ -2,20 +2,19 @@
   "spec": 2,
   "metadata": {
     "name": "Default",
-    "tips": "默认模型（Default Model）",
+    "tips": "默认模型",
     "license": {
-      "type": "All Rights Reserved"
+      "type": "CC 0"
     },
     "authors": [
       {
-        "name": "哥斯拉",
-        "role": "模型",
-        "avatar": "avatar/gsl.png",
+        "name": "无名氏",
+        "role": "作者",
+        "avatar": "avatar/null.png",
         "contact": {
-          "Afdian": "https://afdian.com/a/6TGESILA",
-          "Bilibili": "https://space.bilibili.com/17798027"
+          "Bilibili": "https://www.bilibili.com/"
         },
-        "comment": "一个MC模型/YSM作者，想法很多，时间很少"
+        "comment": "喵喵喵喵喵~"
       }
     ],
     "link": {
@@ -34,40 +33,31 @@
       "extra4": "",
       "extra5": "",
       "extra6": "",
-      "#extra_classify": "Extra Classify"
+      "extra7": ""
     },
-    "extra_animation_classify": [
-      {
-        "id": "extra_classify",
-        "extra_animation": {
-          "extra0": "Extra In Classify 1",
-          "extra1": "Extra In Classify 2"
-        }
-      }
-    ],
     "extra_animation_buttons": [
       {
         "id": "extra_config",
-        "name": "Simple Config",
+        "name": "0",
         "config_forms": [
           {
-            "type": "range",
-            "title": "Size/大小: ",
-            "description": "Change the player size (改变玩家大小)",
-            "value": "v.player_size",
-            "step": 0.05,
-            "min": 0.2,
-            "max": 3
+            "type": "checkbox",
+            "title": "Headdress",
+            "description": "Used to hide/show the red bow headdress",
+            "value": "v.red_bow_headdress"
           }
         ]
       }
     ],
-    "preview_animation": "idle",
+    "extra_animation_classify": [],
+    "preview_animation": "gui",
+    "disable_preview_rotation": true,
+    "gui_no_lighting": false,
+    "gui_foreground": "textures/gui/foreground.png",
+    "gui_background": "textures/gui/background.png",
     "default_texture": "default",
     "render_layers_first": false,
-    "free": true,
-    "disable_preview_rotation": false,
-    "all_cutout": false
+    "free": true
   },
   "files": {
     "player": {
@@ -84,7 +74,8 @@
         "parcool": "animations/parcool.animation.json",
         "swem": "animations/swem.animation.json",
         "slashblade": "animations/slashblade.animation.json",
-        "tlm": "animations/tlm.animation.json"
+        "tlm": "animations/tlm.animation.json",
+        "fp_arm": "animations/fp.arm.animation.json"
       },
       "animation_controllers": [
         "controller/main.animation_controllers.json"
@@ -94,10 +85,29 @@
         "textures/blue.png"
       ]
     },
-    "arrow": {
-      "model": "models/arrow.json",
-      "animation": "animations/arrow.animation.json",
-      "texture": "textures/arrow.png"
-    }
+    "projectiles": {
+      "minecraft:arrow": {
+        "model": "models/arrow.json",
+        "animation": "animations/arrow.animation.json",
+        "texture": "textures/arrow.png"
+      },
+      "minecraft:fishing_bobber": {
+        "model": "models/fishing_bobber.json",
+        "texture": "textures/fishing_bobber.png"
+      }
+    },
+    "vehicles": {
+      "minecraft:boat": {
+        "model": "models/boat.json",
+        "animation": "animations/boat.animation.json",
+        "texture": "textures/boat.png"
+      },
+      "minecraft:minecart": {
+        "model": "models/minecart.json",
+        "texture": "textures/minecart.png"
+      }
+    },
+    "sound_path": "sounds",
+    "function_path": "functions"
   }
 }

@@ -27,11 +27,11 @@ export function addYsmMolang() {
             })
             .addQuery({
                 id: "equipped_enchantment_level",
-                arguments: ["slotType", "id"]
+                arguments: ["slotType", "id..."]
             })
             .addQuery({
                 id: "effect_level",
-                arguments: ["id"]
+                arguments: ["id..."]
             })
             .addQuery({
                 id: "relative_block_name",
@@ -271,6 +271,81 @@ export function addYsmMolang() {
             .addQuery({
                 id: "shoot_item_id"
             })
+            .addQuery({
+                id: "relative_block_name_any",
+                arguments: ["xOffset", "yOffset", "zOffset", "blockName..."]
+            })
+            .addQuery({
+                id: "ysm.in_shield_block_cooldown"
+            })
+            .addQuery({
+                id: "ysm.xxa"
+            })
+            .addQuery({
+                id: "ysm.yya"
+            })
+            .addQuery({
+                id: "ysm.zza"
+            })
+            .addQuery({
+                id: "ysm.play_sound",
+                arguments: ["id", "sound_name", "force_play", "volume", "pitch"]
+            })
+            .addQuery({
+                id: "ysm.stop_sound",
+                arguments: ["id"]
+            })
+            .addQuery({
+                id: "ysm.stop_all_sounds"
+            })
+            .addQuery({
+                id: "ysm.block_light"
+            })
+            .addQuery({
+                id: "ysm.sky_light"
+            })
+            .addQuery({
+                id: "ysm.mouse",
+                arguments: ["keycode"]
+            })
+            .addQuery({
+                id: "ysm.keyboard",
+                arguments: ["keycode..."]
+            })
+            .addQuery({
+                id: "ysm.time_delta"
+            })
+            .addQuery({
+                id: "ysm.sync",
+                arguments: ["int..."]
+            })
+            .addQuery({
+                id: "ysm.ground_speed2"
+            })
+            .addQuery({
+                id: "ysm.throwable_item"
+            })
+            .addQuery({
+                id: "ysm.hooked_in"
+            })
+            .addQuery({
+                id: "ysm.is_biting"
+            })
+            .addQuery({
+                id: "ysm.has_any_curios",
+                arguments: ["type", "name..."]
+            })
+            .addQuery({
+                id: "ysm.has_any_curios_with_all_tags",
+                arguments: ["type", "tag..."]
+            })
+            .addQuery({
+                id: "ysm.has_any_curios_with_any_tag",
+                arguments: ["type", "tag..."]
+            })
+            .addQuery({
+                id: "ysm.dump_curios"
+            })
     ).addNamespace(
         new MolangAutocomplete.Namespace({
             id: "ctrl",
@@ -394,6 +469,12 @@ export function addYsmMolang() {
             })
             .addQuery({
                 id: "slashblade_animation"
+            })
+            .addQuery({
+                id: "playing_extra_animation"
+            })
+            .addQuery({
+                id: "create_hanging_skyhook"
             })
     ).addNamespace(
         new MolangAutocomplete.Namespace({

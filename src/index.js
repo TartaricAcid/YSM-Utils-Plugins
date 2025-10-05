@@ -4,7 +4,7 @@ import {CACHE_YSM_INFO_ACTION, initCacheYsmFoldersAction} from "./menu/cache_inf
 import {currentInfoMenuAction} from "./menu/current_info_menu.js";
 import {directImportMenuAction} from "./menu/direct_import.js";
 import {createDefaultModel} from "./create/create_default.js";
-import {addYsmMolang} from "./molang/YsmMolang.js";
+import {addYsmMolang} from "./molang/ysm_molang.js";
 
 BBPlugin.register(packageInfo.name, {
     title: packageInfo.title,

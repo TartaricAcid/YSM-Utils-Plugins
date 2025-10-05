@@ -1,0 +1,19 @@
+{
+  "metadata.name": "默认模型",
+  "metadata.tips": "默认模型",
+  "metadata.authors.0.name": "无名氏",
+  "metadata.authors.0.role": "作者",
+  "metadata.authors.0.comment": "喵喵喵喵喵~",
+  "properties.extra_animation.extra0": "诹访大舞",
+  "properties.extra_animation.extra1": "挥手",
+  "properties.extra_animation.extra2": "拍手",
+  "properties.extra_animation.extra3": "YES",
+  "properties.extra_animation.extra4": "NO",
+  "properties.extra_animation.extra5": "耶",
+  "properties.extra_animation.extra6": "摆手",
+  "properties.extra_animation.extra7": "跳舞",
+  "properties.extra_animation_buttons.extra_config.config_forms.0.title": "头饰",
+  "properties.extra_animation_buttons.extra_config.config_forms.0.description": "用来显示或开启玩家头饰",
+  "files.player.texture.default": "默认",
+  "files.player.texture.blue": "蓝色"
+}

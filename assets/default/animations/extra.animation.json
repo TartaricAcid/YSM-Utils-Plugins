@@ -2,8 +2,7 @@
 	"format_version": "1.8.0",
 	"animations": {
 		"extra1": {
-			"loop": "hold_on_last_frame",
-			"animation_length": 1.5,
+			"animation_length": 1,
 			"bones": {
 				"UpBody": {
 					"rotation": {
@@ -57,12 +56,7 @@
 						"0.8333": [-0.024, 1.97059, -0.49938],
 						"0.875": [-0.024, 2.43844, -0.49979],
 						"0.9167": [-0.02401, 2.69725, -0.5002],
-						"0.9583": [-0.02401, 2.79841, -0.50048],
-						"1.5": {
-							"pre": [-0.02402, 2.7499, -0.50058],
-							"post": [-0.02402, 2.7499, -0.50058],
-							"lerp_mode": "catmullrom"
-						}
+						"0.9583": [-0.02401, 2.79841, -0.50048]
 					}
 				},
 				"LeftArm": {
@@ -174,7 +168,6 @@
 			}
 		},
 		"extra2": {
-			"loop": "hold_on_last_frame",
 			"animation_length": 1.5,
 			"bones": {
 				"Root": {
@@ -419,7 +412,6 @@
 			}
 		},
 		"extra3": {
-			"loop": "hold_on_last_frame",
 			"animation_length": 1.5,
 			"bones": {
 				"Root": {
@@ -623,7 +615,6 @@
 			}
 		},
 		"extra4": {
-			"loop": "hold_on_last_frame",
 			"animation_length": 1.5,
 			"bones": {
 				"Root": {
@@ -827,7 +818,6 @@
 			}
 		},
 		"extra5": {
-			"loop": "hold_on_last_frame",
 			"animation_length": 1,
 			"bones": {
 				"Root": {
