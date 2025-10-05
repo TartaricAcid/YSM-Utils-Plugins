@@ -2,12 +2,16 @@ import {join} from "path";
 import {arePathsEqual, createDirectories} from "../util/path_util.js";
 
 export async function changeCurrentFile(packDir, pathValue, defaultDir, extension) {
+    return await changeCurrentFileWithFilters(packDir, pathValue, defaultDir, [{
+        extensions: [extension],
+        name: extension,
+    }]);
+}
+
+export async function changeCurrentFileWithFilters(packDir, pathValue, defaultDir, filters) {
     let result = await electron.dialog.showOpenDialog(currentwindow, {
         title: tl("menu.ysm_utils.load_info_menu.files.select_files"),
-        filters: [{
-            extensions: [extension],
-            name: extension,
-        }],
+        filters: filters,
         properties: ["openFile"]
     });
 

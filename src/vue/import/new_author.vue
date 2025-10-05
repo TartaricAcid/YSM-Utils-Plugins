@@ -1,6 +1,7 @@
 <script>
 import {join} from "path";
 import {arePathsEqual} from "../../util/path_util.js";
+import {SUPPORTED_IMAGE_NAMES, SUPPORTED_IMAGE_TYPES} from "../../util/image_handle.js";
 
 export default {
     props: {
@@ -146,8 +147,8 @@ export default {
             electron.dialog.showOpenDialog(currentwindow, {
                 title: tl("menu.ysm_utils.load_info_menu.metadata.authors.select_author_avatar"),
                 filters: [{
-                    extensions: ["png"],
-                    name: "png",
+                    extensions: SUPPORTED_IMAGE_TYPES,
+                    name: SUPPORTED_IMAGE_NAMES
                 }],
                 properties: ["openFile"]
             }).then(result => {

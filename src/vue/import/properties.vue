@@ -3,6 +3,8 @@ import {join} from "path";
 import {editExtraAnimationDialog} from "../../import/edit_extra_animation.js";
 import {editExtraAnimationClassifyDialog} from "../../import/edit_extra_animation_classify.js";
 import {editExtraAnimationButtonsDialog} from "../../import/edit_extra_animation_buttons.js";
+import {changeCurrentFile, changeCurrentFileWithFilters, removeCurrentFile} from "../../import/file_handler.js";
+import {SUPPORTED_IMAGE_NAMES, SUPPORTED_IMAGE_TYPES} from "../../util/image_handle.js";
 
 export default {
     props: {
@@ -78,6 +80,15 @@ export default {
         },
         editExtraAnimationButtons: function (index) {
             editExtraAnimationButtonsDialog(this.ysmJson, this.packDirectory, index);
+        },
+        changeImgFile: async function (pathValue, defaultDir) {
+            return changeCurrentFileWithFilters(this.packDirectory, pathValue, defaultDir, [{
+                extensions: SUPPORTED_IMAGE_TYPES,
+                name: SUPPORTED_IMAGE_NAMES
+            }]);
+        },
+        removeFile: function (pathValue, callback) {
+            removeCurrentFile(this.packDirectory, pathValue, callback);
         },
     },
     computed: {
@@ -247,6 +258,44 @@ export default {
             </div>
         </div>
 
+        <div class="properties-item">
+            <p class="title">{{ tl("menu.ysm_utils.load_info_menu.properties.gui_foreground") }}</p>
+            <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.properties.gui_foreground.desc") }}</p>
+
+            <div style="display: flex; margin-top: 10px">
+                <input class="input" type="text" v-model.trim="properties['gui_foreground']" readonly>
+                <div style="display: flex; margin-left: 2px">
+                    <button class="icon-button"
+                            @click="changeImgFile(properties['gui_foreground'], 'textures/gui').then(result =>properties['gui_foreground'] = result)">
+                        <i class="fas fa-exchange-alt"></i>
+                    </button>
+                    <button class="icon-button"
+                            @click="removeFile(properties['gui_foreground'], ()=>properties['gui_foreground']='')">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="properties-item">
+            <p class="title">{{ tl("menu.ysm_utils.load_info_menu.properties.gui_background") }}</p>
+            <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.properties.gui_background.desc") }}</p>
+
+            <div style="display: flex; margin-top: 10px">
+                <input class="input" type="text" v-model.trim="properties['gui_background']" readonly>
+                <div style="display: flex; margin-left: 2px">
+                    <button class="icon-button"
+                            @click="changeImgFile(properties['gui_background'], 'textures/gui').then(result =>properties['gui_background'] = result)">
+                        <i class="fas fa-exchange-alt"></i>
+                    </button>
+                    <button class="icon-button"
+                            @click="removeFile(properties['gui_background'], ()=>properties['gui_background']='')">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
 
         <div class="horizontal-item">
             <div style="width: 68%">
@@ -350,5 +399,18 @@ export default {
 
 .extra-delete:hover {
     color: #2d5ee8;
+}
+
+.icon-button {
+    margin: 2px;
+    padding: 0;
+    width: 40px;
+    min-width: 30px;
+    line-height: 0.5;
+}
+
+.icon-button > i {
+    font-size: large;
+    margin-left: 4px;
 }
 </style>

@@ -31,9 +31,6 @@
     "vue-template-compiler": "latest"
   },
   "dependencies": {
-    "@jimp/core": "^1.6.0",
-    "@jimp/js-png": "^1.6.0",
-    "@jimp/plugin-resize": "^1.6.0",
     "json5": "^2.2.3"
   }
 }

@@ -1,7 +1,8 @@
 <script>
 import {join} from "path";
-import {changeCurrentFile, removeCurrentFile} from "../../import/file_handler.js";
+import {changeCurrentFile, changeCurrentFileWithFilters, removeCurrentFile} from "../../import/file_handler.js";
 import {importArrowFile} from "../../import/file_import.js";
+import {SUPPORTED_IMAGE_NAMES, SUPPORTED_IMAGE_TYPES} from "../../util/image_handle.js";
 
 export default {
     props: {
@@ -27,6 +28,12 @@ export default {
         changeFile: async function (pathValue, defaultDir, extension = "json") {
             return changeCurrentFile(this.packDirectory, pathValue, defaultDir, extension);
         },
+        changeImgFile: async function (pathValue, defaultDir) {
+            return changeCurrentFileWithFilters(this.packDirectory, pathValue, defaultDir, [{
+                extensions: SUPPORTED_IMAGE_TYPES,
+                name: SUPPORTED_IMAGE_NAMES
+            }]);
+        },
         removeFile: function (pathValue, callback) {
             removeCurrentFile(this.packDirectory, pathValue, callback);
         },
@@ -40,7 +47,7 @@ export default {
     },
     computed: {
         arrowFiles: function () {
-            return this.ysmJson["files"]["arrow"];
+            return this.ysmJson["files"]["projectiles"]["minecraft:arrow"];
         }
     }
 };
@@ -77,7 +84,7 @@ export default {
                     <input class="input" type="text" v-model.trim="arrowFiles['texture']['uv']" readonly>
                     <div style="display: flex; margin-left: 2px">
                         <button class="icon-button"
-                                @click="changeFile(arrowFiles['texture']['uv'], 'textures', 'png')
+                                @click="changeImgFile(arrowFiles['texture']['uv'], 'textures')
                                 .then(result =>arrowFiles['texture']['uv'] = result)">
                             <i class="fas fa-exchange-alt"></i>
                         </button>
@@ -93,7 +100,7 @@ export default {
                     <input class="input" type="text" v-model.trim="arrowFiles['texture']['normal']" readonly>
                     <div style="display: flex; margin-left: 2px">
                         <button class="icon-button"
-                                @click="changeFile(arrowFiles['texture']['normal'], 'textures', 'png')
+                                @click="changeImgFile(arrowFiles['texture']['normal'], 'textures')
                                 .then(result =>arrowFiles['texture']['normal'] = result)">
                             <i class="fas fa-exchange-alt"></i>
                         </button>
@@ -109,7 +116,7 @@ export default {
                     <input class="input" type="text" v-model.trim="arrowFiles['texture']['specular']" readonly>
                     <div style="display: flex; margin-left: 2px">
                         <button class="icon-button"
-                                @click="changeFile(arrowFiles['texture']['specular'], 'textures', 'png')
+                                @click="changeImgFile(arrowFiles['texture']['specular'], 'textures')
                                 .then(result =>arrowFiles['texture']['specular'] = result)">
                             <i class="fas fa-exchange-alt"></i>
                         </button>

@@ -1,5 +1,6 @@
 import {join} from "path";
 import {addProjectInfo} from "../util/project_info_manager.js";
+import {isSupportImage} from "../util/image_handle.js";
 
 const JSON_OPTIONS = {readtype: "text", errorbox: true};
 const IMG_OPTIONS = {readtype: "image", errorbox: true};
@@ -94,13 +95,13 @@ function importTexture(objFiles, packDir, dialog, config = {}) {
     let loadAnimation = config["load_animation"] ?? false;
 
     if (typeof texture === "string") {
-        pushFile(images, texture, ".png", packDir);
+        pushImgFile(images, texture, packDir);
     } else if (Array.isArray(texture)) {
         texture.forEach(value => {
             if (typeof value === "string") {
-                pushFile(images, value, ".png", packDir);
+                pushImgFile(images, value, packDir);
             } else if (typeof value === "object") {
-                pushFile(images, value["uv"], ".png", packDir);
+                pushImgFile(images, value["uv"], packDir);
             }
         });
     }
@@ -160,6 +161,15 @@ function importController(objFiles, packDir, dialog) {
 
 function pushFile(files, pathValue, suffix, packDir) {
     if (pathValue && pathValue.endsWith(suffix)) {
+        let filePath = join(packDir, pathValue);
+        if (fs.existsSync(filePath)) {
+            files.push(filePath);
+        }
+    }
+}
+
+function pushImgFile(files, pathValue, packDir) {
+    if (pathValue && isSupportImage(pathValue)) {
         let filePath = join(packDir, pathValue);
         if (fs.existsSync(filePath)) {
             files.push(filePath);

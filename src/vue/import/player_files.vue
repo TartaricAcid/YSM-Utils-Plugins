@@ -1,7 +1,8 @@
 <script>
 import {join} from "path";
-import {changeCurrentFile, removeCurrentFile} from "../../import/file_handler.js";
+import {changeCurrentFile, changeCurrentFileWithFilters, removeCurrentFile} from "../../import/file_handler.js";
 import {importArmFile, importMainFile} from "../../import/file_import.js";
+import {SUPPORTED_IMAGE_NAMES, SUPPORTED_IMAGE_TYPES} from "../../util/image_handle.js";
 
 export default {
     props: {
@@ -20,7 +21,7 @@ export default {
     },
     data() {
         return {
-            animation_type: ["arm", "extra", "tac", "carryon", "swem", "parcool", "slashblade", "tlm"]
+            animation_type: ["arm", "extra", "tac", "carryon", "swem", "parcool", "slashblade", "tlm", "fp_arm"]
         };
     },
     methods: {
@@ -28,6 +29,12 @@ export default {
         tl,
         changeFile: async function (pathValue, defaultDir, extension = "json") {
             return changeCurrentFile(this.packDirectory, pathValue, defaultDir, extension);
+        },
+        changeImgFile: async function (pathValue, defaultDir) {
+            return changeCurrentFileWithFilters(this.packDirectory, pathValue, defaultDir, [{
+                extensions: SUPPORTED_IMAGE_TYPES,
+                name: SUPPORTED_IMAGE_NAMES
+            }]);
         },
         removeFile: function (pathValue, callback) {
             removeCurrentFile(this.packDirectory, pathValue, callback);
@@ -226,7 +233,7 @@ export default {
                     <input class="input" type="text" v-model.trim="texture['uv']" readonly>
                     <div style="display: flex; margin-left: 2px">
                         <button class="icon-button"
-                                @click="changeFile(texture['uv'], 'textures','png').then(result =>texture['uv'] = result)">
+                                @click="changeImgFile(texture['uv'], 'textures').then(result =>texture['uv'] = result)">
                             <i class="fas fa-exchange-alt"></i>
                         </button>
                     </div>
@@ -237,7 +244,7 @@ export default {
                     <input class="input" type="text" v-model.trim="texture['normal']" readonly>
                     <div style="display: flex; margin-left: 2px">
                         <button class="icon-button"
-                                @click="changeFile(texture['normal'], 'textures/pbr', 'png').then(result =>texture['normal'] = result)">
+                                @click="changeImgFile(texture['normal'], 'textures/pbr').then(result =>texture['normal'] = result)">
                             <i class="fas fa-exchange-alt"></i>
                         </button>
                         <button class="icon-button" @click="removeFile(texture['normal'], ()=>texture['normal']='')">
@@ -251,7 +258,7 @@ export default {
                     <input class="input" type="text" v-model.trim="texture['specular']" readonly>
                     <div style="display: flex; margin-left: 2px">
                         <button class="icon-button"
-                                @click="changeFile(texture['specular'], 'textures/pbr','png').then(result =>texture['specular'] = result)">
+                                @click="changeImgFile(texture['specular'], 'textures/pbr').then(result =>texture['specular'] = result)">
                             <i class="fas fa-exchange-alt"></i>
                         </button>
                         <button class="icon-button"

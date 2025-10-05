@@ -1,6 +1,3 @@
-import {dirname, join} from "path";
-import {resizeImage} from "../util/image_handle.js";
-
 function metadataHandle(metadata, ysmJsonPath) {
     if (isEmptyString(metadata["name"])) {
         metadata["name"] = "<Unknown>";
@@ -38,16 +35,7 @@ function metadataHandle(metadata, ysmJsonPath) {
             "name": "<Unknown>"
         }];
     }
-
-    // 压缩作者头像，避免有人使用超高清图像
-    let packDir = dirname(ysmJsonPath);
-    metadata["authors"].forEach(author => {
-        if (author["avatar"]) {
-            let imagePath = join(packDir, author["avatar"]);
-            resizeImage(imagePath).then(err => {
-            });
-        }
-    });
+    // 2.5 版本开始，模组自动调整头像大小，无需插件调整了
 
     metadata["link"] ??= {};
     deleteObject(metadata, "link");
@@ -72,8 +60,15 @@ function propertiesHandle(properties) {
     deleteField(properties, "default_texture");
     properties["free"] ??= false;
     properties["render_layers_first"] ??= false;
+
     deleteField(properties, "gui_foreground");
     deleteField(properties, "gui_background");
+    if (properties["gui_foreground"]) {
+        properties["gui_foreground"] = properties["gui_foreground"].replaceAll("\\", "/");
+    }
+    if (properties["gui_background"]) {
+        properties["gui_background"] = properties["gui_background"].replaceAll("\\", "/");
+    }
 }
 
 function extraAnimationClassifyHandle(properties) {
