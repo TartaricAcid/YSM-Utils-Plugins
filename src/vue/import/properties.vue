@@ -341,6 +341,17 @@ export default {
                 <input type="checkbox" v-model="properties['all_cutout']" style="width: 100%;">
             </div>
         </div>
+
+        <div class="horizontal-item">
+            <div style="width: 68%">
+                <p class="title">{{ tl("menu.ysm_utils.load_info_menu.properties.gui_no_lighting") }}</p>
+                <p class="desc">{{ tl("menu.ysm_utils.load_info_menu.properties.gui_no_lighting.desc") }}</p>
+            </div>
+
+            <div style="width: 20%; margin: 0 auto;">
+                <input type="checkbox" v-model="properties['gui_no_lighting']" style="width: 100%;">
+            </div>
+        </div>
     </div>
 </template>
 

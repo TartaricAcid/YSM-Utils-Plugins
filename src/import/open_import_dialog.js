@@ -2,7 +2,7 @@ import {join} from "path";
 import metadataVue from "../vue/import/metadata.vue";
 import propertiesVue from "../vue/import/properties.vue";
 import playerFilesVue from "../vue/import/player_files.vue";
-import arrowFilesVue from "../vue/import/arrow_files.vue";
+import otherFilesVue from "../vue/import/other_files.vue";
 import cryptoLib from "crypto";
 import {saveNormalization} from "./save_normalization.js";
 import {readYsmFile} from "./ysm_file_read.js";
@@ -90,7 +90,8 @@ export function openImportDialog(packDirectory) {
                 "metadata": tl("menu.ysm_utils.load_info_menu.sidebar.metadata"),
                 "properties": tl("menu.ysm_utils.load_info_menu.sidebar.properties"),
                 "player_files": tl("menu.ysm_utils.load_info_menu.sidebar.player_files"),
-                "arrow_files": tl("menu.ysm_utils.load_info_menu.sidebar.arrow_files")
+                "projectile_files": tl("menu.ysm_utils.load_info_menu.sidebar.projectile_files"),
+                "vehicle_files": tl("menu.ysm_utils.load_info_menu.sidebar.vehicle_files")
             },
             page: "metadata",
             actions: [
@@ -122,7 +123,7 @@ export function openImportDialog(packDirectory) {
                 metadataVue: metadataVue,
                 propertiesVue: propertiesVue,
                 playerFilesVue: playerFilesVue,
-                arrowFilesVue: arrowFilesVue
+                otherFilesVue: otherFilesVue
             },
             template: `
                 <div>
@@ -132,8 +133,10 @@ export function openImportDialog(packDirectory) {
                                    :ysm-json='ysmJson' :pack-directory='packDirectory'/>
                     <playerFilesVue v-if="this.type==='player_files'" :import-model-menu-dialog='dialogInput'
                                     :ysm-json='ysmJson' :pack-directory='packDirectory'/>
-                    <arrowFilesVue v-if="this.type==='arrow_files'" :import-model-menu-dialog='dialogInput'
-                                   :ysm-json='ysmJson' :pack-directory='packDirectory'/>
+                    <otherFilesVue v-if="this.type==='projectile_files'" :import-model-menu-dialog='dialogInput'
+                                   :ysm-json='ysmJson' :type="'projectiles'" :pack-directory='packDirectory'/>
+                    <otherFilesVue v-if="this.type==='vehicle_files'" :import-model-menu-dialog='dialogInput'
+                                   :ysm-json='ysmJson' :type="'vehicles'" :pack-directory='packDirectory'/>
                 </div>`
         }
     });

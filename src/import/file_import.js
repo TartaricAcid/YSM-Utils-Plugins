@@ -61,31 +61,20 @@ export function importArmFile(packDir, ysmJson, dialog, config = {}) {
     });
 }
 
-export function importArrowFile(packDir, ysmJson, dialog, config = {}) {
-    let files = ysmJson["files"];
-    if (!files) {
-        showMissingFieldTip("files");
+export function importOtherFile(packDir, file, dialog, config = {}) {
+    let model = file["model"];
+    if (!model || model.length === 0) {
+        showMissingFieldTip("model");
         return;
     }
-    let arrowFiles = files["arrow"];
-    if (!arrowFiles) {
-        showMissingFieldTip("arrow");
+    let modelPath = join(packDir, model);
+    if (!fs.existsSync(modelPath)) {
+        showMissingFileTip(modelPath);
         return;
     }
-
-    let arrowModel = arrowFiles["model"];
-    if (!arrowModel || arrowModel.length === 0) {
-        showMissingFieldTip("arrow/model");
-        return;
-    }
-    let arrowModelPath = join(packDir, arrowModel);
-    if (!fs.existsSync(arrowModelPath)) {
-        showMissingFileTip(arrowModelPath);
-        return;
-    }
-    Blockbench.readFile([arrowModelPath], JSON_OPTIONS, files => {
+    Blockbench.readFile([modelPath], JSON_OPTIONS, files => {
         loadModelFile(files[0]);
-        importTexture(arrowFiles, packDir, dialog, config);
+        importTexture(file, packDir, dialog, config);
     });
 }
 
@@ -104,6 +93,8 @@ function importTexture(objFiles, packDir, dialog, config = {}) {
                 pushImgFile(images, value["uv"], packDir);
             }
         });
+    } else if (typeof texture === "object") {
+        pushImgFile(images, texture["uv"], packDir);
     }
 
     Blockbench.readFile(images, IMG_OPTIONS, files => {

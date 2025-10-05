@@ -1,6 +1,6 @@
 <script>
 import {join} from "path";
-import {importArmFile, importArrowFile, importMainFile} from "../../import/file_import.js";
+import {importArmFile, importMainFile} from "../../import/file_import.js";
 import {openImportDialog} from "../../import/open_import_dialog.js";
 import {getCacheYsmImportConfig, saveCacheYsmImportConfig} from "../../menu/cache_info_menu.js";
 
@@ -31,9 +31,6 @@ export default {
         importArmModel: function () {
             importArmFile(this.packDirectory, this.ysmJson, this.importTypeMenuDialog);
         },
-        importArrowModel: function () {
-            importArrowFile(this.packDirectory, this.ysmJson, this.importTypeMenuDialog);
-        },
         loadInfo: function () {
             openImportDialog(this.packDirectory);
             this.importTypeMenuDialog.close();
@@ -49,10 +46,6 @@ export default {
         },
         playerArmModelFileExist: function () {
             let result = this.ysmJson?.["files"]?.["player"]?.["model"]?.["arm"];
-            return result && result.endsWith(".json");
-        },
-        arrowModelFileExist: function () {
-            let result = this.ysmJson?.["files"]?.["arrow"]?.["model"];
             return result && result.endsWith(".json");
         },
         importConfig: function () {
@@ -74,11 +67,6 @@ export default {
                 <button v-if="playerArmModelFileExist" class="type-button" @click="importArmModel">
                     <i class="fas fa-hand-paper fa-5x"></i><br>
                     {{ tl("menu.ysm_utils.import_type.player_arm") }}
-                </button>
-
-                <button v-if="arrowModelFileExist" class="type-button" @click="importArrowModel">
-                    <i class="fas fa-angle-double-up fa-5x"></i><br>
-                    {{ tl("menu.ysm_utils.import_type.arrow") }}
                 </button>
 
                 <button class="type-button" @click="loadInfo">
