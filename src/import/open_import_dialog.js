@@ -3,9 +3,11 @@ import metadataVue from "../vue/import/metadata.vue";
 import propertiesVue from "../vue/import/properties.vue";
 import playerFilesVue from "../vue/import/player_files.vue";
 import otherFilesVue from "../vue/import/other_files.vue";
+import languageVue from "../vue/import/language_edit.vue";
 import cryptoLib from "crypto";
 import {saveNormalization} from "./save_normalization.js";
 import {readYsmFile} from "./ysm_file_read.js";
+import {getLanguageMap} from "../util/language.js";
 
 function onDialogCancel(ysmJson, ysmJsonPath, sha256Cache) {
     // 关闭页面时，计算一次哈希值
@@ -58,6 +60,9 @@ export function openImportDialog(packDirectory) {
     // 开始之前计算一次哈希值，用来判断是否已经修改了内容，用于提示保存
     let sha256Cache = getSha256(ysmJson);
 
+    // 尝试生成语言文件
+    let refLanguageMaps = getLanguageMap(ysmJson);
+
     let importModelMenuDialog = new Dialog({
         title: "menu.ysm_utils.load_info_menu.title",
         cancel_on_click_outside: false,
@@ -91,7 +96,8 @@ export function openImportDialog(packDirectory) {
                 "properties": tl("menu.ysm_utils.load_info_menu.sidebar.properties"),
                 "player_files": tl("menu.ysm_utils.load_info_menu.sidebar.player_files"),
                 "projectile_files": tl("menu.ysm_utils.load_info_menu.sidebar.projectile_files"),
-                "vehicle_files": tl("menu.ysm_utils.load_info_menu.sidebar.vehicle_files")
+                "vehicle_files": tl("menu.ysm_utils.load_info_menu.sidebar.vehicle_files"),
+                "language": tl("menu.ysm_utils.load_info_menu.sidebar.language")
             },
             page: "metadata",
             actions: [
@@ -116,6 +122,7 @@ export function openImportDialog(packDirectory) {
                     dialogInput: importModelMenuDialog,
                     ysmJson: ysmJson,
                     packDirectory: packDirectory,
+                    refLanguageMaps: refLanguageMaps,
                     type: "metadata"
                 };
             },
@@ -123,7 +130,8 @@ export function openImportDialog(packDirectory) {
                 metadataVue: metadataVue,
                 propertiesVue: propertiesVue,
                 playerFilesVue: playerFilesVue,
-                otherFilesVue: otherFilesVue
+                otherFilesVue: otherFilesVue,
+                languageVue: languageVue
             },
             template: `
                 <div>
@@ -137,6 +145,9 @@ export function openImportDialog(packDirectory) {
                                    :ysm-json='ysmJson' :type="'projectiles'" :pack-directory='packDirectory'/>
                     <otherFilesVue v-if="this.type==='vehicle_files'" :import-model-menu-dialog='dialogInput'
                                    :ysm-json='ysmJson' :type="'vehicles'" :pack-directory='packDirectory'/>
+                    <languageVue v-if="this.type==='language'" :import-model-menu-dialog='dialogInput'
+                                 :ysm-json='ysmJson' :pack-directory='packDirectory'
+                                 :refLanguageMaps='refLanguageMaps'/>
                 </div>`
         }
     });
