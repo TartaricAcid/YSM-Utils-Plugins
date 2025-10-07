@@ -110,9 +110,11 @@ function oldArrowHandle(files) {
 function otherFilesHandle(files) {
     Object.values(files).forEach(file => {
         file["model"] ??= "";
+        file["texture"] ??= {};
         file["animation"] ??= "";
+        file["controller"] ??= "";
 
-        let texture = file["texture"] ?? {};
+        let texture = file["texture"];
         if (typeof texture == "string") {
             file["texture"] = {
                 "uv": texture,

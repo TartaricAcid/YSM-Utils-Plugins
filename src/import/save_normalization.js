@@ -179,8 +179,8 @@ function otherFilesHandle(files) {
         }
     });
     // 删除空字段
-    Object.keys(objSeparatorReplace).forEach(key => {
-        deleteField(files, key);
+    Object.keys(files).forEach(key => {
+        deleteObject(files, key);
     });
 }
 

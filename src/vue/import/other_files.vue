@@ -3,6 +3,7 @@ import {join} from "path";
 import {changeCurrentFile, changeCurrentFileWithFilters, removeCurrentFile} from "../../import/file_handler.js";
 import {importOtherFile} from "../../import/file_import.js";
 import {SUPPORTED_IMAGE_NAMES, SUPPORTED_IMAGE_TYPES} from "../../util/image_handle.js";
+import newEntityModelVue from "./new_entity_model.vue";
 
 export default {
     props: {
@@ -51,48 +52,34 @@ export default {
             });
         },
         addNewFile: function () {
-            let element = this.ysmJson["files"][this.type];
-            let parentVue = this;
-            let createDefaultDialog = new Dialog("add_new_model", {
+            let entityModels = this.ysmJson["files"][this.type] ?? {};
+            let typeIn = this.type;
+            let addNewModelDialog = new Dialog("add_new_model", {
                 title: "menu.ysm_utils.add_new_model",
+                cancel_on_click_outside: false,
+                singleButton: true,
                 width: 600,
-                form: {
-                    entityId: {
-                        label: "menu.ysm_utils.add_new_model.entity_id",
-                        type: "text",
-                        placeholder: tl("menu.ysm_utils.add_new_model.entity_id.placeholder")
-                    }
-                },
-                onConfirm: function (formResult) {
-                    if (formResult.entityId) {
-                        // 判断这个 entityId 是否重复
-                        if (element[formResult.entityId]) {
-                            Blockbench.showMessageBox({
-                                icon: "fa-warning",
-                                title: tl("level.ysm_utils.warning"),
-                                message: tl("menu.ysm_utils.add_new_model.entity_id.exist"),
-                                buttons: [tl("dialog.confirm")],
-                                confirm: 0
-                            });
-                            return false;
-                        }
-
-                        element[formResult.entityId] = {
-                            "model": "",
-                            "texture": {
-                                "uv": "",
-                                "normal": "",
-                                "specular": ""
-                            },
-                            "animation": "",
-                            "controller": ""
+                component: {
+                    data() {
+                        return {
+                            parentMenuDialog: addNewModelDialog,
+                            entityModels: entityModels,
+                            typeIn: typeIn,
                         };
-
-                        parentVue.$forceUpdate();
-                    }
+                    },
+                    components: {
+                        newEntityModelVue: newEntityModelVue,
+                    },
+                    template: `
+                        <div>
+                            <new-entity-model-vue
+                                :parentMenuDialog="parentMenuDialog"
+                                :entityModels="entityModels"
+                                :type="typeIn"/>
+                        </div>`
                 }
             });
-            createDefaultDialog.show();
+            addNewModelDialog.show();
         },
         deleteCurrentFile: function (files, key) {
             let file = files[key];
@@ -119,8 +106,7 @@ export default {
 
             // 如果全为空，那么直接删就行
             if (deleteFiles.length <= 0) {
-                delete files[key];
-                this.$forceUpdate();
+                this.$delete(files, key);
                 return;
             }
 
@@ -145,10 +131,16 @@ export default {
                 for (let file of deleteFiles) {
                     electron.shell.trashItem(file);
                 }
-                delete files[key];
-                this.$forceUpdate();
+                this.$delete(files, key);
             });
-        }
+        },
+        getEntityNameKey(entityId) {
+            return `ysm.${entityId.replaceAll(":", ".")}`;
+        },
+        shouldShowEntityName(entityId) {
+            let key = this.getEntityNameKey(entityId);
+            return tl(key) !== key;
+        },
     },
     computed: {}
 };
@@ -157,7 +149,12 @@ export default {
 <template>
     <div class="new-author">
         <div v-for="(fileObj, entityId) in ysmJson['files'][type]" class="new-author-item">
-            <p class="title">{{ entityId }}</p>
+            <p class="title">
+                {{ entityId }}
+                <span style="margin-left: 10px;" v-if="shouldShowEntityName(entityId)">
+                    {{ tl(getEntityNameKey(entityId)) }}
+                </span>
+            </p>
 
             <div class="li-item">
                 <div class="file-delete" @click="deleteCurrentFile(ysmJson['files'][type], entityId)">
