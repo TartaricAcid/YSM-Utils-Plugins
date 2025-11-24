@@ -177,10 +177,27 @@ function otherFilesHandle(files) {
         if (file && file["texture"]) {
             deleteObject(file, "texture");
         }
+
+        // 检查 match 字段
+        if (file["match"]) {
+            let match = [];
+            file["match"].forEach(key => {
+                if (!isEmptyString(key)) {
+                    match.push(key);
+                }
+            });
+            file["match"] = match;
+        }
     });
     // 删除空字段
     Object.keys(files).forEach(key => {
         deleteObject(files, key);
+
+        // 如果 match 为空或者不存在，就删除整个对象
+        let value = files[key];
+        if (value && (!value["match"] || value["match"].length <= 0)) {
+            delete files[key];
+        }
     });
 }
 
@@ -220,8 +237,8 @@ export function saveNormalization(ysmJson, ysmJsonPath) {
     playerHandle(files);
 
     // 投掷物和载具部分
-    let projectiles = files["projectiles"] ??= {};
-    let vehicles = files["vehicles"] ??= {};
+    let projectiles = files["projectiles"] ??= [];
+    let vehicles = files["vehicles"] ??= [];
     otherFilesHandle(projectiles);
     otherFilesHandle(vehicles);
     deleteObject(files, "projectiles");

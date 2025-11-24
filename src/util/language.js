@@ -27,13 +27,11 @@ export function readLanguageFile(locale, filePath, translations) {
     }
     // 读取文件
     let data = autoParseJSON(fs.readFileSync(langFile, {encoding: "utf8"}));
-    console.log(data);
     Object.entries(data).forEach(([key, value]) => {
         if (typeof value === "string") {
             translations[key] = value;
         }
     });
-    console.log(translations);
 }
 
 /**
@@ -74,15 +72,15 @@ export function getLanguageMap(ysmJson) {
     }
 
     // 子轮盘动画
-    let extraAnimationClassify = properties["extra_animation_classify"] ?? {};
-    let subExtraAnimation = extraAnimationClassify["extra_animation"];
-    if (typeof extraAnimationClassify === "object" && typeof subExtraAnimation === "object") {
+    let extraAnimationClassify = properties["extra_animation_classify"] ?? [];
+    extraAnimationClassify.forEach(classify => {
+        let subExtraAnimation = classify["extra_animation"];
         Object.keys(subExtraAnimation).forEach((key) => {
             let prefix = `properties.extra_animation.${key}`;
             langMap[prefix] = subExtraAnimation[key] ?? "";
             langMap[`${prefix}.desc`] = "";
         });
-    }
+    });
 
     // 配置按钮
     let extraAnimationButtons = properties["extra_animation_buttons"] ?? [];
@@ -131,16 +129,16 @@ function handleButton(button, buttonNames, langMap) {
         buttonNames[buttonId] = button["name"];
     }
     let prefix = `properties.extra_animation_buttons.${buttonId}.config_forms`;
-    configForms.forEach((config) => {
+    configForms.forEach((config, configIndex) => {
         if (typeof config["title"] === "string") {
-            langMap[`${prefix}.title`] = config["title"];
+            langMap[`${prefix}.${configIndex}.title`] = config["title"];
         }
         if (typeof config["description"] === "string") {
-            langMap[`${prefix}.description`] = config["description"];
+            langMap[`${prefix}.${configIndex}.description`] = config["description"];
         }
         if (typeof config["labels"] === "object") {
             Object.entries(config["labels"]).forEach(([key, value], index) => {
-                langMap[`${prefix}.labels.${index}`] = key;
+                langMap[`${prefix}.${configIndex}.labels.${index}`] = key;
             });
         }
     });

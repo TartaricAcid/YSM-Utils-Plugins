@@ -3,7 +3,6 @@ import {join} from "path";
 import {changeCurrentFile, changeCurrentFileWithFilters, removeCurrentFile} from "../../import/file_handler.js";
 import {importOtherFile} from "../../import/file_import.js";
 import {SUPPORTED_IMAGE_NAMES, SUPPORTED_IMAGE_TYPES} from "../../util/image_handle.js";
-import newEntityModelVue from "./new_entity_model.vue";
 
 export default {
     props: {
@@ -52,37 +51,23 @@ export default {
             });
         },
         addNewFile: function () {
-            let entityModels = this.ysmJson["files"][this.type] ?? {};
-            let typeIn = this.type;
-            let addNewModelDialog = new Dialog("add_new_model", {
-                title: "menu.ysm_utils.add_new_model",
-                cancel_on_click_outside: false,
-                singleButton: true,
-                width: 600,
-                component: {
-                    data() {
-                        return {
-                            parentMenuDialog: addNewModelDialog,
-                            entityModels: entityModels,
-                            typeIn: typeIn,
-                        };
-                    },
-                    components: {
-                        newEntityModelVue: newEntityModelVue,
-                    },
-                    template: `
-                        <div>
-                            <new-entity-model-vue
-                                :parentMenuDialog="parentMenuDialog"
-                                :entityModels="entityModels"
-                                :type="typeIn"/>
-                        </div>`
-                }
+            let entityModels = this.ysmJson["files"][this.type] ?? [];
+            entityModels.push({
+                "match": [""],
+                "model": "",
+                "texture": {
+                    "uv": "",
+                    "normal": "",
+                    "specular": ""
+                },
+                "animation": "",
+                "controller": ""
             });
-            addNewModelDialog.show();
+            this.ysmJson["files"][this.type] = entityModels;
+            this.$forceUpdate();
         },
-        deleteCurrentFile: function (files, key) {
-            let file = files[key];
+        deleteCurrentFile: function (files, index) {
+            let file = files[index];
 
             let deleteFiles = [];
             // 判断这些文件存不存在
@@ -106,7 +91,7 @@ export default {
 
             // 如果全为空，那么直接删就行
             if (deleteFiles.length <= 0) {
-                this.$delete(files, key);
+                this.$delete(files, index);
                 return;
             }
 
@@ -131,16 +116,9 @@ export default {
                 for (let file of deleteFiles) {
                     electron.shell.trashItem(file);
                 }
-                this.$delete(files, key);
+                this.$delete(files, index);
             });
-        },
-        getEntityNameKey(entityId) {
-            return `ysm.${entityId.replaceAll(":", ".")}`;
-        },
-        shouldShowEntityName(entityId) {
-            let key = this.getEntityNameKey(entityId);
-            return tl(key) !== key;
-        },
+        }
     },
     computed: {}
 };
@@ -148,17 +126,23 @@ export default {
 
 <template>
     <div class="new-author">
-        <div v-for="(fileObj, entityId) in ysmJson['files'][type]" class="new-author-item">
-            <p class="title">
-                {{ entityId }}
-                <span style="margin-left: 10px;" v-if="shouldShowEntityName(entityId)">
-                    {{ tl(getEntityNameKey(entityId)) }}
-                </span>
-            </p>
-
+        <div v-for="(fileObj, fileIndex) in ysmJson['files'][type]" class="new-author-item">
             <div class="li-item">
-                <div class="file-delete" @click="deleteCurrentFile(ysmJson['files'][type], entityId)">
+                <div class="file-delete" @click="deleteCurrentFile(ysmJson['files'][type], fileIndex)">
                     <i class="fas fa-times"></i>
+                </div>
+
+                <div style="display: block; width: 100%">
+                    <p class="title"> {{ tl("menu.ysm_utils.load_info_menu.files.other.match") }}</p>
+                    <p class="desc"> {{ tl("menu.ysm_utils.load_info_menu.files.other.match.desc") }}</p>
+                    <div v-for="(_,index) in fileObj['match']">
+                        <input class="input" type="text" style="margin-top: 5px; width: 100%"
+                               v-model.trim="fileObj['match'][index]">
+                    </div>
+                    <button style="margin-top: 5px; margin-bottom: 15px; width: 100%"
+                            @click="fileObj['match'].push('')">
+                        {{ tl("menu.ysm_utils.load_info_menu.files.other.match.add") }}
+                    </button>
                 </div>
 
                 <div style="display: flex;">
@@ -282,7 +266,13 @@ export default {
 .title {
     margin: 0;
     padding: 0;
-    font-size: x-large;
+    font-size: large
+}
+
+.desc {
+    margin: 0;
+    padding: 0;
+    color: #6a6a6d
 }
 
 .li-text {
@@ -331,7 +321,6 @@ export default {
 
 .file-delete {
     position: relative;
-    margin-bottom: 20px;
     width: 100%;
     height: 20px;
 }

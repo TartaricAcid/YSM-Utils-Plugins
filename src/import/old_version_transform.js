@@ -115,6 +115,7 @@ function writePlayerFilesJson(files, srcPackPath) {
 function writeArrowFilesJson(srcPackPath, files) {
     let arrow = {};
     if (fs.existsSync(join(srcPackPath, "arrow.json"))) {
+        arrow["match"] = ["#minecraft:arrows"];
         arrow["model"] = "models/arrow.json";
     } else {
         return;
@@ -125,8 +126,8 @@ function writeArrowFilesJson(srcPackPath, files) {
     if (fs.existsSync(join(srcPackPath, "arrow.animation.png"))) {
         arrow["animation"] = "animations/arrow.animation.json";
     }
-    let projectiles = files["projectiles"] ??= {};
-    projectiles["minecraft:arrow"] = arrow;
+    files["projectiles"] ??= [];
+    files["projectiles"].push(arrow);
 }
 
 function copyFile(srcPath, srcFileName, destPath) {

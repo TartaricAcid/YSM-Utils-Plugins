@@ -107,8 +107,23 @@ function oldArrowHandle(files) {
     delete files["arrow"];
 }
 
+// 转换 2.5.2 版本的投掷物和载具字段
+function oldOtherFilesHandle(files) {
+    files = files ?? [];
+    // 如果是对象，那么是 2.5.2 版本的，需要转换
+    if (typeof files == "object" && !Array.isArray(files)) {
+        let newFiles = [];
+        Object.entries(files).forEach(([key, value]) => {
+            value["match"] = [key];
+            newFiles.push(value);
+        });
+        return newFiles;
+    }
+    return files;
+}
+
 function otherFilesHandle(files) {
-    Object.values(files).forEach(file => {
+    files.forEach(file => {
         file["model"] ??= "";
         file["texture"] ??= {};
         file["animation"] ??= "";
@@ -145,9 +160,11 @@ export function loadNormalization(ysmJson) {
 
     // files 部分
     let files = ysmJson["files"] ??= {};
+
     // 投掷物和载具部分
-    let projectiles = files["projectiles"] ??= {};
-    let vehicles = files["vehicles"] ??= {};
+    let projectiles = files["projectiles"] = oldOtherFilesHandle(files["projectiles"]);
+    let vehicles = files["vehicles"] = oldOtherFilesHandle(files["vehicles"]);
+
     // 函数、声音包、语言文件部分
     files["sound_path"] ??= "sounds";
     files["function_path"] ??= "functions";

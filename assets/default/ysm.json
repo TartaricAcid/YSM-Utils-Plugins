@@ -85,28 +85,40 @@
         "textures/blue.png"
       ]
     },
-    "projectiles": {
-      "minecraft:arrow": {
+    "projectiles": [
+      {
+        "match": [
+          "minecraft:arrow"
+        ],
         "model": "models/arrow.json",
         "animation": "animations/arrow.animation.json",
         "texture": "textures/arrow.png"
       },
-      "minecraft:fishing_bobber": {
+      {
+        "match": [
+          "minecraft:fishing_bobber"
+        ],
         "model": "models/fishing_bobber.json",
         "texture": "textures/fishing_bobber.png"
       }
-    },
-    "vehicles": {
-      "minecraft:boat": {
+    ],
+    "vehicles": [
+      {
+        "match": [
+          "minecraft:boat"
+        ],
         "model": "models/boat.json",
         "animation": "animations/boat.animation.json",
         "texture": "textures/boat.png"
       },
-      "minecraft:minecart": {
+      {
+        "match": [
+          "minecraft:minecart"
+        ],
         "model": "models/minecart.json",
         "texture": "textures/minecart.png"
       }
-    },
+    ],
     "sound_path": "sounds",
     "function_path": "functions"
   }
