@@ -5,6 +5,7 @@ import {currentInfoMenuAction} from "./menu/current_info_menu.js";
 import {directImportMenuAction} from "./menu/direct_import.js";
 import {createDefaultModel} from "./create/create_default.js";
 import {addYsmMolang} from "./molang/ysm_molang.js";
+import {initNativeApiCompat} from "./util/native_api_compat.js";
 
 BBPlugin.register(packageInfo.name, {
     title: packageInfo.title,
@@ -31,6 +32,7 @@ BBPlugin.register(packageInfo.name, {
 });
 
 function doLoadEvent() {
+    initNativeApiCompat();
     loadI18n();
     initCacheYsmFoldersAction();
     addYsmMolang();
