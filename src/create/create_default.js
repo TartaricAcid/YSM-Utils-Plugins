@@ -1,5 +1,4 @@
 import {join} from "path";
-import {mkdirSync} from "fs";
 import armAnimationJson from "../../assets/default/animations/arm.animation.json";
 import arrowAnimationJson from "../../assets/default/animations/arrow.animation.json";
 import boatAnimationJson from "../../assets/default/animations/boat.animation.json";
@@ -56,16 +55,16 @@ function createAllFiles(selectFilePaths, formResult) {
     let lang = join(packPath, "lang");
     let gui = join(textures, "gui");
 
-    mkdirSync(packPath, {recursive: true});
-    mkdirSync(animations, {recursive: true});
-    mkdirSync(avatar, {recursive: true});
-    mkdirSync(models, {recursive: true});
-    mkdirSync(textures, {recursive: true});
-    mkdirSync(sounds, {recursive: true});
-    mkdirSync(controller, {recursive: true});
-    mkdirSync(functions, {recursive: true});
-    mkdirSync(lang, {recursive: true});
-    mkdirSync(gui, {recursive: true});
+    fs.mkdirSync(packPath, {recursive: true});
+    fs.mkdirSync(animations, {recursive: true});
+    fs.mkdirSync(avatar, {recursive: true});
+    fs.mkdirSync(models, {recursive: true});
+    fs.mkdirSync(textures, {recursive: true});
+    fs.mkdirSync(sounds, {recursive: true});
+    fs.mkdirSync(controller, {recursive: true});
+    fs.mkdirSync(functions, {recursive: true});
+    fs.mkdirSync(lang, {recursive: true});
+    fs.mkdirSync(gui, {recursive: true});
 
     // 复制文件
     fs.writeFileSync(join(animations, "arm.animation.json"), autoStringify(armAnimationJson));
