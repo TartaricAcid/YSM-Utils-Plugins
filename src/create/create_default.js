@@ -1,5 +1,5 @@
 import {join} from "path";
-import {mkdirSync} from "fs";
+import {PLUGINS_DIALOG, PLUGINS_FS} from "../util/native_module.js";
 import armAnimationJson from "../../assets/default/animations/arm.animation.json";
 import arrowAnimationJson from "../../assets/default/animations/arrow.animation.json";
 import boatAnimationJson from "../../assets/default/animations/boat.animation.json";
@@ -35,8 +35,8 @@ import {openImportDialog} from "../import/open_import_dialog.js";
 
 function createAllFiles(selectFilePaths, formResult) {
     let packPath = join(selectFilePaths[0], formResult.packName);
-    if (fs.existsSync(packPath)) {
-        electron.dialog.showMessageBoxSync({
+    if (PLUGINS_FS.existsSync(packPath)) {
+        PLUGINS_DIALOG.showMessageBoxSync({
             type: "warning",
             title: tl("level.ysm_utils.warning"),
             message: tl("menu.ysm_utils.create_default_model.same_folder"),
@@ -56,44 +56,44 @@ function createAllFiles(selectFilePaths, formResult) {
     let lang = join(packPath, "lang");
     let gui = join(textures, "gui");
 
-    mkdirSync(packPath, {recursive: true});
-    mkdirSync(animations, {recursive: true});
-    mkdirSync(avatar, {recursive: true});
-    mkdirSync(models, {recursive: true});
-    mkdirSync(textures, {recursive: true});
-    mkdirSync(sounds, {recursive: true});
-    mkdirSync(controller, {recursive: true});
-    mkdirSync(functions, {recursive: true});
-    mkdirSync(lang, {recursive: true});
-    mkdirSync(gui, {recursive: true});
+    PLUGINS_FS.mkdirSync(packPath, {recursive: true});
+    PLUGINS_FS.mkdirSync(animations, {recursive: true});
+    PLUGINS_FS.mkdirSync(avatar, {recursive: true});
+    PLUGINS_FS.mkdirSync(models, {recursive: true});
+    PLUGINS_FS.mkdirSync(textures, {recursive: true});
+    PLUGINS_FS.mkdirSync(sounds, {recursive: true});
+    PLUGINS_FS.mkdirSync(controller, {recursive: true});
+    PLUGINS_FS.mkdirSync(functions, {recursive: true});
+    PLUGINS_FS.mkdirSync(lang, {recursive: true});
+    PLUGINS_FS.mkdirSync(gui, {recursive: true});
 
     // 复制文件
-    fs.writeFileSync(join(animations, "arm.animation.json"), autoStringify(armAnimationJson));
-    fs.writeFileSync(join(animations, "arrow.animation.json"), autoStringify(arrowAnimationJson));
-    fs.writeFileSync(join(animations, "carryon.animation.json"), autoStringify(carryonAnimationJson));
-    fs.writeFileSync(join(animations, "extra.animation.json"), autoStringify(extraAnimationJson));
-    fs.writeFileSync(join(animations, "main.animation.json"), autoStringify(mainAnimationJson));
-    fs.writeFileSync(join(animations, "parcool.animation.json"), autoStringify(parcoolAnimationJson));
-    fs.writeFileSync(join(animations, "swem.animation.json"), autoStringify(swemAnimationJson));
-    fs.writeFileSync(join(animations, "tac.animation.json"), autoStringify(tacAnimationJson));
-    fs.writeFileSync(join(animations, "slashblade.animation.json"), autoStringify(slashbladeAnimationJson));
-    fs.writeFileSync(join(animations, "tlm.animation.json"), autoStringify(tlmAnimationJson));
-    fs.writeFileSync(join(animations, "fp.arm.animation.json"), autoStringify(fpArmAnimationJson));
-    fs.writeFileSync(join(animations, "boat.animation.json"), autoStringify(boatAnimationJson));
+    PLUGINS_FS.writeFileSync(join(animations, "arm.animation.json"), autoStringify(armAnimationJson));
+    PLUGINS_FS.writeFileSync(join(animations, "arrow.animation.json"), autoStringify(arrowAnimationJson));
+    PLUGINS_FS.writeFileSync(join(animations, "carryon.animation.json"), autoStringify(carryonAnimationJson));
+    PLUGINS_FS.writeFileSync(join(animations, "extra.animation.json"), autoStringify(extraAnimationJson));
+    PLUGINS_FS.writeFileSync(join(animations, "main.animation.json"), autoStringify(mainAnimationJson));
+    PLUGINS_FS.writeFileSync(join(animations, "parcool.animation.json"), autoStringify(parcoolAnimationJson));
+    PLUGINS_FS.writeFileSync(join(animations, "swem.animation.json"), autoStringify(swemAnimationJson));
+    PLUGINS_FS.writeFileSync(join(animations, "tac.animation.json"), autoStringify(tacAnimationJson));
+    PLUGINS_FS.writeFileSync(join(animations, "slashblade.animation.json"), autoStringify(slashbladeAnimationJson));
+    PLUGINS_FS.writeFileSync(join(animations, "tlm.animation.json"), autoStringify(tlmAnimationJson));
+    PLUGINS_FS.writeFileSync(join(animations, "fp.arm.animation.json"), autoStringify(fpArmAnimationJson));
+    PLUGINS_FS.writeFileSync(join(animations, "boat.animation.json"), autoStringify(boatAnimationJson));
 
-    fs.writeFileSync(join(controller, "main.animation_controllers.json"), autoStringify(animationControllers));
+    PLUGINS_FS.writeFileSync(join(controller, "main.animation_controllers.json"), autoStringify(animationControllers));
 
-    fs.writeFileSync(join(models, "arm.json"), autoStringify(armModelJson));
-    fs.writeFileSync(join(models, "arrow.json"), autoStringify(arrowModelJson));
-    fs.writeFileSync(join(models, "main.json"), autoStringify(mainModelJson));
-    fs.writeFileSync(join(models, "boat.json"), autoStringify(boatModelJson));
-    fs.writeFileSync(join(models, "fishing_bobber.json"), autoStringify(fishingBobberModelJson));
-    fs.writeFileSync(join(models, "minecart.json"), autoStringify(minecartJson));
+    PLUGINS_FS.writeFileSync(join(models, "arm.json"), autoStringify(armModelJson));
+    PLUGINS_FS.writeFileSync(join(models, "arrow.json"), autoStringify(arrowModelJson));
+    PLUGINS_FS.writeFileSync(join(models, "main.json"), autoStringify(mainModelJson));
+    PLUGINS_FS.writeFileSync(join(models, "boat.json"), autoStringify(boatModelJson));
+    PLUGINS_FS.writeFileSync(join(models, "fishing_bobber.json"), autoStringify(fishingBobberModelJson));
+    PLUGINS_FS.writeFileSync(join(models, "minecart.json"), autoStringify(minecartJson));
 
-    fs.writeFileSync(join(lang, "en_us.json"), autoStringify(enLanguage));
-    fs.writeFileSync(join(lang, "zh_cn.json"), autoStringify(zhLanguage));
+    PLUGINS_FS.writeFileSync(join(lang, "en_us.json"), autoStringify(enLanguage));
+    PLUGINS_FS.writeFileSync(join(lang, "zh_cn.json"), autoStringify(zhLanguage));
 
-    fs.writeFileSync(join(packPath, "ysm.json"), autoStringify(ysmJson));
+    PLUGINS_FS.writeFileSync(join(packPath, "ysm.json"), autoStringify(ysmJson));
 
     // 复制贴图
     writePng(join(textures, "arrow.png"), arrowTexture);
@@ -114,7 +114,7 @@ function writePng(filePath, fileData) {
     let base64Data = fileData.replace(/^data:image\/png;base64,/, "");
     let bufferData = Buffer.from(base64Data, "base64");
     // 将二进制数据写入文件
-    fs.writeFileSync(filePath, bufferData);
+    PLUGINS_FS.writeFileSync(filePath, bufferData);
 }
 
 function openDialog(selectFilePaths) {
@@ -141,7 +141,7 @@ export var createDefaultModel = new Action("ysm_utils.create_default_model", {
     name: tl("menu.ysm_utils.create_default_model"),
     icon: "fa-file-alt",
     click: async function () {
-        let result = await electron.dialog.showOpenDialog(currentwindow, {
+        let result = await PLUGINS_DIALOG.showOpenDialog(currentwindow, {
             title: tl("menu.ysm_utils.create_default_model.select_output_directory"),
             properties: ["openDirectory"]
         });

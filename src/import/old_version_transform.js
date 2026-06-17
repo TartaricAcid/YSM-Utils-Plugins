@@ -1,5 +1,5 @@
 import {join} from "path";
-import {copyFileSync, mkdirSync} from "fs";
+import {PLUGINS_FS} from "../util/native_module.js";
 
 function basicFileGeneration(destPackPath, srcPackPath) {
     // 生成文件夹
@@ -8,11 +8,11 @@ function basicFileGeneration(destPackPath, srcPackPath) {
     let modelsPath = join(destPackPath, "models");
     let texturesPath = join(destPackPath, "textures");
 
-    mkdirSync(destPackPath, {recursive: true});
-    mkdirSync(animationsPath, {recursive: true});
-    mkdirSync(avatarsPath, {recursive: true});
-    mkdirSync(modelsPath, {recursive: true});
-    mkdirSync(texturesPath, {recursive: true});
+    PLUGINS_FS.mkdirSync(destPackPath, {recursive: true});
+    PLUGINS_FS.mkdirSync(animationsPath, {recursive: true});
+    PLUGINS_FS.mkdirSync(avatarsPath, {recursive: true});
+    PLUGINS_FS.mkdirSync(modelsPath, {recursive: true});
+    PLUGINS_FS.mkdirSync(texturesPath, {recursive: true});
 
     // 复制动画文件
     copyFile(srcPackPath, "main.animation.json", animationsPath);
@@ -28,7 +28,7 @@ function basicFileGeneration(destPackPath, srcPackPath) {
     copyFile(srcPackPath, "arrow.json", modelsPath);
 
     // 复制贴图
-    fs.readdirSync(srcPackPath).forEach(file => {
+    PLUGINS_FS.readdirSync(srcPackPath).forEach(file => {
         if (file.endsWith(".png")) {
             copyFile(srcPackPath, file, texturesPath);
         }
@@ -75,36 +75,36 @@ function writePlayerFilesJson(files, srcPackPath) {
 
     // player model
     let model = {};
-    if (fs.existsSync(join(srcPackPath, "main.json"))) {
+    if (PLUGINS_FS.existsSync(join(srcPackPath, "main.json"))) {
         model["main"] = "models/main.json";
     }
-    if (fs.existsSync(join(srcPackPath, "arm.json"))) {
+    if (PLUGINS_FS.existsSync(join(srcPackPath, "arm.json"))) {
         model["arm"] = "models/arm.json";
     }
     player["model"] = model;
 
     // player animation
     let animation = {};
-    if (fs.existsSync(join(srcPackPath, "main.animation.json"))) {
+    if (PLUGINS_FS.existsSync(join(srcPackPath, "main.animation.json"))) {
         animation["main"] = "animations/main.animation.json";
     }
-    if (fs.existsSync(join(srcPackPath, "arm.animation.json"))) {
+    if (PLUGINS_FS.existsSync(join(srcPackPath, "arm.animation.json"))) {
         animation["arm"] = "animations/arm.animation.json";
     }
-    if (fs.existsSync(join(srcPackPath, "extra.animation.json"))) {
+    if (PLUGINS_FS.existsSync(join(srcPackPath, "extra.animation.json"))) {
         animation["extra"] = "animations/extra.animation.json";
     }
-    if (fs.existsSync(join(srcPackPath, "tac.animation.json"))) {
+    if (PLUGINS_FS.existsSync(join(srcPackPath, "tac.animation.json"))) {
         animation["tac"] = "animations/tac.animation.json";
     }
-    if (fs.existsSync(join(srcPackPath, "carryon.animation.json"))) {
+    if (PLUGINS_FS.existsSync(join(srcPackPath, "carryon.animation.json"))) {
         animation["carryon"] = "animations/carryon.animation.json";
     }
     player["animation"] = animation;
 
     // player texture
     let texture = [];
-    fs.readdirSync(srcPackPath).forEach(file => {
+    PLUGINS_FS.readdirSync(srcPackPath).forEach(file => {
         if (file.endsWith(".png") && file !== "arrow.png") {
             texture.push(`textures/${file}`);
         }
@@ -114,16 +114,16 @@ function writePlayerFilesJson(files, srcPackPath) {
 
 function writeArrowFilesJson(srcPackPath, files) {
     let arrow = {};
-    if (fs.existsSync(join(srcPackPath, "arrow.json"))) {
+    if (PLUGINS_FS.existsSync(join(srcPackPath, "arrow.json"))) {
         arrow["match"] = ["#minecraft:arrows"];
         arrow["model"] = "models/arrow.json";
     } else {
         return;
     }
-    if (fs.existsSync(join(srcPackPath, "arrow.png"))) {
+    if (PLUGINS_FS.existsSync(join(srcPackPath, "arrow.png"))) {
         arrow["texture"] = "textures/arrow.png";
     }
-    if (fs.existsSync(join(srcPackPath, "arrow.animation.png"))) {
+    if (PLUGINS_FS.existsSync(join(srcPackPath, "arrow.animation.png"))) {
         arrow["animation"] = "animations/arrow.animation.json";
     }
     files["projectiles"] ??= [];
@@ -132,9 +132,9 @@ function writeArrowFilesJson(srcPackPath, files) {
 
 function copyFile(srcPath, srcFileName, destPath) {
     let srcFilePath = join(srcPath, srcFileName);
-    if (fs.existsSync(srcFilePath)) {
+    if (PLUGINS_FS.existsSync(srcFilePath)) {
         let destFilePath = join(destPath, srcFileName);
-        copyFileSync(srcFilePath, destFilePath);
+        PLUGINS_FS.copyFileSync(srcFilePath, destFilePath);
     }
 }
 
@@ -159,7 +159,7 @@ export function oldVersionTransform(srcPackPath, destPath, isVersion114) {
     let destPackPath = join(destPath, srcPackName);
 
     // 如果文件夹存在，不进行转换了
-    if (fs.existsSync(destPackPath)) {
+    if (PLUGINS_FS.existsSync(destPackPath)) {
         Blockbench.showMessageBox({
             icon: "fa-warning",
             title: tl("level.ysm_utils.warning"),
@@ -173,7 +173,7 @@ export function oldVersionTransform(srcPackPath, destPath, isVersion114) {
 
     // 生成 ysm.json
     let mainFile = join(srcPackPath, "main.json");
-    let mainFileJson = autoParseJSON(fs.readFileSync(mainFile, {encoding: "utf8"}));
+    let mainFileJson = autoParseJSON(PLUGINS_FS.readFileSync(mainFile, {encoding: "utf8"}));
 
     let ysmExtraInfo;
     // 1.1.4 和 1.1.5 版本获取额外信息不同方式
@@ -181,7 +181,7 @@ export function oldVersionTransform(srcPackPath, destPath, isVersion114) {
         ysmExtraInfo = mainFileJson["minecraft:geometry"][0]["description"]["ysm_extra_info"];
     } else {
         let infoFile = join(srcPackPath, "info.json");
-        ysmExtraInfo = autoParseJSON(fs.readFileSync(infoFile, {encoding: "utf8"}));
+        ysmExtraInfo = autoParseJSON(PLUGINS_FS.readFileSync(infoFile, {encoding: "utf8"}));
     }
 
     // 填 ysm 的数据
@@ -201,7 +201,7 @@ export function oldVersionTransform(srcPackPath, destPath, isVersion114) {
     // arrow 部分
     writeArrowFilesJson(srcPackPath, files);
     // 写 ysm.json 文件
-    fs.writeFileSync(join(destPackPath, "ysm.json"), autoStringify(outputYsmData));
+    PLUGINS_FS.writeFileSync(join(destPackPath, "ysm.json"), autoStringify(outputYsmData));
     // 提示
     Blockbench.showQuickMessage(tl("menu.ysm_utils.old_version_transform.success") + destPackPath, 3000);
     // 返回生成的文件夹路径

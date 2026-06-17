@@ -2,10 +2,11 @@ import {join} from "path";
 import JSON5 from "json5";
 import {loadNormalization} from "./load_normalization.js";
 import {addToYsmCache} from "../menu/cache_info_menu.js";
+import {PLUGINS_FS} from "../util/native_module.js";
 
 export function readYsmFile(packDirectory) {
     let ysmJsonPath = join(packDirectory, "ysm.json");
-    let content = fs.readFileSync(ysmJsonPath, "utf8");
+    let content = PLUGINS_FS.readFileSync(ysmJsonPath, "utf8");
 
     let ysmJson;
     try {

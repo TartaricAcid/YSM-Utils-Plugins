@@ -1,5 +1,6 @@
 import {join} from "path";
 import {arePathsEqual, createDirectories} from "../util/path_util.js";
+import {PLUGINS_DIALOG, PLUGINS_FS, PLUGINS_SHELL} from "../util/native_module.js";
 
 export async function changeCurrentFile(packDir, pathValue, defaultDir, extension) {
     return await changeCurrentFileWithFilters(packDir, pathValue, defaultDir, [{
@@ -9,7 +10,7 @@ export async function changeCurrentFile(packDir, pathValue, defaultDir, extensio
 }
 
 export async function changeCurrentFileWithFilters(packDir, pathValue, defaultDir, filters) {
-    let result = await electron.dialog.showOpenDialog(currentwindow, {
+    let result = await PLUGINS_DIALOG.showOpenDialog(currentwindow, {
         title: tl("menu.ysm_utils.load_info_menu.files.select_files"),
         filters: filters,
         properties: ["openFile"]
@@ -35,13 +36,13 @@ export async function changeCurrentFileWithFilters(packDir, pathValue, defaultDi
         }
         // 将原文件丢到回收站
         let oldFileExists = false;
-        if (fs.existsSync(srcFilePath)) {
-            await electron.shell.trashItem(srcFilePath);
+        if (PLUGINS_FS.existsSync(srcFilePath)) {
+            await PLUGINS_SHELL.trashItem(srcFilePath);
             oldFileExists = true;
         }
         // 复制到指定目录下
-        if (fs.existsSync(destFilePath)) {
-            let error = await fs.promises.copyFile(destFilePath, srcFilePath);
+        if (PLUGINS_FS.existsSync(destFilePath)) {
+            let error = await PLUGINS_FS.promises.copyFile(destFilePath, srcFilePath);
             if (!error) {
                 if (oldFileExists) {
                     Blockbench.showQuickMessage(tl("menu.ysm_utils.load_info_menu.files.replace_success.remove_file"), 2000);
@@ -63,7 +64,7 @@ export async function removeCurrentFile(packDir, pathValue, callback) {
     }
     let srcFilePath = join(packDir, pathValue);
     // 原文件不存在，清空数值即可
-    if (!fs.existsSync(srcFilePath)) {
+    if (!PLUGINS_FS.existsSync(srcFilePath)) {
         callback();
         return;
     }
@@ -78,8 +79,8 @@ export async function removeCurrentFile(packDir, pathValue, callback) {
         if (button === 0) {
             let srcFilePath = join(packDir, pathValue);
             // 将原文件丢到回收站
-            if (fs.existsSync(srcFilePath)) {
-                electron.shell.trashItem(srcFilePath);
+            if (PLUGINS_FS.existsSync(srcFilePath)) {
+                PLUGINS_SHELL.trashItem(srcFilePath);
             }
             callback();
         }

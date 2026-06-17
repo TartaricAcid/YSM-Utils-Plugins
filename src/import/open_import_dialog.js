@@ -8,6 +8,7 @@ import cryptoLib from "crypto";
 import {saveNormalization} from "./save_normalization.js";
 import {readYsmFile} from "./ysm_file_read.js";
 import {getLanguageMap} from "../util/language.js";
+import {PLUGINS_DIALOG, PLUGINS_FS, PLUGINS_SHELL} from "../util/native_module.js";
 
 function onDialogCancel(ysmJson, ysmJsonPath, sha256Cache) {
     // 关闭页面时，计算一次哈希值
@@ -17,7 +18,7 @@ function onDialogCancel(ysmJson, ysmJsonPath, sha256Cache) {
         return true;
     }
     // 否则强制提示是否保存？
-    let button = electron.dialog.showMessageBoxSync({
+    let button = PLUGINS_DIALOG.showMessageBoxSync({
         type: "warning",
         title: tl("level.ysm_utils.warning"),
         message: tl("menu.ysm_utils.load_info_menu.save_tip"),
@@ -40,7 +41,7 @@ function onDialogCancel(ysmJson, ysmJsonPath, sha256Cache) {
  */
 export function saveYsmFile(ysmJson, ysmJsonPath) {
     let result = autoStringify(saveNormalization(ysmJson, ysmJsonPath));
-    fs.writeFileSync(ysmJsonPath, result);
+    PLUGINS_FS.writeFileSync(ysmJsonPath, result);
     Blockbench.showQuickMessage(tl("menu.ysm_utils.save_success"), 3000);
 }
 
@@ -105,7 +106,7 @@ export function openImportDialog(packDirectory) {
                     name: "menu.ysm_utils.load_info_menu.open_folder",
                     icon: "fa-folder-open",
                     click: function () {
-                        electron.shell.openPath(packDirectory).then(result => {
+                        PLUGINS_SHELL.openPath(packDirectory).then(result => {
                         });
                     }
                 }),

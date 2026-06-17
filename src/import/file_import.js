@@ -1,6 +1,7 @@
 import {join} from "path";
 import {addProjectInfo} from "../util/project_info_manager.js";
 import {isSupportImage} from "../util/image_handle.js";
+import {PLUGINS_FS} from "../util/native_module.js";
 
 const JSON_OPTIONS = {readtype: "text", errorbox: true};
 const IMG_OPTIONS = {readtype: "image", errorbox: true};
@@ -23,7 +24,7 @@ export function importMainFile(packDir, ysmJson, dialog, config = {}) {
         return;
     }
     let mainModelPath = join(packDir, mainModel);
-    if (!fs.existsSync(mainModelPath)) {
+    if (!PLUGINS_FS.existsSync(mainModelPath)) {
         showMissingFileTip(mainModelPath);
         return;
     }
@@ -51,7 +52,7 @@ export function importArmFile(packDir, ysmJson, dialog, config = {}) {
         return;
     }
     let armModelPath = join(packDir, armModel);
-    if (!fs.existsSync(armModelPath)) {
+    if (!PLUGINS_FS.existsSync(armModelPath)) {
         showMissingFileTip(armModelPath);
         return;
     }
@@ -68,7 +69,7 @@ export function importOtherFile(packDir, file, dialog, config = {}) {
         return;
     }
     let modelPath = join(packDir, model);
-    if (!fs.existsSync(modelPath)) {
+    if (!PLUGINS_FS.existsSync(modelPath)) {
         showMissingFileTip(modelPath);
         return;
     }
@@ -153,7 +154,7 @@ function importController(objFiles, packDir, dialog) {
 function pushFile(files, pathValue, suffix, packDir) {
     if (pathValue && pathValue.endsWith(suffix)) {
         let filePath = join(packDir, pathValue);
-        if (fs.existsSync(filePath)) {
+        if (PLUGINS_FS.existsSync(filePath)) {
             files.push(filePath);
         }
     }
@@ -162,7 +163,7 @@ function pushFile(files, pathValue, suffix, packDir) {
 function pushImgFile(files, pathValue, packDir) {
     if (pathValue && isSupportImage(pathValue)) {
         let filePath = join(packDir, pathValue);
-        if (fs.existsSync(filePath)) {
+        if (PLUGINS_FS.existsSync(filePath)) {
             files.push(filePath);
         }
     }

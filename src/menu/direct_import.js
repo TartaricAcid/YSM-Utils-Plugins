@@ -1,12 +1,13 @@
 import {checkDirectory} from "../import/check_directory.js";
 import {readYsmFile} from "../import/ysm_file_read.js";
 import importTypeVue from "../vue/import/import_type.vue";
+import {PLUGINS_DIALOG} from "../util/native_module.js";
 
 export let directImportMenuAction = new Action("ysm_utils.direct_import", {
     name: "menu.ysm_utils.direct_import.name",
     icon: "fa-file-import",
     click: function () {
-        electron.dialog.showOpenDialog(currentwindow, {
+        PLUGINS_DIALOG.showOpenDialog(currentwindow, {
             title: tl("menu.ysm_utils.direct_import.name"),
             properties: ["openDirectory"]
         }).then(result => {

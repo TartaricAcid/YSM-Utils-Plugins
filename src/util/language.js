@@ -1,9 +1,10 @@
 import {join} from "path";
+import {PLUGINS_FS} from "./native_module.js";
 
 export function writeLanguageFile(locale, filePath, translations) {
     // 先判断目录是否存在
-    if (!fs.existsSync(filePath)) {
-        fs.mkdirSync(filePath, {recursive: true});
+    if (!PLUGINS_FS.existsSync(filePath)) {
+        PLUGINS_FS.mkdirSync(filePath, {recursive: true});
     }
     // 先尝试删除 value 为空的项
     Object.keys(translations).forEach((key) => {
@@ -16,17 +17,17 @@ export function writeLanguageFile(locale, filePath, translations) {
         return;
     }
     // 写入文件
-    fs.writeFileSync(join(filePath, `${locale}.json`), autoStringify(translations));
+    PLUGINS_FS.writeFileSync(join(filePath, `${locale}.json`), autoStringify(translations));
 }
 
 export function readLanguageFile(locale, filePath, translations) {
     // 先判断目录是否存在
     let langFile = join(filePath, `${locale}.json`);
-    if (!fs.existsSync(langFile) || !fs.statSync(langFile).isFile()) {
+    if (!PLUGINS_FS.existsSync(langFile) || !PLUGINS_FS.statSync(langFile).isFile()) {
         return;
     }
     // 读取文件
-    let data = autoParseJSON(fs.readFileSync(langFile, {encoding: "utf8"}));
+    let data = autoParseJSON(PLUGINS_FS.readFileSync(langFile, {encoding: "utf8"}));
     Object.entries(data).forEach(([key, value]) => {
         if (typeof value === "string") {
             translations[key] = value;

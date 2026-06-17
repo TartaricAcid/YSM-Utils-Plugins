@@ -1,15 +1,16 @@
 import {dirname} from "path";
+import {PLUGINS_FS} from "./native_module.js";
 
 export function arePathsEqual(path1, path2) {
     // 如果文件不存在，那么必然不相等
-    if (!fs.existsSync(path1) || !fs.existsSync(path2)) {
+    if (!PLUGINS_FS.existsSync(path1) || !PLUGINS_FS.existsSync(path2)) {
         return false;
     }
 
     try {
         // 解析出绝对路径
-        const absolutePath1 = fs.realpathSync(path1);
-        const absolutePath2 = fs.realpathSync(path2);
+        const absolutePath1 = PLUGINS_FS.realpathSync(path1);
+        const absolutePath2 = PLUGINS_FS.realpathSync(path2);
 
         // 在 POSIX 系统上，路径是区分大小写的
         if (process.platform !== "win32") {
@@ -26,5 +27,5 @@ export function arePathsEqual(path1, path2) {
 
 export async function createDirectories(filePath) {
     const dir = dirname(filePath);
-    await fs.promises.mkdir(dir, {recursive: true});
+    await PLUGINS_FS.promises.mkdir(dir, {recursive: true});
 }

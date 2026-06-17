@@ -1,5 +1,6 @@
 import {checkDirectory} from "../import/check_directory.js";
 import {openImportTypeDialog} from "./direct_import.js";
+import {PLUGINS_FS} from "../util/native_module.js";
 
 const CACHE_YSM_FOLDERS = [];
 
@@ -32,7 +33,7 @@ export function initCacheYsmFoldersAction() {
     if (cacheYsmFolders) {
         for (let name of Object.keys(cacheYsmFolders)) {
             let path = cacheYsmFolders[name];
-            if (fs.existsSync(path)) {
+            if (PLUGINS_FS.existsSync(path)) {
                 addCacheYsmFoldersAction(name, path);
             } else {
                 delete cacheYsmFolders[name];
@@ -88,7 +89,7 @@ function addCacheYsmFoldersAction(name, desc) {
             cacheYsmFolders = JSON.parse(cacheYsmFolders);
             if (cacheYsmFolders[this.id]) {
                 let path = cacheYsmFolders[this.id];
-                if (fs.existsSync(path) && checkDirectory(path)) {
+                if (PLUGINS_FS.existsSync(path) && checkDirectory(path)) {
                     openImportTypeDialog(path);
                 }
             }

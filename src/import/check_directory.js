@@ -1,9 +1,10 @@
 import {oldVersionTransform} from "./old_version_transform.js";
 import {join} from "path";
 import {openImportDialog} from "./open_import_dialog.js";
+import {PLUGINS_DIALOG, PLUGINS_FS} from "../util/native_module.js";
 
 async function doOldVersionTransform(packDirectory, isVersion114) {
-    let result = await electron.dialog.showOpenDialog(currentwindow, {
+    let result = await PLUGINS_DIALOG.showOpenDialog(currentwindow, {
         title: tl("menu.ysm_utils.old_version_transform.select_output_directory"),
         properties: ["openDirectory"]
     });
@@ -22,7 +23,7 @@ async function doOldVersionTransform(packDirectory, isVersion114) {
 export function checkDirectory(packDirectory) {
     // 1.2.0 版本格式检查
     let ysmJsonPath = join(packDirectory, "ysm.json");
-    if (fs.existsSync(ysmJsonPath)) {
+    if (PLUGINS_FS.existsSync(ysmJsonPath)) {
         return true;
     }
 
@@ -30,9 +31,9 @@ export function checkDirectory(packDirectory) {
     let versionType = undefined;
     let infoJson = join(packDirectory, "info.json");
     let mainJson = join(packDirectory, "main.json");
-    if (fs.existsSync(infoJson)) {
+    if (PLUGINS_FS.existsSync(infoJson)) {
         versionType = "1.1.5";
-    } else if (fs.existsSync(mainJson)) {
+    } else if (PLUGINS_FS.existsSync(mainJson)) {
         versionType = "1.1.4";
     }
 
